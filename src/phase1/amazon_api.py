@@ -209,7 +209,10 @@ async def _scrape_product(page: Page, asin: str, partner_tag: str) -> dict | Non
         print(f"    {asin}: load failed — {e}")
         return None
 
-    body_text = await page.inner_text("body")
+    try:
+        body_text = await page.inner_text("body")
+    except Exception:
+        body_text = ""
     if "robot" in body_text.lower() or "captcha" in body_text.lower():
         print(f"    {asin}: captcha hit — skipping")
         return None
