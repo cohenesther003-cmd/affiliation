@@ -19,8 +19,8 @@ filters:
     - Beauty
 
 scraper:
-  max_products_per_run: 50  # max products to collect per scrape session
-  scroll_pages: 3           # how many Best Sellers pages to scroll through
+  max_products_per_run: 200  # scrape more so we get 50 complete records after skipping nulls
+  scroll_pages: 8            # how many Best Sellers pages to scroll through
 
 amazon:
   marketplace: US           # Amazon marketplace to use: US or IL
