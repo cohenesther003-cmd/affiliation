@@ -3,13 +3,46 @@ Affiliation Pipeline — CLI Orchestrator
 Usage:
     python main.py --url "https://www.amazon.com/Best-Sellers-Tools/zgbs/hi/"
     python main.py --url "..." --phase scrape      # only scrape
-    python main.py --url "..." --phase validate    # only PA-API validate
+    python main.py --url "..." --phase validate    # only validate
     python main.py --phase filter                  # only apply filters
     python main.py --phase status                  # print DB summary
+    python main.py --phase report                  # show ready products + affiliate links
 """
 
 import argparse
 from src.db import init_db, get_all
+
+
+def print_report() -> None:
+    """Show all ready-for-video products with their affiliate links."""
+    products = get_all()
+    ready = [p for p in products if p["status"] == "ready_for_video"]
+
+    if not ready:
+        print("\nNo products are ready for video yet.")
+        print("Run the full pipeline first: python main.py --url <amazon_url>")
+        return
+
+    print(f"\n{'═' * 80}")
+    print(f"  READY FOR VIDEO — {len(ready)} products")
+    print(f"{'═' * 80}\n")
+
+    for i, p in enumerate(ready, 1):
+        rating  = f"{p['rating']:.1f} ★" if p.get("rating") else "N/A"
+        price   = f"${p['price_usd']:.2f}" if p.get("price_usd") else "N/A"
+        reviews = f"{p['review_count']:,} reviews" if p.get("review_count") else "N/A"
+        ships   = "✓ Ships to Israel" if p.get("ships_to_israel") else "✗ No Israel shipping"
+        link    = p.get("affiliate_link") or f"https://www.amazon.com/dp/{p['asin']}/"
+
+        print(f"  [{i}] {p.get('name', p['asin'])}")
+        print(f"       Rating : {rating}  |  Price : {price}  |  {reviews}")
+        print(f"       Shipping: {ships}")
+        print(f"       Link   : {link}")
+        print()
+
+    print(f"{'═' * 80}")
+    print(f"  {len(ready)} products ready  |  run 'python main.py --phase filter' to refresh")
+    print(f"{'═' * 80}\n")
 
 
 def print_summary() -> None:
@@ -28,14 +61,7 @@ def print_summary() -> None:
 
     ready = [p for p in products if p["status"] == "ready_for_video"]
     if ready:
-        print("\n─── Ready for Video ────────────────────────────")
-        print(f"  {'ASIN':<12} {'Rating':>6}  {'Price':>8}  {'Name'}")
-        print("  " + "─" * 60)
-        for p in ready:
-            rating = f"{p['rating']:.1f}" if p.get("rating") else "N/A"
-            price = f"${p['price_usd']:.2f}" if p.get("price_usd") else "N/A"
-            name = (p.get("name") or "")[:45]
-            print(f"  {p['asin']:<12} {rating:>6}  {price:>8}  {name}")
+        print(f"\n  Tip: run 'python main.py --phase report' to see products + links")
     print()
 
 
@@ -44,7 +70,7 @@ def main() -> None:
     parser.add_argument("--url", help="Amazon Best Sellers page URL to scrape")
     parser.add_argument(
         "--phase",
-        choices=["scrape", "validate", "filter", "status", "all"],
+        choices=["scrape", "validate", "filter", "status", "report", "all"],
         default="all",
         help="Which phase to run (default: all)",
     )
@@ -54,6 +80,10 @@ def main() -> None:
 
     if args.phase == "status":
         print_summary()
+        return
+
+    if args.phase == "report":
+        print_report()
         return
 
     run_scrape = args.phase in ("scrape", "all")
