@@ -72,6 +72,18 @@ def update_status(asin: str, status: str) -> None:
         )
 
 
+def reset_to_validated() -> int:
+    """Move ready_for_video and filtered_out products back to validated so filters can be re-applied."""
+    now = datetime.now(timezone.utc).isoformat()
+    with _connect() as conn:
+        cur = conn.execute(
+            "UPDATE products SET status='validated', updated_at=? "
+            "WHERE status IN ('ready_for_video', 'filtered_out')",
+            (now,),
+        )
+        return cur.rowcount
+
+
 def get_all() -> list[dict]:
     with _connect() as conn:
         rows = conn.execute(

@@ -8,8 +8,8 @@ filters:
   min_rating: 4.0           # minimum Amazon star rating (0.0–5.0)
   min_reviews: 50           # minimum number of customer reviews
   min_price_usd: 15.0       # minimum product price in USD
-  max_price_usd: 150.0      # maximum product price in USD
-  ships_to_israel: true     # must be available for shipping to Israel
+  max_price_usd: 75.0       # maximum product price in USD
+  ships_to_israel: true     # must be eligible for free shipping to Israel
   allowed_categories:       # whitelist of categories — leave empty [] to allow ALL
     - Tools
     - Garden

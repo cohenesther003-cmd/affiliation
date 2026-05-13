@@ -104,7 +104,9 @@ def main() -> None:
 
     if run_filter:
         print("\n[Phase 1 / Step 3] Applying filters from config.yaml...")
+        from src.db import reset_to_validated
         from src.phase1.filter import run as apply_filter
+        reset_to_validated()
         apply_filter()
 
     print_summary()
