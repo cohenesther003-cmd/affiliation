@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Affiliation Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+  <style>
+    body { background: #f0f2f5; font-family: 'Segoe UI', sans-serif; }
+    .navbar { background: #1a1a2e !important; }
+    .navbar-brand { font-weight: 700; letter-spacing: 1px; color: #e0e0e0 !important; }
+    .stat-card { border: none; border-radius: 12px; border-left: 5px solid; }
+    .stat-card.ready  { border-color: #198754; }
+    .stat-card.total  { border-color: #0d6efd; }
+    .stat-card.out    { border-color: #dc3545; }
+    .stat-num { font-size: 2rem; font-weight: 700; }
+    .sidebar { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .sidebar h6 { font-weight: 700; text-transform: uppercase; font-size: .7rem; letter-spacing: 1px; color: #888; margin-bottom: 12px; }
+    .table-card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .badge-rating { background: #fff3cd; color: #856404; font-weight: 600; }
+    .badge-ship { background: #d1e7dd; color: #0a3622; }
+    .badge-noship { background: #f8d7da; color: #58151c; }
+    #scrape-log {
+      height: 180px; overflow-y: auto;
+      background: #0d1117; color: #79c0ff;
+      font-family: 'Courier New', monospace; font-size: .75rem;
+      padding: 10px; border-radius: 8px;
+      display: none;
+    }
+    .link-btn { font-size: .75rem; padding: 2px 8px; }
+    #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; }
+    .spinner-border-sm { width: 1rem; height: 1rem; }
+    table.dataTable td { vertical-align: middle; }
+    .product-name { max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark mb-4">
+  <div class="container-fluid px-4">
+    <span class="navbar-brand">🔗 Affiliation Dashboard</span>
+    <span class="text-muted small" id="last-updated"></span>
+  </div>
+</nav>
+
+<div class="container-fluid px-4">
+
+  <!-- Stat cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-sm-4">
+      <div class="card stat-card ready p-3">
+        <div class="text-muted small">Ready for Video</div>
+        <div class="stat-num text-success" id="stat-ready">{{ stats.ready }}</div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card stat-card total p-3">
+        <div class="text-muted small">Total in DB</div>
+        <div class="stat-num text-primary" id="stat-total">{{ stats.total }}</div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card stat-card out p-3">
+        <div class="text-muted small">Filtered Out</div>
+        <div class="stat-num text-danger" id="stat-out">{{ stats.filtered_out }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3">
+
+    <!-- Sidebar -->
+    <div class="col-lg-3">
+
+      <!-- Run Scrape -->
+      <div class="sidebar mb-3">
+        <h6>Run New Scrape</h6>
+        <select class="form-select form-select-sm mb-2" id="category-select">
+          {% for name, url in categories.items() %}
+          <option value="{{ url }}">{{ name }}</option>
+          {% endfor %}
+        </select>
+        <button class="btn btn-primary btn-sm w-100" id="run-btn" onclick="startScrape()">
+          ▶ Run Scrape
+        </button>
+        <div id="scrape-log" class="mt-2"></div>
+      </div>
+
+      <!-- Filters -->
+      <div class="sidebar">
+        <h6>Filters</h6>
+        <form id="filter-form">
+          <div class="mb-2">
+            <label class="form-label small mb-1">Min Rating (★)</label>
+            <input type="number" class="form-control form-control-sm" id="f-rating"
+                   value="{{ filters.min_rating }}" min="0" max="5" step="0.1">
+          </div>
+          <div class="mb-2">
+            <label class="form-label small mb-1">Min Reviews</label>
+            <input type="number" class="form-control form-control-sm" id="f-reviews"
+                   value="{{ filters.min_reviews }}" min="0">
+          </div>
+          <div class="mb-2">
+            <label class="form-label small mb-1">Min Price (USD $)</label>
+            <input type="number" class="form-control form-control-sm" id="f-min-price"
+                   value="{{ filters.min_price_usd }}" min="0" step="0.5">
+          </div>
+          <div class="mb-2">
+            <label class="form-label small mb-1">Max Price (USD $)</label>
+            <input type="number" class="form-control form-control-sm" id="f-max-price"
+                   value="{{ filters.max_price_usd }}" min="0" step="0.5">
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="f-israel"
+                   {% if filters.ships_to_israel %}checked{% endif %}>
+            <label class="form-check-label small" for="f-israel">Ships to Israel only</label>
+          </div>
+          <button type="button" class="btn btn-success btn-sm w-100" onclick="applyFilters()">
+            Apply Filters
+          </button>
+          <div id="filter-result" class="mt-2 small text-center text-muted"></div>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- Products table -->
+    <div class="col-lg-9">
+      <div class="table-card">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h6 class="mb-0 fw-bold">Ready for Video</h6>
+          <span class="text-muted small">Showing products that passed all filters</span>
+        </div>
+        <div class="table-responsive">
+          <table id="products-table" class="table table-hover table-sm w-100">
+            <thead class="table-dark">
+              <tr>
+                <th>#</th>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Rating</th>
+                <th>Price</th>
+                <th>Reviews</th>
+                <th>Ships IL</th>
+                <th>Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in products %}
+              <tr>
+                <td class="text-muted small">{{ loop.index }}</td>
+                <td>
+                  <span class="product-name d-inline-block" title="{{ p.name }}">
+                    {{ p.name or p.asin }}
+                  </span>
+                </td>
+                <td><span class="badge bg-secondary">{{ p.category or '—' }}</span></td>
+                <td>
+                  <span class="badge badge-rating">
+                    {{ '%.1f'|format(p.rating or 0) }} ★
+                  </span>
+                </td>
+                <td class="fw-semibold">${{ '%.2f'|format(p.price_usd or 0) }}</td>
+                <td class="text-muted small">{{ '{:,}'.format(p.review_count or 0) }}</td>
+                <td>
+                  {% if p.ships_to_israel %}
+                    <span class="badge badge-ship">✓ Yes</span>
+                  {% else %}
+                    <span class="badge badge-noship">✗ No</span>
+                  {% endif %}
+                </td>
+                <td>
+                  <a href="{{ p.affiliate_link }}" target="_blank" rel="noopener"
+                     class="btn btn-outline-primary link-btn">
+                    Open ↗
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast-container">
+  <div id="toast" class="toast align-items-center text-white border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body" id="toast-msg"></div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+// ── DataTable ──────────────────────────────────────────────────────────────
+let dt = $('#products-table').DataTable({
+  pageLength: 25,
+  order: [[3, 'desc']],  // sort by rating desc by default
+  columnDefs: [{ orderable: false, targets: 7 }],
+  language: { search: 'Search products:' }
+});
+
+// ── Toast helper ───────────────────────────────────────────────────────────
+function showToast(msg, type='success') {
+  const el = document.getElementById('toast');
+  el.className = `toast align-items-center text-white border-0 bg-${type}`;
+  document.getElementById('toast-msg').textContent = msg;
+  new bootstrap.Toast(el, { delay: 3500 }).show();
+}
+
+// ── Timestamp ──────────────────────────────────────────────────────────────
+document.getElementById('last-updated').textContent =
+  'Last loaded: ' + new Date().toLocaleTimeString();
+
+// ── Refresh table from /products ───────────────────────────────────────────
+function refreshTable() {
+  fetch('/products').then(r => r.json()).then(products => {
+    dt.clear();
+    products.forEach((p, i) => {
+      const shipBadge = p.ships_to_israel
+        ? '<span class="badge badge-ship">✓ Yes</span>'
+        : '<span class="badge badge-noship">✗ No</span>';
+      const name = (p.name || p.asin || '').replace(/"/g, '&quot;');
+      const reviews = (p.review_count || 0).toLocaleString();
+      dt.row.add([
+        `<span class="text-muted small">${i+1}</span>`,
+        `<span class="product-name d-inline-block" title="${name}">${name}</span>`,
+        `<span class="badge bg-secondary">${p.category || '—'}</span>`,
+        `<span class="badge badge-rating">${(p.rating||0).toFixed(1)} ★</span>`,
+        `<span class="fw-semibold">$${(p.price_usd||0).toFixed(2)}</span>`,
+        `<span class="text-muted small">${reviews}</span>`,
+        shipBadge,
+        `<a href="${p.affiliate_link}" target="_blank" rel="noopener" class="btn btn-outline-primary link-btn">Open ↗</a>`
+      ]);
+    });
+    dt.draw();
+    document.getElementById('last-updated').textContent =
+      'Last updated: ' + new Date().toLocaleTimeString();
+  });
+
+  fetch('/stats').then(r => r.json()).then(s => {
+    document.getElementById('stat-ready').textContent = s.ready;
+    document.getElementById('stat-total').textContent = s.total;
+    document.getElementById('stat-out').textContent = s.filtered_out;
+  });
+}
+
+// ── Scrape ─────────────────────────────────────────────────────────────────
+let pollInterval = null;
+let logIndex = 0;
+
+function startScrape() {
+  const url = document.getElementById('category-select').value;
+  const btn = document.getElementById('run-btn');
+  const log = document.getElementById('scrape-log');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Running...';
+  log.style.display = 'block';
+  log.innerHTML = '';
+  logIndex = 0;
+
+  fetch('/scrape', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ url })
+  }).then(r => r.json()).then(data => {
+    if (data.error) {
+      showToast(data.error, 'danger');
+      btn.disabled = false;
+      btn.innerHTML = '▶ Run Scrape';
+      return;
+    }
+    pollInterval = setInterval(pollScrape, 2000);
+  });
+}
+
+function pollScrape() {
+  fetch('/scrape/status').then(r => r.json()).then(data => {
+    const log = document.getElementById('scrape-log');
+
+    // Append only new lines
+    const newLines = data.log.slice(logIndex);
+    newLines.forEach(line => {
+      const div = document.createElement('div');
+      div.textContent = line;
+      log.appendChild(div);
+    });
+    logIndex = data.log.length;
+    log.scrollTop = log.scrollHeight;
+
+    if (data.done) {
+      clearInterval(pollInterval);
+      const btn = document.getElementById('run-btn');
+      btn.disabled = false;
+      btn.innerHTML = '▶ Run Scrape';
+
+      if (data.error) {
+        showToast('Scrape failed: ' + data.error, 'danger');
+      } else {
+        showToast('Scrape complete! Table refreshed.', 'success');
+        refreshTable();
+      }
+    }
+  });
+}
+
+// ── Filters ────────────────────────────────────────────────────────────────
+function applyFilters() {
+  const btn = event.target;
+  btn.disabled = true;
+  btn.textContent = 'Applying...';
+
+  const payload = {
+    min_rating:    parseFloat(document.getElementById('f-rating').value),
+    min_reviews:   parseInt(document.getElementById('f-reviews').value),
+    min_price_usd: parseFloat(document.getElementById('f-min-price').value),
+    max_price_usd: parseFloat(document.getElementById('f-max-price').value),
+    ships_to_israel: document.getElementById('f-israel').checked,
+  };
+
+  fetch('/filters', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload)
+  }).then(r => r.json()).then(data => {
+    btn.disabled = false;
+    btn.textContent = 'Apply Filters';
+
+    document.getElementById('filter-result').textContent =
+      `${data.passed} products passed`;
+
+    // Rebuild table with returned products
+    dt.clear();
+    data.products.forEach((p, i) => {
+      const shipBadge = p.ships_to_israel
+        ? '<span class="badge badge-ship">✓ Yes</span>'
+        : '<span class="badge badge-noship">✗ No</span>';
+      const name = (p.name || p.asin || '').replace(/"/g, '&quot;');
+      const reviews = (p.review_count || 0).toLocaleString();
+      dt.row.add([
+        `<span class="text-muted small">${i+1}</span>`,
+        `<span class="product-name d-inline-block" title="${name}">${name}</span>`,
+        `<span class="badge bg-secondary">${p.category || '—'}</span>`,
+        `<span class="badge badge-rating">${(p.rating||0).toFixed(1)} ★</span>`,
+        `<span class="fw-semibold">$${(p.price_usd||0).toFixed(2)}</span>`,
+        `<span class="text-muted small">${reviews}</span>`,
+        shipBadge,
+        `<a href="${p.affiliate_link}" target="_blank" rel="noopener" class="btn btn-outline-primary link-btn">Open ↗</a>`
+      ]);
+    });
+    dt.draw();
+
+    document.getElementById('stat-ready').textContent = data.stats.ready;
+    document.getElementById('stat-out').textContent = data.stats.filtered_out;
+
+    showToast(`Filters applied — ${data.passed} products ready`, 'success');
+  });
+}
+</script>
+</body>
+</html>

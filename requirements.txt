@@ -2,3 +2,4 @@ playwright
 python-dotenv
 pyyaml
 requests
+flask
