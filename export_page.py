@@ -121,8 +121,9 @@ def build():
         <label class="form-label mb-1">Search</label>
         <input type="text" class="form-control form-control-sm" id="f-search" placeholder="Product name...">
       </div>
-      <div class="col-12 col-md-1 d-flex gap-2">
+      <div class="col-12 col-md-2 d-flex gap-2">
         <button class="btn btn-sm btn-primary w-100" onclick="applyFilters()">Filter</button>
+        <button class="btn btn-sm btn-outline-secondary w-100" onclick="clearFilters()">Clear</button>
       </div>
     </div>
     <div class="mt-2" id="results-count"></div>
@@ -189,6 +190,15 @@ function renderTable(data) {{
     data.length === allProducts.length
       ? `Showing all ${{data.length}} products`
       : `Showing ${{data.length}} of ${{allProducts.length}} products`;
+}}
+
+function clearFilters() {{
+  document.getElementById('f-category').value = '';
+  document.getElementById('f-min-price').value = '';
+  document.getElementById('f-max-price').value = '';
+  document.getElementById('f-rating').value = '';
+  document.getElementById('f-search').value = '';
+  renderTable(allProducts);
 }}
 
 function applyFilters() {{
