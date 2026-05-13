@@ -55,6 +55,12 @@ def run() -> tuple[int, int]:
     filtered_out = 0
 
     for product in candidates:
+        # External sources (e.g. byotools) are pre-filtered at scrape time — skip Amazon rules
+        if product.get("category") == "byotools":
+            update_status(product["asin"], "ready_for_video")
+            passed += 1
+            continue
+
         ok, reasons = _passes(product, rules)
         if ok:
             update_status(product["asin"], "ready_for_video")
