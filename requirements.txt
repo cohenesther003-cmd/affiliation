@@ -1,5 +1,4 @@
 playwright
-python-amazon-paapi
 python-dotenv
 pyyaml
 requests

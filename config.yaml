@@ -24,3 +24,4 @@ scraper:
 
 amazon:
   marketplace: US           # Amazon marketplace to use: US or IL
+  delay_between_pages_ms: 2000  # wait time between product page loads (be polite to Amazon)
