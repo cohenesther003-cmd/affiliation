@@ -89,8 +89,7 @@
         <label class="form-label mb-1">Search</label>
         <input type="text" class="form-control form-control-sm" id="f-search" placeholder="Product name...">
       </div>
-      <div class="col-12 col-md-2 d-flex gap-2">
-        <button class="btn btn-sm btn-primary w-100" onclick="applyFilters()">Filter</button>
+      <div class="col-12 col-md-1 d-flex gap-2">
         <button class="btn btn-sm btn-outline-secondary w-100" onclick="clearFilters()">Clear</button>
       </div>
     </div>
@@ -190,9 +189,7 @@ function applyFilters() {
 // Allow Enter key on filter inputs
 document.addEventListener('DOMContentLoaded', () => {
   ['f-min-price','f-max-price','f-rating','f-search'].forEach(id => {
-    document.getElementById(id).addEventListener('keydown', e => {
-      if (e.key === 'Enter') applyFilters();
-    });
+    document.getElementById(id).addEventListener('input', applyFilters);
   });
   document.getElementById('f-category').addEventListener('change', applyFilters);
   renderTable(allProducts);
