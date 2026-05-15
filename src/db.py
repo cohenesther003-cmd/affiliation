@@ -26,11 +26,19 @@ def init_db() -> None:
                 ships_to_israel  INTEGER DEFAULT 0,
                 affiliate_link   TEXT,
                 source_video_url TEXT,
+                image_url        TEXT,
+                description_he   TEXT,
                 status           TEXT DEFAULT 'discovered',
                 discovered_at    TEXT,
                 updated_at       TEXT
             )
         """)
+        # Migrate existing DBs that don't have the new columns yet
+        for col, typedef in [("image_url", "TEXT"), ("description_he", "TEXT")]:
+            try:
+                conn.execute(f"ALTER TABLE products ADD COLUMN {col} {typedef}")
+            except Exception:
+                pass
 
 
 def upsert_product(asin: str, data: dict) -> None:

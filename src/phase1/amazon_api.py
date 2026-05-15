@@ -235,6 +235,28 @@ async def _scrape_product(page: Page, asin: str, partner_tag: str) -> dict | Non
     if title_el:
         name = (await title_el.inner_text()).strip()[:200] or None
 
+    # Product image URL
+    image_url = None
+    for img_sel in ["#landingImage", "#imgTagWrapperId img", "#main-image"]:
+        img_el = await page.query_selector(img_sel)
+        if img_el:
+            image_url = (await img_el.get_attribute("data-old-hires")) or \
+                        (await img_el.get_attribute("src"))
+            if image_url:
+                break
+
+    # English description bullets (used by enrich_products.py for translation)
+    description_en = None
+    bullet_els = await page.query_selector_all("#feature-bullets ul li span.a-list-item")
+    if bullet_els:
+        bullets = []
+        for el in bullet_els[:6]:
+            text = (await el.inner_text()).strip()
+            if text:
+                bullets.append(text)
+        if bullets:
+            description_en = "\n".join(bullets)
+
     return {
         "affiliate_link":  _affiliate_link(asin, partner_tag),
         "name":            name,
@@ -242,6 +264,8 @@ async def _scrape_product(page: Page, asin: str, partner_tag: str) -> dict | Non
         "review_count":    review_count,
         "price_usd":       price,
         "ships_to_israel": 1 if ships else 0,
+        "image_url":       image_url,
+        "description_en":  description_en,
     }
 
 
@@ -273,6 +297,7 @@ async def _validate_all(products: list[dict], partner_tag: str) -> int:
             print(f"    ✓ {data['rating']}★  ${data['price_usd']}  "
                   f"{'🇮🇱' if data['ships_to_israel'] else '✗'}")
             data["status"] = "validated"
+            data.pop("description_en", None)  # not a DB column
             upsert_product(asin, data)
             validated += 1
 
