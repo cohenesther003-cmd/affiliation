@@ -821,16 +821,16 @@ def build_product_page(p: dict) -> str:
 
   <p class="detail-desc">{desc_he}</p>
 
+  <a class="buy-btn" href="{affiliate}" target="_blank" rel="noopener noreferrer">
+    🛒&nbsp; רכישה באמזון
+  </a>
+
   {f'''<p class="tiktok-label">סרטון המוצר מ-TikTok</p>
   <div class="tiktok-wrap">
     <iframe src="https://www.tiktok.com/embed/v2/{tiktok_video_id}"
             allowfullscreen allow="autoplay; encrypted-media">
     </iframe>
   </div>''' if tiktok_video_id else ""}
-
-  <a class="buy-btn" href="{affiliate}" target="_blank" rel="noopener noreferrer">
-    🛒&nbsp; רכישה באמזון
-  </a>
 </div>
 
 {footer_html()}
