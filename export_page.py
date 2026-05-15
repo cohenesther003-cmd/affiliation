@@ -86,19 +86,23 @@ BASE_STYLES = """
     .site-nav .nav-link.active {
       color: #FF6B35 !important;
     }
-    .navbar-toggler {
-      border: none;
-      padding: 4px 6px;
-      box-shadow: none !important;
+    .site-nav .navbar-nav {
+      flex-direction: row;
+      gap: 4px;
     }
-    .navbar-toggler-icon {
-      width: 22px;
-      height: 22px;
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280%2C0%2C0%2C.6%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-    }
-    /* Mobile: hide redundant brand (hero already shows Top Picks); hamburger sits at the start (right in RTL) automatically */
+    /* Mobile: hide redundant brand (hero already shows Top Picks); tabs sit side-by-side, no hamburger */
     @media (max-width: 767px) {
       .site-nav .navbar-brand { display: none; }
+      .site-nav { padding: 0 .75rem; }
+      .site-nav .nav-link {
+        font-size: .82rem;
+        padding: .5rem .55rem;
+      }
+      .site-nav .navbar-nav {
+        gap: 2px;
+        justify-content: flex-start;
+        width: 100%;
+      }
     }
 
     /* ── Hero ── */
@@ -667,10 +671,9 @@ BASE_STYLES = """
 
 def nav_html(active: str = "products", depth: str = "") -> str:
     links = [
-        ("products", f"{depth}index.html", "עמוד מוצרים"),
-        ("about",    f"{depth}about.html",   "עלינו"),
-        ("contact",  f"{depth}contact.html",  "צור קשר"),
-        ("terms",    f"{depth}terms.html",    "תנאי שימוש"),
+        ("products", f"{depth}index.html",  "עמוד מוצרים"),
+        ("contact",  f"{depth}contact.html", "צור קשר"),
+        ("terms",    f"{depth}terms.html",   "תנאי שימוש"),
     ]
     items = ""
     for key, href, label in links:
@@ -678,18 +681,12 @@ def nav_html(active: str = "products", depth: str = "") -> str:
         items += f'<li class="nav-item"><a class="{cls}" href="{href}">{label}</a></li>'
 
     return f"""
-<nav class="navbar navbar-expand-md site-nav">
+<nav class="navbar navbar-expand site-nav">
   <div class="container">
     <a class="navbar-brand" href="{depth}index.html">Top Picks</a>
-    <button class="navbar-toggler" type="button"
-            data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav me-auto">
-        {items}
-      </ul>
-    </div>
+    <ul class="navbar-nav me-auto">
+      {items}
+    </ul>
   </div>
 </nav>"""
 
@@ -1336,10 +1333,13 @@ def build():
     print(f"✓ docs/products/   ({len(products)} pages)")
 
     # Static pages
-    (DOCS / "about.html").write_text(build_about(),   encoding="utf-8")
     (DOCS / "contact.html").write_text(build_contact(), encoding="utf-8")
     (DOCS / "terms.html").write_text(build_terms(),   encoding="utf-8")
-    print("✓ docs/about.html  docs/contact.html  docs/terms.html")
+    # Remove orphaned about.html (no longer in nav)
+    about_path = DOCS / "about.html"
+    if about_path.exists():
+        about_path.unlink()
+    print("✓ docs/contact.html  docs/terms.html")
 
     print("\nDone! Push with:")
     print("  git add docs/ && git commit -m 'Update products' && git push")
