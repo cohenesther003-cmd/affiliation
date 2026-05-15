@@ -74,13 +74,11 @@ BASE_STYLES = """
       font-weight: 600;
       font-size: .95rem;
       padding: .8rem .9rem;
-      border-bottom: 3px solid transparent;
-      transition: color .15s, border-color .15s;
+      transition: color .15s;
     }
     .site-nav .nav-link:hover,
     .site-nav .nav-link.active {
       color: #FF6B35 !important;
-      border-bottom-color: #FF6B35;
     }
     .navbar-toggler { border-color: #E0E0E0; }
     .navbar-toggler-icon {
@@ -530,12 +528,14 @@ BASE_STYLES = """
 
     /* ── Mobile filter drawer ── */
     .filter-toggle-bar { display: none; }
+    .filter-apply-bar  { display: none; }
+    .mobile-search     { display: none; }
     @media (max-width: 767px) {
       .filter-toggle-bar {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 14px;
+        gap: 10px;
+        align-items: stretch;
+        padding: 10px;
         background: #fff;
         border-radius: 12px;
         box-shadow: 0 2px 6px rgba(0,0,0,.06);
@@ -545,7 +545,7 @@ BASE_STYLES = """
         background: #FF6B35;
         color: #fff;
         border: none;
-        padding: 8px 18px;
+        padding: 0 18px;
         border-radius: 8px;
         font-weight: 700;
         font-size: .9rem;
@@ -553,10 +553,30 @@ BASE_STYLES = """
         display: inline-flex;
         align-items: center;
         gap: 6px;
+        flex-shrink: 0;
+      }
+      .mobile-search {
+        display: block;
+        flex: 1;
+        position: relative;
+      }
+      .mobile-search input {
+        width: 100%;
+        height: 100%;
+        padding: 8px 36px 8px 12px;
+        border-radius: 8px;
+        border: 1.5px solid #E5E5EA;
+        font-family: 'Heebo', sans-serif;
+        font-size: .9rem;
+        outline: none;
+        background: #F7F7F7;
+      }
+      .mobile-search input:focus {
+        border-color: #FF6B35;
+        background: #fff;
       }
       .filter-toggle-count {
-        color: #8A8A8E;
-        font-size: .85rem;
+        display: none;
       }
       .filter-sidebar {
         position: fixed !important;
@@ -568,7 +588,7 @@ BASE_STYLES = """
         background: #F7F7F7;
         z-index: 1050;
         overflow-y: auto;
-        padding: 16px;
+        padding: 16px 16px 90px;
         transition: right .25s ease;
         box-shadow: -4px 0 14px rgba(0,0,0,.15);
       }
@@ -592,6 +612,34 @@ BASE_STYLES = """
         padding: 0;
         margin-bottom: 8px;
       }
+      .filter-apply-bar {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 88%;
+        max-width: 360px;
+        padding: 12px 16px;
+        background: #fff;
+        border-top: 1px solid #E5E5EA;
+        z-index: 1060;
+        box-shadow: 0 -2px 8px rgba(0,0,0,.06);
+      }
+      .filter-apply-bar.open { display: block; }
+      .filter-apply-btn {
+        width: 100%;
+        background: #FF6B35;
+        color: #fff;
+        border: none;
+        padding: 13px 16px;
+        border-radius: 10px;
+        font-family: 'Heebo', sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background .15s;
+      }
+      .filter-apply-btn:hover { background: #FF5722; }
     }
   </style>
 """
@@ -773,9 +821,15 @@ def build_index(products: list[dict]) -> str:
     const total = cards.length;
     const txt = visible === total ? `${total} מוצרים` : `${visible} מתוך ${total}`;
     document.getElementById("results-count").textContent = txt;
-    const mobileCount = document.getElementById("results-count-mobile");
-    if (mobileCount) mobileCount.textContent = txt;
+    const applyBtn = document.getElementById("filter-apply-btn");
+    if (applyBtn) applyBtn.textContent = `הצג ${visible} מוצרים`;
     saveFilterState();
+  }
+
+  function onMobileSearchInput() {
+    const v = document.getElementById("mobile-search-input").value || "";
+    document.getElementById("search-input").value = v;
+    applyFilters();
   }
 
   function saveFilterState() {
@@ -793,7 +847,11 @@ def build_index(products: list[dict]) -> str:
     if (!raw) return false;
     try {
       const s = JSON.parse(raw);
-      if (s.query) document.getElementById("search-input").value = s.query;
+      if (s.query) {
+        document.getElementById("search-input").value = s.query;
+        const m = document.getElementById("mobile-search-input");
+        if (m) m.value = s.query;
+      }
       if (s.price !== undefined) {
         document.querySelectorAll("#price-chips .chip").forEach(b => {
           b.classList.toggle("active", parseFloat(b.dataset.max) === s.price);
@@ -819,12 +877,15 @@ def build_index(products: list[dict]) -> str:
   function openFilterDrawer() {
     document.getElementById("filter-sidebar").classList.add("open");
     document.getElementById("filter-backdrop").classList.add("open");
+    document.getElementById("filter-apply-bar").classList.add("open");
     document.body.style.overflow = "hidden";
   }
   function closeFilterDrawer() {
     document.getElementById("filter-sidebar").classList.remove("open");
     document.getElementById("filter-backdrop").classList.remove("open");
+    document.getElementById("filter-apply-bar").classList.remove("open");
     document.body.style.overflow = "";
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function closeSuggestions() {
@@ -957,9 +1018,14 @@ def build_index(products: list[dict]) -> str:
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
       סינון
     </button>
-    <span class="filter-toggle-count" id="results-count-mobile">{count} מוצרים</span>
+    <div class="mobile-search">
+      <input type="text" id="mobile-search-input" placeholder="🔍 חיפוש מוצר..." oninput="onMobileSearchInput()" autocomplete="off">
+    </div>
   </div>
   <div class="filter-backdrop" id="filter-backdrop" onclick="closeFilterDrawer()"></div>
+  <div class="filter-apply-bar" id="filter-apply-bar">
+    <button class="filter-apply-btn" onclick="closeFilterDrawer()" id="filter-apply-btn">הצג {count} מוצרים</button>
+  </div>
   <div class="page-layout">
     {sidebar}
     <div class="grid-area">
