@@ -11,6 +11,7 @@ Then: git add docs/ && git commit -m "Update products" && git push
 """
 
 import json
+import re
 from pathlib import Path
 from src.db import init_db, get_all
 
@@ -156,6 +157,45 @@ BASE_STYLES = """
       letter-spacing: .8px;
       margin-bottom: 10px;
     }
+    .search-wrap { position: relative; }
+    .search-box {
+      width: 100%;
+      border: 1.5px solid #E5E5EA;
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-family: 'Heebo', sans-serif;
+      font-size: .9rem;
+      outline: none;
+      direction: rtl;
+      transition: border-color .15s;
+    }
+    .search-box:focus { border-color: #FF6B35; }
+    .search-suggestions {
+      display: none;
+      position: absolute;
+      top: calc(100% + 4px);
+      right: 0; left: 0;
+      background: #fff;
+      border: 1.5px solid #FF6B35;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.12);
+      z-index: 200;
+      overflow: hidden;
+    }
+    .search-suggestions.open { display: block; }
+    .suggestion-item {
+      padding: 9px 13px;
+      font-family: 'Heebo', sans-serif;
+      font-size: .85rem;
+      cursor: pointer;
+      text-align: right;
+      border-bottom: 1px solid #F2F2F7;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .suggestion-item:last-child { border-bottom: none; }
+    .suggestion-item:hover, .suggestion-item.active { background: #FFF3EE; color: #FF6B35; }
     .filter-chips { display: flex; flex-direction: column; gap: 6px; }
     .chip {
       background: #F2F2F7;
@@ -367,6 +407,27 @@ BASE_STYLES = """
       transform: translateY(-1px);
     }
     .buy-btn:active { transform: translateY(0); }
+    .tiktok-wrap {
+      margin: 28px 0;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,.1);
+      background: #000;
+      text-align: center;
+    }
+    .tiktok-wrap iframe {
+      border: none;
+      width: 100%;
+      max-width: 380px;
+      height: 680px;
+      border-radius: 16px;
+    }
+    .tiktok-label {
+      font-size: .8rem;
+      color: #AEAEB2;
+      text-align: center;
+      margin-bottom: 6px;
+    }
 
     /* ── Static pages (about / contact / terms) ── */
     .static-page {
@@ -481,13 +542,13 @@ def build_index(products: list[dict]) -> str:
         asin     = p["asin"]
 
         rating_str = f"⭐ {rating:.1f}" if rating else "—"
-        price_str  = f"${price:.0f}" if price else "—"
+        price_str  = f"${price:.2f}" if price else "—"
         cat_label  = CATEGORY_LABELS.get(cat, cat[:18])
         cat_badge  = f'<span class="category-badge">{cat_label}</span>' if cat else ""
 
         cards += f"""
     <a class="product-card" href="products/{asin}.html"
-       data-price="{price}" data-rating="{rating}" data-category="{cat}">
+       data-price="{price}" data-rating="{rating}" data-category="{cat}" data-name="{name_he[:80].lower()}">
       {cat_badge}
       <img class="card-img" src="{img}" alt="{name_he[:60]}" loading="lazy"
            onerror="this.src='{PLACEHOLDER_SVG}'">
@@ -504,6 +565,12 @@ def build_index(products: list[dict]) -> str:
 
     sidebar = f"""
     <aside class="filter-sidebar">
+      <div class="filter-section">
+        <div class="search-wrap">
+          <input type="search" id="search-input" class="search-box" placeholder="🔍 חיפוש מוצר..." oninput="onSearchInput()" autocomplete="off" onkeydown="onSearchKey(event)">
+          <div class="search-suggestions" id="search-suggestions"></div>
+        </div>
+      </div>
       <div class="filter-section">
         <div class="filter-section-title">מחיר</div>
         <div class="filter-chips" id="price-chips">
@@ -542,16 +609,21 @@ def build_index(products: list[dict]) -> str:
   let activeRating = 0;
   let activeCat    = "";
 
+  let activeSuggestion = -1;
+
   function applyFilters() {
-    const cards = document.querySelectorAll(".product-card");
-    let visible = 0;
+    const query  = (document.getElementById("search-input").value || "").toLowerCase().trim();
+    const cards  = document.querySelectorAll(".product-card");
+    let visible  = 0;
     cards.forEach(c => {
       const price  = parseFloat(c.dataset.price)  || 0;
       const rating = parseFloat(c.dataset.rating) || 0;
       const cat    = c.dataset.category || "";
+      const name   = c.dataset.name || "";
       const show   = price <= activePrice
                   && rating >= activeRating
-                  && (activeCat === "" || cat === activeCat);
+                  && (activeCat === "" || cat === activeCat)
+                  && (query === "" || name.includes(query));
       c.style.display = show ? "" : "none";
       if (show) visible++;
     });
@@ -559,6 +631,60 @@ def build_index(products: list[dict]) -> str:
     document.getElementById("results-count").textContent =
       visible === total ? `${total} מוצרים` : `${visible} מתוך ${total}`;
   }
+
+  function onSearchInput() {
+    applyFilters();
+    const q = (document.getElementById("search-input").value || "").toLowerCase().trim();
+    const box = document.getElementById("search-suggestions");
+    if (q.length < 2) { box.classList.remove("open"); return; }
+    const cards = document.querySelectorAll(".product-card");
+    const seen = new Set();
+    const matches = [];
+    cards.forEach(c => {
+      const name = c.dataset.name || "";
+      if (name.includes(q) && !seen.has(name)) {
+        seen.add(name);
+        matches.push(name);
+      }
+    });
+    if (matches.length === 0) { box.classList.remove("open"); return; }
+    activeSuggestion = -1;
+    box.innerHTML = matches.slice(0, 6).map((m, i) =>
+      `<div class="suggestion-item" onmousedown="pickSuggestion(this)" data-index="${i}">${m}</div>`
+    ).join("");
+    box.classList.add("open");
+  }
+
+  function pickSuggestion(el) {
+    document.getElementById("search-input").value = el.textContent;
+    document.getElementById("search-suggestions").classList.remove("open");
+    applyFilters();
+  }
+
+  function onSearchKey(e) {
+    const box = document.getElementById("search-suggestions");
+    const items = box.querySelectorAll(".suggestion-item");
+    if (!box.classList.contains("open") || items.length === 0) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      activeSuggestion = Math.min(activeSuggestion + 1, items.length - 1);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      activeSuggestion = Math.max(activeSuggestion - 1, -1);
+    } else if (e.key === "Enter" && activeSuggestion >= 0) {
+      e.preventDefault();
+      pickSuggestion(items[activeSuggestion]);
+      return;
+    } else if (e.key === "Escape") {
+      box.classList.remove("open"); return;
+    } else { return; }
+    items.forEach((el, i) => el.classList.toggle("active", i === activeSuggestion));
+  }
+
+  document.addEventListener("click", e => {
+    if (!e.target.closest(".search-wrap"))
+      document.getElementById("search-suggestions").classList.remove("open");
+  });
 
   function setPrice(btn) {
     document.querySelectorAll("#price-chips .chip").forEach(b => b.classList.remove("active"));
@@ -623,6 +749,12 @@ def build_product_page(p: dict) -> str:
     price_str    = f"${p['price']:.2f}" if p.get("price") else ""
     affiliate    = p.get("link") or f"https://www.amazon.com/dp/{asin}/?tag=eskl20-20"
     desc_he      = p.get("description_he") or "תיאור המוצר יתעדכן בקרוב."
+    tiktok_url   = p.get("tiktok_url") or ""
+    tiktok_video_id = ""
+    if tiktok_url:
+        m = re.search(r"/video/(\d+)", tiktok_url)
+        if m:
+            tiktok_video_id = m.group(1)
 
     rating_block = ""
     if rating_str or price_str:
@@ -652,6 +784,13 @@ def build_product_page(p: dict) -> str:
   <hr class="divider">
 
   <p class="detail-desc">{desc_he}</p>
+
+  {f'''<p class="tiktok-label">סרטון המוצר מ-TikTok</p>
+  <div class="tiktok-wrap">
+    <iframe src="https://www.tiktok.com/embed/v2/{tiktok_video_id}"
+            allowfullscreen allow="autoplay; encrypted-media">
+    </iframe>
+  </div>''' if tiktok_video_id else ""}
 
   <a class="buy-btn" href="{affiliate}" target="_blank" rel="noopener noreferrer">
     🛒&nbsp; רכישה באמזון
@@ -762,6 +901,7 @@ def build():
             "link":           p.get("affiliate_link") or f"https://www.amazon.com/dp/{p['asin']}/?tag=eskl20-20",
             "image_url":      p.get("image_url") or "",
             "description_he": p.get("description_he") or "",
+            "tiktok_url":     p.get("tiktok_url") or "",
         })
 
     DOCS.mkdir(exist_ok=True)
