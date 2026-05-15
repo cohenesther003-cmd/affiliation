@@ -500,6 +500,96 @@ BASE_STYLES = """
     }
     .site-footer a { color: #FF6B35; text-decoration: none; }
     .site-footer a:hover { text-decoration: underline; }
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .footer-social a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #fff;
+      color: #FF6B35;
+      box-shadow: 0 2px 4px rgba(0,0,0,.06);
+      transition: transform .15s, background .15s, color .15s;
+    }
+    .footer-social a:hover {
+      background: #FF6B35;
+      color: #fff;
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+
+    /* ── Mobile filter drawer ── */
+    .filter-toggle-bar { display: none; }
+    @media (max-width: 767px) {
+      .filter-toggle-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 14px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0,0,0,.06);
+        margin-bottom: 14px;
+      }
+      .filter-toggle-btn {
+        background: #FF6B35;
+        color: #fff;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: .9rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .filter-toggle-count {
+        color: #8A8A8E;
+        font-size: .85rem;
+      }
+      .filter-sidebar {
+        position: fixed !important;
+        top: 0;
+        right: -100%;
+        width: 88%;
+        max-width: 360px;
+        height: 100vh;
+        background: #F7F7F7;
+        z-index: 1050;
+        overflow-y: auto;
+        padding: 16px;
+        transition: right .25s ease;
+        box-shadow: -4px 0 14px rgba(0,0,0,.15);
+      }
+      .filter-sidebar.open { right: 0; }
+      .filter-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.4);
+        z-index: 1040;
+      }
+      .filter-backdrop.open { display: block; }
+      .filter-close {
+        background: none;
+        border: none;
+        font-size: 1.4rem;
+        color: #1C1C1E;
+        cursor: pointer;
+        float: left;
+        line-height: 1;
+        padding: 0;
+        margin-bottom: 8px;
+      }
+    }
   </style>
 """
 
@@ -519,7 +609,7 @@ def nav_html(active: str = "products", depth: str = "") -> str:
     return f"""
 <nav class="navbar navbar-expand-md site-nav">
   <div class="container">
-    <a class="navbar-brand" href="{depth}index.html">המוצרים שלי</a>
+    <a class="navbar-brand" href="{depth}index.html">Top Picks</a>
     <button class="navbar-toggler" type="button"
             data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
@@ -536,7 +626,18 @@ def nav_html(active: str = "products", depth: str = "") -> str:
 def footer_html() -> str:
     return """
 <footer class="site-footer">
-  <p class="mb-1">המוצרים שלי · מוצרי אמזון מובחרים לשלוח לישראל 🇮🇱</p>
+  <div class="footer-social">
+    <a href="https://www.tiktok.com/@toppickproducts7" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.1z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    </a>
+    <a href="mailto:toppickp@gmail.com" aria-label="Email" title="toppickp@gmail.com">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </a>
+  </div>
+  <p class="mb-1">Top Picks · מוצרי אמזון מובחרים לשלוח לישראל 🇮🇱</p>
   <p class="mb-0"><a href="terms.html">תנאי שימוש</a> · <a href="contact.html">צור קשר</a></p>
 </footer>"""
 
@@ -598,7 +699,8 @@ def build_index(products: list[dict]) -> str:
     count = len(products)
 
     sidebar = f"""
-    <aside class="filter-sidebar">
+    <aside class="filter-sidebar" id="filter-sidebar">
+      <button class="filter-close d-md-none" onclick="closeFilterDrawer()" aria-label="סגור">✕</button>
       <div class="filter-section">
         <div class="search-wrap">
           <div class="search-inner">
@@ -616,7 +718,6 @@ def build_index(products: list[dict]) -> str:
           <button class="chip" data-max="20"    onclick="setPrice(this)">עד $20</button>
           <button class="chip" data-max="50"    onclick="setPrice(this)">עד $50</button>
           <button class="chip" data-max="75"    onclick="setPrice(this)">עד $75</button>
-          <button class="chip" data-max="150"   onclick="setPrice(this)">עד $150</button>
         </div>
       </div>
 
@@ -667,8 +768,60 @@ def build_index(products: list[dict]) -> str:
       if (show) visible++;
     });
     const total = cards.length;
-    document.getElementById("results-count").textContent =
-      visible === total ? `${total} מוצרים` : `${visible} מתוך ${total}`;
+    const txt = visible === total ? `${total} מוצרים` : `${visible} מתוך ${total}`;
+    document.getElementById("results-count").textContent = txt;
+    const mobileCount = document.getElementById("results-count-mobile");
+    if (mobileCount) mobileCount.textContent = txt;
+    saveFilterState();
+  }
+
+  function saveFilterState() {
+    const state = {
+      price: activePrice,
+      rating: activeRating,
+      cat: activeCat,
+      query: document.getElementById("search-input").value || ""
+    };
+    sessionStorage.setItem("productGridFilters", JSON.stringify(state));
+  }
+
+  function restoreFilterState() {
+    const raw = sessionStorage.getItem("productGridFilters");
+    if (!raw) return false;
+    try {
+      const s = JSON.parse(raw);
+      if (s.query) document.getElementById("search-input").value = s.query;
+      if (s.price !== undefined) {
+        document.querySelectorAll("#price-chips .chip").forEach(b => {
+          b.classList.toggle("active", parseFloat(b.dataset.max) === s.price);
+        });
+        activePrice = s.price;
+      }
+      if (s.rating !== undefined) {
+        document.querySelectorAll("#rating-chips .chip").forEach(b => {
+          b.classList.toggle("active", parseFloat(b.dataset.min) === s.rating);
+        });
+        activeRating = s.rating;
+      }
+      if (s.cat !== undefined) {
+        document.querySelectorAll("#cat-chips .chip").forEach(b => {
+          b.classList.toggle("active", (b.dataset.cat || "") === s.cat);
+        });
+        activeCat = s.cat;
+      }
+      return true;
+    } catch (e) { return false; }
+  }
+
+  function openFilterDrawer() {
+    document.getElementById("filter-sidebar").classList.add("open");
+    document.getElementById("filter-backdrop").classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeFilterDrawer() {
+    document.getElementById("filter-sidebar").classList.remove("open");
+    document.getElementById("filter-backdrop").classList.remove("open");
+    document.body.style.overflow = "";
   }
 
   function closeSuggestions() {
@@ -759,12 +912,16 @@ def build_index(products: list[dict]) -> str:
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    // Restore filter state if returning from a product page
+    const fromProduct = sessionStorage.getItem("productGridScroll") !== null;
+    if (fromProduct) restoreFilterState();
     applyFilters();
 
     // Restore scroll position when returning from a product page
     const savedScroll = sessionStorage.getItem("productGridScroll");
     if (savedScroll !== null) {
       sessionStorage.removeItem("productGridScroll");
+      sessionStorage.removeItem("productGridFilters");
       requestAnimationFrame(() => {
         window.scrollTo({ top: parseInt(savedScroll, 10), behavior: "instant" });
       });
@@ -774,6 +931,7 @@ def build_index(products: list[dict]) -> str:
     document.querySelectorAll(".product-card").forEach(card => {
       card.addEventListener("click", () => {
         sessionStorage.setItem("productGridScroll", window.scrollY);
+        saveFilterState();
       });
     });
   });
@@ -781,16 +939,24 @@ def build_index(products: list[dict]) -> str:
 
     return f"""<!DOCTYPE html>
 <html lang="he" dir="rtl">
-{head_html("המוצרים שלי — מוצרים מנצחים")}
+{head_html("Top Picks — מוצרים מנצחים")}
 <body>
 {nav_html("products")}
 
 <div class="hero">
-  <h1>המוצרים שלי 🇮🇱</h1>
+  <h1>Top Picks 🇮🇱</h1>
   <p>{count} מוצרים מאמאזון · משלוח לישראל</p>
 </div>
 
 <div class="container">
+  <div class="filter-toggle-bar">
+    <button class="filter-toggle-btn" onclick="openFilterDrawer()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+      סינון
+    </button>
+    <span class="filter-toggle-count" id="results-count-mobile">{count} מוצרים</span>
+  </div>
+  <div class="filter-backdrop" id="filter-backdrop" onclick="closeFilterDrawer()"></div>
   <div class="page-layout">
     {sidebar}
     <div class="grid-area">
@@ -846,7 +1012,7 @@ def build_product_page(p: dict) -> str:
 
     return f"""<!DOCTYPE html>
 <html lang="he" dir="rtl">
-{head_html(f"{name[:50]} — המוצרים שלי")}
+{head_html(f"{name[:50]} — Top Picks")}
 <body>
 {nav_html("products", depth="../")}
 
@@ -914,7 +1080,7 @@ def build_product_page(p: dict) -> str:
 def build_about() -> str:
     return f"""<!DOCTYPE html>
 <html lang="he" dir="rtl">
-{head_html("עלינו — המוצרים שלי")}
+{head_html("עלינו — Top Picks")}
 <body>
 {nav_html("about")}
 <div class="static-page">
@@ -922,7 +1088,7 @@ def build_about() -> str:
     <h1>עלינו</h1>
     <div class="wip-badge">⏳ עמוד בבנייה — תוכן יתווסף בקרוב</div>
     <p>
-      ברוכים הבאים ל<strong>המוצרים שלי</strong> — המקום שבו תמצאו את מיטב
+      ברוכים הבאים ל<strong>Top Picks</strong> — המקום שבו תמצאו את מיטב
       המוצרים מאמזון שמגיעים ישירות לישראל.
     </p>
     <p>
@@ -940,7 +1106,7 @@ def build_about() -> str:
 def build_contact() -> str:
     return f"""<!DOCTYPE html>
 <html lang="he" dir="rtl">
-{head_html("צור קשר — המוצרים שלי")}
+{head_html("צור קשר — Top Picks")}
 <body>
 {nav_html("contact")}
 <div class="static-page">
@@ -966,7 +1132,7 @@ def build_contact() -> str:
 def build_terms() -> str:
     return f"""<!DOCTYPE html>
 <html lang="he" dir="rtl">
-{head_html("תנאי שימוש — המוצרים שלי")}
+{head_html("תנאי שימוש — Top Picks")}
 <body>
 {nav_html("terms")}
 <div class="static-page">
@@ -1003,7 +1169,7 @@ def build_terms() -> str:
 
 def build():
     init_db()
-    raw = [p for p in get_all() if p["status"] == "ready_for_video"]
+    raw = [p for p in get_all() if p["status"] in ("ready_for_video", "video_ready", "video_failed")]
 
     # Normalise field names for the template functions
     products = []
