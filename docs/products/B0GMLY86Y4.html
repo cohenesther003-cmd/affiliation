@@ -124,25 +124,40 @@
       margin-bottom: 10px;
     }
     .search-wrap { position: relative; }
+    .search-inner { position: relative; display: flex; align-items: center; }
     .search-box {
       width: 100%;
       border: 1.5px solid #E5E5EA;
       border-radius: 10px;
-      padding: 9px 12px;
+      padding: 9px 36px 9px 12px;
       font-family: 'Heebo', sans-serif;
       font-size: .9rem;
       outline: none;
       direction: rtl;
       transition: border-color .15s;
+      background: #fff;
     }
     .search-box:focus { border-color: #FF6B35; }
+    .search-clear {
+      position: absolute;
+      left: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #AEAEB2;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 2px;
+      display: none;
+    }
+    .search-clear:hover { color: #FF6B35; }
     .search-suggestions {
       display: none;
       position: absolute;
       top: calc(100% + 4px);
       right: 0; left: 0;
       background: #fff;
-      border: 1.5px solid #FF6B35;
+      border: 1.5px solid #E5E5EA;
       border-radius: 10px;
       box-shadow: 0 4px 16px rgba(0,0,0,.12);
       z-index: 200;
@@ -159,9 +174,11 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      color: #1C1C1E;
     }
     .suggestion-item:last-child { border-bottom: none; }
     .suggestion-item:hover, .suggestion-item.active { background: #FFF3EE; color: #FF6B35; }
+    .suggestion-item mark { background: none; color: #FF6B35; font-weight: 700; }
     .filter-chips { display: flex; flex-direction: column; gap: 6px; }
     .chip {
       background: #F2F2F7;

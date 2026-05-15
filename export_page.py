@@ -158,25 +158,40 @@ BASE_STYLES = """
       margin-bottom: 10px;
     }
     .search-wrap { position: relative; }
+    .search-inner { position: relative; display: flex; align-items: center; }
     .search-box {
       width: 100%;
       border: 1.5px solid #E5E5EA;
       border-radius: 10px;
-      padding: 9px 12px;
+      padding: 9px 36px 9px 12px;
       font-family: 'Heebo', sans-serif;
       font-size: .9rem;
       outline: none;
       direction: rtl;
       transition: border-color .15s;
+      background: #fff;
     }
     .search-box:focus { border-color: #FF6B35; }
+    .search-clear {
+      position: absolute;
+      left: 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #AEAEB2;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 2px;
+      display: none;
+    }
+    .search-clear:hover { color: #FF6B35; }
     .search-suggestions {
       display: none;
       position: absolute;
       top: calc(100% + 4px);
       right: 0; left: 0;
       background: #fff;
-      border: 1.5px solid #FF6B35;
+      border: 1.5px solid #E5E5EA;
       border-radius: 10px;
       box-shadow: 0 4px 16px rgba(0,0,0,.12);
       z-index: 200;
@@ -193,9 +208,11 @@ BASE_STYLES = """
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      color: #1C1C1E;
     }
     .suggestion-item:last-child { border-bottom: none; }
     .suggestion-item:hover, .suggestion-item.active { background: #FFF3EE; color: #FF6B35; }
+    .suggestion-item mark { background: none; color: #FF6B35; font-weight: 700; }
     .filter-chips { display: flex; flex-direction: column; gap: 6px; }
     .chip {
       background: #F2F2F7;
@@ -567,7 +584,10 @@ def build_index(products: list[dict]) -> str:
     <aside class="filter-sidebar">
       <div class="filter-section">
         <div class="search-wrap">
-          <input type="search" id="search-input" class="search-box" placeholder="🔍 חיפוש מוצר..." oninput="onSearchInput()" autocomplete="off" onkeydown="onSearchKey(event)">
+          <div class="search-inner">
+            <input type="text" id="search-input" class="search-box" placeholder="🔍 חיפוש מוצר..." oninput="onSearchInput()" autocomplete="off" onkeydown="onSearchKey(event)">
+            <button class="search-clear" id="search-clear" onclick="clearSearch()" tabindex="-1">✕</button>
+          </div>
           <div class="search-suggestions" id="search-suggestions"></div>
         </div>
       </div>
@@ -612,9 +632,11 @@ def build_index(products: list[dict]) -> str:
   let activeSuggestion = -1;
 
   function applyFilters() {
-    const query  = (document.getElementById("search-input").value || "").toLowerCase().trim();
-    const cards  = document.querySelectorAll(".product-card");
-    let visible  = 0;
+    const query = (document.getElementById("search-input").value || "").toLowerCase().trim();
+    // show/hide clear button
+    document.getElementById("search-clear").style.display = query ? "block" : "none";
+    const cards = document.querySelectorAll(".product-card");
+    let visible = 0;
     cards.forEach(c => {
       const price  = parseFloat(c.dataset.price)  || 0;
       const rating = parseFloat(c.dataset.rating) || 0;
@@ -632,38 +654,59 @@ def build_index(products: list[dict]) -> str:
       visible === total ? `${total} מוצרים` : `${visible} מתוך ${total}`;
   }
 
+  function closeSuggestions() {
+    document.getElementById("search-suggestions").classList.remove("open");
+    activeSuggestion = -1;
+  }
+
   function onSearchInput() {
     applyFilters();
     const q = (document.getElementById("search-input").value || "").toLowerCase().trim();
     const box = document.getElementById("search-suggestions");
-    if (q.length < 2) { box.classList.remove("open"); return; }
+    if (q.length < 2) { closeSuggestions(); return; }
     const cards = document.querySelectorAll(".product-card");
     const seen = new Set();
     const matches = [];
     cards.forEach(c => {
       const name = c.dataset.name || "";
-      if (name.includes(q) && !seen.has(name)) {
-        seen.add(name);
-        matches.push(name);
-      }
+      if (name.includes(q) && !seen.has(name)) { seen.add(name); matches.push(name); }
     });
-    if (matches.length === 0) { box.classList.remove("open"); return; }
+    if (matches.length === 0) { closeSuggestions(); return; }
     activeSuggestion = -1;
-    box.innerHTML = matches.slice(0, 6).map((m, i) =>
-      `<div class="suggestion-item" onmousedown="pickSuggestion(this)" data-index="${i}">${m}</div>`
-    ).join("");
+    box.innerHTML = matches.slice(0, 6).map((m, i) => {
+      const hi = m.replace(new RegExp(q.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&'), 'g'), `<mark>$&</mark>`);
+      return `<div class="suggestion-item" onmousedown="pickSuggestion(this)" data-val="${m}">${hi}</div>`;
+    }).join("");
     box.classList.add("open");
   }
 
   function pickSuggestion(el) {
-    document.getElementById("search-input").value = el.textContent;
-    document.getElementById("search-suggestions").classList.remove("open");
+    document.getElementById("search-input").value = el.dataset.val;
+    closeSuggestions();
     applyFilters();
+  }
+
+  function clearSearch() {
+    document.getElementById("search-input").value = "";
+    closeSuggestions();
+    applyFilters();
+    document.getElementById("search-input").focus();
   }
 
   function onSearchKey(e) {
     const box = document.getElementById("search-suggestions");
     const items = box.querySelectorAll(".suggestion-item");
+    if (e.key === "Escape") { closeSuggestions(); return; }
+    if (e.key === "Enter") {
+      // if a suggestion is highlighted, pick it; otherwise just close dropdown and keep text
+      if (box.classList.contains("open") && activeSuggestion >= 0) {
+        e.preventDefault();
+        pickSuggestion(items[activeSuggestion]);
+      } else {
+        closeSuggestions();
+      }
+      return;
+    }
     if (!box.classList.contains("open") || items.length === 0) return;
     if (e.key === "ArrowDown") {
       e.preventDefault();
@@ -671,19 +714,12 @@ def build_index(products: list[dict]) -> str:
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       activeSuggestion = Math.max(activeSuggestion - 1, -1);
-    } else if (e.key === "Enter" && activeSuggestion >= 0) {
-      e.preventDefault();
-      pickSuggestion(items[activeSuggestion]);
-      return;
-    } else if (e.key === "Escape") {
-      box.classList.remove("open"); return;
     } else { return; }
     items.forEach((el, i) => el.classList.toggle("active", i === activeSuggestion));
   }
 
   document.addEventListener("click", e => {
-    if (!e.target.closest(".search-wrap"))
-      document.getElementById("search-suggestions").classList.remove("open");
+    if (!e.target.closest(".search-wrap")) closeSuggestions();
   });
 
   function setPrice(btn) {
