@@ -795,7 +795,7 @@ def build_product_page(p: dict) -> str:
     rating_str   = f"⭐ {p['rating']:.1f}" if p.get("rating") else ""
     reviews_str  = f"({p['reviews']:,} ביקורות)" if p.get("reviews") else ""
     price_str    = f"${p['price']:.2f}" if p.get("price") else ""
-    affiliate    = (p.get("link") or f"https://www.amazon.com/dp/{asin}/?tag=eskl20-20") + "&language=he_IL"
+    affiliate    = p.get("link") or f"https://www.amazon.com/dp/{asin}/?tag=eskl20-20"
     desc_he      = p.get("description_he") or "תיאור המוצר יתעדכן בקרוב."
     tiktok_url   = p.get("tiktok_url") or ""
     tiktok_video_id = ""
