@@ -97,7 +97,15 @@
       flex-shrink: 0;
       position: sticky;
       top: 70px;
+      max-height: calc(100vh - 90px);
+      overflow-y: auto;
+      padding-left: 4px;
+      scrollbar-width: thin;
+      scrollbar-color: #D1D1D6 transparent;
     }
+    .filter-sidebar::-webkit-scrollbar { width: 6px; }
+    .filter-sidebar::-webkit-scrollbar-track { background: transparent; }
+    .filter-sidebar::-webkit-scrollbar-thumb { background: #D1D1D6; border-radius: 3px; }
     .filter-sidebar h2 {
       font-size: .7rem;
       font-weight: 800;
@@ -641,7 +649,7 @@
 
 <div class="hero">
   <h1>Top Picks 🇮🇱</h1>
-  <p>263 מוצרים מאמאזון · משלוח לישראל</p>
+  <p>262 מוצרים מאמאזון · משלוח לישראל</p>
 </div>
 
 <div class="container">
@@ -656,7 +664,7 @@
   </div>
   <div class="filter-backdrop" id="filter-backdrop" onclick="closeFilterDrawer()"></div>
   <div class="filter-apply-bar" id="filter-apply-bar">
-    <button class="filter-apply-btn" onclick="closeFilterDrawer()" id="filter-apply-btn">הצג 263 מוצרים</button>
+    <button class="filter-apply-btn" onclick="closeFilterDrawer()" id="filter-apply-btn">הצג 262 מוצרים</button>
   </div>
   <div class="page-layout">
     
@@ -1327,20 +1335,6 @@
           <span class="card-price">$16.98</span>
         </div>
         <span class="ship-badge ship-free">🚚 משלוח חינם</span>
-      </div>
-    </a>
-    <a class="product-card" href="products/B0DW49JGRZ.html"
-       data-price="69.97" data-rating="0" data-category="byotools" data-ship="paid" data-name="מערכת ריסוס חרקים ויתושים – מיכל 2 ליטר">
-      <span class="category-badge">BYOTOOLS</span>
-      <img class="card-img" src="https://m.media-amazon.com/images/I/612eqtQDThL._AC_SL1500_.jpg" alt="מערכת ריסוס חרקים ויתושים – מיכל 2 ליטר" loading="lazy"
-           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
-      <div class="card-body">
-        <div class="card-name">מערכת ריסוס חרקים ויתושים – מיכל 2 ליטר</div>
-        <div class="card-meta">
-          <span class="badge-rating">—</span>
-          <span class="card-price">$69.97</span>
-        </div>
-        
       </div>
     </a>
     <a class="product-card" href="products/B08G1WKVQC.html"

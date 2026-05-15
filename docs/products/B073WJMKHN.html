@@ -97,7 +97,15 @@
       flex-shrink: 0;
       position: sticky;
       top: 70px;
+      max-height: calc(100vh - 90px);
+      overflow-y: auto;
+      padding-left: 4px;
+      scrollbar-width: thin;
+      scrollbar-color: #D1D1D6 transparent;
     }
+    .filter-sidebar::-webkit-scrollbar { width: 6px; }
+    .filter-sidebar::-webkit-scrollbar-track { background: transparent; }
+    .filter-sidebar::-webkit-scrollbar-thumb { background: #D1D1D6; border-radius: 3px; }
     .filter-sidebar h2 {
       font-size: .7rem;
       font-weight: 800;
