@@ -1,36 +1,33 @@
-# ─────────────────────────────────────────────
-#  Affiliation Pipeline — Filter Configuration
-#  Edit this file to change what products pass.
-#  No coding required.
-# ─────────────────────────────────────────────
-
 filters:
-  min_rating: 4.0           # minimum Amazon star rating (0.0–5.0)
-  min_reviews: 50           # minimum number of customer reviews
-  min_price_usd: 15.0       # minimum product price in USD
-  max_price_usd: 75.0       # maximum product price in USD
-  ships_to_israel: true     # must be eligible for free shipping to Israel
-  allowed_categories:       # whitelist of categories — leave empty [] to allow ALL
-    - Tools
-    - Garden
-    - Kitchen
-    - Sports
-    - Electronics
-    - Beauty
-
+  min_rating: 4.0
+  min_reviews: 20
+  min_price_usd: 0.0
+  max_price_usd: 999999.0
+  ships_to_israel: true
+  allowed_categories:
+  - Tools
+  - Garden
+  - Kitchen
+  - Sports
+  - Electronics
+  - Beauty
 scraper:
-  max_products_per_run: 200  # scrape more so we get 50 complete records after skipping nulls
-  scroll_pages: 8            # how many Best Sellers pages to scroll through
-
+  max_products_per_run: 200
+  scroll_pages: 8
 amazon:
-  marketplace: US           # Amazon marketplace to use: US or IL
-  delay_between_pages_ms: 2000  # wait time between product page loads (be polite to Amazon)
-
+  marketplace: US
+  delay_between_pages_ms: 2000
+phase2:
+  output_dir: videos
+  max_video_duration_seconds: 180
+  gpt_model: gpt-4o
+  script_max_words: 150
+  script_tone: "enthusiastic, casual, Israeli TikTok style"
 categories:
-  "Tools & Home Improvement": "https://www.amazon.com/Best-Sellers-Tools-Home-Improvement/zgbs/hi/"
-  "Kitchen & Dining": "https://www.amazon.com/Best-Sellers-Kitchen-Dining/zgbs/kitchen/"
-  "Electronics": "https://www.amazon.com/Best-Sellers-Electronics/zgbs/electronics/"
-  "Beauty & Personal Care": "https://www.amazon.com/Best-Sellers-Beauty/zgbs/beauty/"
-  "Sports & Outdoors": "https://www.amazon.com/Best-Sellers-Sports-Outdoors/zgbs/sporting-goods/"
-  "Garden & Outdoor": "https://www.amazon.com/Best-Sellers-Patio-Lawn-Garden/zgbs/lawn-and-garden/"
-  "Health & Household": "https://www.amazon.com/Best-Sellers-Health-Personal-Care/zgbs/hpc/"
+  Tools & Home Improvement: https://www.amazon.com/Best-Sellers-Tools-Home-Improvement/zgbs/hi/
+  Kitchen & Dining: https://www.amazon.com/Best-Sellers-Kitchen-Dining/zgbs/kitchen/
+  Electronics: https://www.amazon.com/Best-Sellers-Electronics/zgbs/electronics/
+  Beauty & Personal Care: https://www.amazon.com/Best-Sellers-Beauty/zgbs/beauty/
+  Sports & Outdoors: https://www.amazon.com/Best-Sellers-Sports-Outdoors/zgbs/sporting-goods/
+  Garden & Outdoor: https://www.amazon.com/Best-Sellers-Patio-Lawn-Garden/zgbs/lawn-and-garden/
+  Health & Household: https://www.amazon.com/Best-Sellers-Health-Personal-Care/zgbs/hpc/
