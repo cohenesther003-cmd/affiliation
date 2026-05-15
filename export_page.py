@@ -391,6 +391,13 @@ BASE_STYLES = """
       font-weight: 800;
       color: #1C1C1E;
     }
+    .price-note {
+      display: block;
+      font-size: .72rem;
+      color: #999;
+      font-weight: 400;
+      margin-top: 2px;
+    }
     .detail-meta .reviews-count {
       color: #6E6E73;
       font-size: .88rem;
@@ -795,6 +802,14 @@ def build_product_page(p: dict) -> str:
     rating_str   = f"⭐ {p['rating']:.1f}" if p.get("rating") else ""
     reviews_str  = f"({p['reviews']:,} ביקורות)" if p.get("reviews") else ""
     price_str    = f"${p['price']:.2f}" if p.get("price") else ""
+    updated_raw  = p.get("updated_at") or ""
+    try:
+        from datetime import datetime
+        dt = datetime.fromisoformat(updated_raw.replace("Z", "+00:00"))
+        updated_label = dt.strftime("%-d/%-m/%Y")
+    except Exception:
+        updated_label = ""
+    price_note   = f'<span class="price-note">נבדק {updated_label} · המחיר עשוי להשתנות</span>' if updated_label else ""
     affiliate    = p.get("link") or f"https://www.amazon.com/dp/{asin}/?tag=eskl20-20"
     desc_he      = p.get("description_he") or "תיאור המוצר יתעדכן בקרוב."
     tiktok_url   = p.get("tiktok_url") or ""
@@ -810,7 +825,7 @@ def build_product_page(p: dict) -> str:
     <div class="detail-meta">
       {f'<span class="badge-rating">{rating_str}</span>' if rating_str else ""}
       {f'<span class="reviews-count">{reviews_str}</span>' if reviews_str else ""}
-      {f'<span class="price-tag">{price_str}</span>' if price_str else ""}
+      {f'<span class="price-tag">{price_str}{price_note}</span>' if price_str else ""}
     </div>"""
 
     return f"""<!DOCTYPE html>
@@ -961,6 +976,7 @@ def build():
             "image_url":      p.get("image_url") or "",
             "description_he": p.get("description_he") or "",
             "tiktok_url":     p.get("tiktok_url") or "",
+            "updated_at":     p.get("updated_at") or "",
         })
 
     DOCS.mkdir(exist_ok=True)
