@@ -13,9 +13,9 @@ Run: python enrich_products.py
 import asyncio
 import os
 import random
+import subprocess
 
 from dotenv import load_dotenv
-from openai import OpenAI
 from playwright.async_api import async_playwright
 
 from src.db import get_all, upsert_product, init_db
@@ -25,26 +25,18 @@ load_dotenv()
 PARTNER_TAG = os.getenv("AMAZON_PARTNER_TAG", "eskl20-20")
 
 
-def translate_to_hebrew(client: OpenAI, description_en: str) -> str:
-    resp = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "אתה עוזר שמתרגם תיאורי מוצרים לעברית שיווקית. "
-                    "כתוב 2-3 משפטים קצרים ומשכנעים בעברית, בשפה פשוטה. "
-                    "אל תציין מחיר. אל תכתוב כותרות. רק טקסט רץ."
-                ),
-            },
-            {
-                "role": "user",
-                "content": f"תרגם את תיאור המוצר הבא לעברית:\n\n{description_en}",
-            },
-        ],
-        max_tokens=300,
+def generate_hebrew_description(product_name: str) -> str:
+    prompt = (
+        f"כתוב 2 משפטים שיווקיים קצרים בעברית על המוצר: {product_name}. "
+        "רק טקסט, ללא כותרות, ללא מחיר."
     )
-    return resp.choices[0].message.content.strip()
+    result = subprocess.run(
+        ["claude", "--print", "-p", prompt],
+        capture_output=True, text=True, timeout=30
+    )
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr.strip())
+    return result.stdout.strip()
 
 
 async def scrape_image_and_description(page, asin: str) -> tuple[str | None, str | None]:
@@ -86,7 +78,7 @@ async def scrape_image_and_description(page, asin: str) -> tuple[str | None, str
     return image_url, description_en
 
 
-async def enrich(products: list[dict], openai_client: OpenAI) -> None:
+async def enrich(products: list[dict]) -> None:
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page(
@@ -102,7 +94,7 @@ async def enrich(products: list[dict], openai_client: OpenAI) -> None:
             name = (product.get("name") or asin)[:50]
             print(f"[{i+1}/{len(products)}] {asin} — {name}")
 
-            image_url, description_en = await scrape_image_and_description(page, asin)
+            image_url, _ = await scrape_image_and_description(page, asin)
 
             updates: dict = {}
 
@@ -112,17 +104,15 @@ async def enrich(products: list[dict], openai_client: OpenAI) -> None:
             elif product.get("image_url"):
                 print(f"  → image already set, skipping")
 
-            if description_en and not product.get("description_he"):
+            if not product.get("description_he"):
                 try:
-                    description_he = translate_to_hebrew(openai_client, description_en)
+                    description_he = generate_hebrew_description(name)
                     updates["description_he"] = description_he
-                    print(f"  ✓ Hebrew description: {description_he[:60]}...")
+                    print(f"  ✓ Hebrew: {description_he[:70]}...")
                 except Exception as e:
-                    print(f"  ✗ GPT-4o error: {e}")
-            elif product.get("description_he"):
+                    print(f"  ✗ Claude error: {e}")
+            else:
                 print(f"  → Hebrew description already set, skipping")
-            elif not description_en:
-                print(f"  ✗ no description found on Amazon page")
 
             if updates:
                 upsert_product(asin, updates)
@@ -131,10 +121,6 @@ async def enrich(products: list[dict], openai_client: OpenAI) -> None:
 
 
 def main():
-    openai_key = os.getenv("OPENAI_API_KEY")
-    if not openai_key:
-        print("⚠️  OPENAI_API_KEY not set — will scrape images only, no Hebrew translation")
-
     init_db()
     all_products = get_all()
     to_enrich = [
@@ -148,9 +134,7 @@ def main():
         return
 
     print(f"Enriching {len(to_enrich)} products...")
-    client = OpenAI(api_key=openai_key) if openai_key else None
-
-    asyncio.run(enrich(to_enrich, client))
+    asyncio.run(enrich(to_enrich))
     print("Done.")
 
 

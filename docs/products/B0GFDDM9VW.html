@@ -69,12 +69,70 @@
     }
     .hero p { color: rgba(255,255,255,.88); font-size: 1.05rem; margin: 0; }
 
+    /* ── Filter bar ── */
+    .filter-bar {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.07);
+      margin: 28px 0 8px;
+    }
+    .filter-bar .filter-group { margin-bottom: 14px; }
+    .filter-bar .filter-group:last-child { margin-bottom: 0; }
+    .filter-label {
+      font-size: .72rem;
+      font-weight: 800;
+      color: #AEAEB2;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      margin-bottom: 8px;
+    }
+    .filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      background: #F2F2F7;
+      color: #3A3A3C;
+      border: none;
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-family: 'Heebo', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .chip:hover { background: #FFE8DF; color: #FF6B35; }
+    .chip.active { background: #FF6B35; color: #fff; }
+    .filter-select {
+      background: #F2F2F7;
+      border: none;
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-family: 'Heebo', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      color: #3A3A3C;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      padding-left: 32px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23AEAEB2' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 10px center;
+    }
+    .filter-select:focus { outline: 2px solid #FF6B35; }
+    #results-count {
+      font-size: .82rem;
+      color: #AEAEB2;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+
     /* ── Product grid ── */
     .product-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 20px;
-      padding: 32px 0;
+      padding: 20px 0 32px;
     }
     @media (max-width: 991px) {
       .product-grid { grid-template-columns: repeat(3, 1fr); }
@@ -84,6 +142,14 @@
     }
     @media (max-width: 479px) {
       .product-grid { grid-template-columns: 1fr; }
+    }
+    .product-grid.hidden { display: none; }
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      color: #AEAEB2;
+      font-size: 1.1rem;
+      display: none;
     }
 
     /* ── Product card ── */

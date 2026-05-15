@@ -34,7 +34,7 @@ def init_db() -> None:
             )
         """)
         # Migrate existing DBs that don't have the new columns yet
-        for col, typedef in [("image_url", "TEXT"), ("description_he", "TEXT")]:
+        for col, typedef in [("image_url", "TEXT"), ("description_he", "TEXT"), ("name_he", "TEXT")]:
             try:
                 conn.execute(f"ALTER TABLE products ADD COLUMN {col} {typedef}")
             except Exception:
