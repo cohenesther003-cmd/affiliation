@@ -53,13 +53,13 @@ affiliation/
 ├── main.py                       # CLI: python main.py --url "..." [--phase scrape|validate|filter|status|all]
 ├── app.py                        # Flask dashboard on port 5001
 ├── export_page.py                # Generates entire docs/ site from DB → push to GitHub Pages
-├── enrich_products.py            # Backfills image_url + description_he for ready_for_video products
-├── translate_names.py            # Batch-translates product names to Hebrew (15 per Claude call)
+├── enrich_products.py            # Generates rich 4-5 sentence Hebrew descriptions; resets short stubs (<200 chars) on each run
+├── translate_names.py            # Batch-translates product names to natural Hebrew (15 per Claude call). --retranslate flag clears all and re-runs
 ├── byotools_scrape.py            # Scrapes byotools.me/byotlinks → finds Amazon ASINs → checks price/shipping/rating
 ├── update_ratings.py             # Re-scrapes ratings for products with rating=0 (bot-safe)
 ├── verify_israel_shipping.py     # Re-verifies Israel shipping for all ready_for_video products
 ├── fix_missing_names.py          # Fixes products where name = ASIN (name never scraped)
-├── refresh_products.py           # Re-scrapes USD prices for all ready_for_video products
+├── refresh_products.py           # Daily price/availability refresh: updates prices, marks unavailable/no-Israel-shipping, auto-restores, emails report
 ├── config.yaml                   # ALL filter thresholds and settings (edit freely)
 ├── config.py                     # Thin YAML loader — do not edit
 ├── .env.example                  # API key template
@@ -89,7 +89,8 @@ affiliation/
 - `discovered` — scraped from Amazon, not yet validated
 - `validated` — product page scraped, rating/price/availability confirmed
 - `ready_for_video` — passed all filters in config.yaml (shown on public site)
-- `filtered_out` — failed one or more filters (hidden from public site)
+- `filtered_out` — failed filters OR no longer ships to Israel (hidden from public site)
+- `unavailable` — product detected as out of stock; auto-restored to `ready_for_video` if back in stock on next refresh
 - `video_ready` — Phase 2 complete: video downloaded + Hebrew script generated
 - `video_failed` — Phase 2 attempted but video download or script generation failed
 
@@ -100,7 +101,8 @@ affiliation/
 - **Sidebar filters**: search box (autocomplete dropdown), price ranges (up to $10/$20/$50/$75/$150), rating (4+, 4.5+), category chips
 - **Search**: live filter by Hebrew product name; autocomplete dropdown shows up to 6 matching suggestions, keyboard navigable (↑↓ Enter Escape)
 - **Product card**: product image (260px tall) + Hebrew name + rating + price → clicks to detail page; has `data-name` (lowercase Hebrew) for JS search filtering
-- **Detail page**: big image + Hebrew name + rating/price + Hebrew description + yellow "🛒 רכישה באמזון" button
+- **Detail page**: big image + Hebrew name + rating/price (with "נבדק [date] · המחיר עשוי להשתנות" note) + yellow "🛒 רכישה באמזון" button + Hebrew description (collapses to 3 lines, "הצג עוד / הצג פחות" toggle) + optional TikTok video
+- **Scroll restore**: clicking a product card saves `window.scrollY` to `sessionStorage`; returning to the grid restores the position so users don't lose their place
 - **Nav tabs**: עמוד מוצרים / עלינו / צור קשר / תנאי שימוש
 - **Mobile**: sidebar stacks above grid, chips go horizontal, grid goes 2→1 column
 - **Category labels**: byotools → BYOTOOLS, Best Sellers Kitchen Dining → מטבח ואוכל, etc.
@@ -111,8 +113,9 @@ affiliation/
 - **Price refresh**: run `python refresh_products.py` to re-scrape USD prices for all `ready_for_video` products. Detects and converts ILS prices correctly. Run whenever prices look wrong.
 - **byotools pipeline**: scrapes byotools.me/byotlinks → resolves Amazon ASINs → scrapes product page
 - **Image scraping**: `amazon_api.py` captures `image_url` automatically for new products. Run `enrich_products.py` to backfill existing ones.
-- **Hebrew descriptions**: `enrich_products.py` generates 2–3 sentence Hebrew marketing descriptions using `claude --print -p` CLI (no API key needed — uses Claude Code auth)
-- **Hebrew name translation**: `translate_names.py` sends 15 names per batch to Claude CLI → saves `name_he` to DB. Safe to re-run (skips already-translated).
+- **Hebrew descriptions**: `enrich_products.py` generates rich 4–5 sentence Hebrew marketing descriptions using `claude --print -p` CLI (no API key needed). The prompt includes category, rating, review count, and price for context. Each run automatically resets any existing descriptions shorter than 200 chars so they get regenerated with the richer prompt.
+- **Hebrew name translation**: `translate_names.py` sends 15 names per batch to Claude CLI → saves `name_he` to DB. Prompt enforces natural Hebrew terminology (e.g. "Door Stop" → "מעצור דלת", not literal "עצור דלת"). Safe to re-run (skips already-translated). Use `python translate_names.py --retranslate` to clear all `name_he` and re-translate everything.
+- **Daily refresh schedule**: `refresh_products.py` runs daily at 8:00 AM via Mac launchd (`~/Library/LaunchAgents/me.affiliation.daily-refresh.plist`). Detects price changes, sets `unavailable` for out-of-stock products, `filtered_out` for products that no longer ship to Israel, auto-restores recovered products, and sends a Hebrew email report to `GMAIL_USER` (toppickp@gmail.com) via Gmail SMTP App Password.
 - **Public site update**: run `export_page.py` → regenerates all of `docs/` → push to GitHub
 - **byotools filter bypass**: products with `category="byotools"` skip Amazon filter rules (min_rating, min_reviews)
 - **Rating update**: run `python update_ratings.py` to fill in missing ratings. Uses 2.5–4.5s delays + cookie re-warm every 30 products.
