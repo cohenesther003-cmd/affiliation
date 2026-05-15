@@ -188,8 +188,10 @@ def main():
     marked_unavailable = 0
     restored = 0
     blocked = 0
+    no_ship_count = 0
     newly_unavailable_list = []
     restored_list = []
+    no_ship_list = []
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
@@ -232,6 +234,16 @@ def main():
                 time.sleep(random.uniform(2.0, 3.5))
                 continue
 
+            # Shipping check — remove products that don't ship to Israel
+            if not result["ships_to_israel"]:
+                if not was_unavailable:
+                    update_status(asin, "filtered_out")
+                    no_ship_count += 1
+                    no_ship_list.append((prod.get("name") or asin, asin))
+                    print(f"[{i}/{len(products)}] {name} — NO ISRAEL SHIPPING ❌")
+                time.sleep(random.uniform(2.0, 3.5))
+                continue
+
             # If it was unavailable but is now back, restore it
             if was_unavailable:
                 update_status(asin, "ready_for_video")
@@ -255,22 +267,24 @@ def main():
     print(f"\n{'='*55}")
     print(f"  Prices updated:      {price_updated}")
     print(f"  Marked unavailable:  {marked_unavailable}")
+    print(f"  No Israel shipping:  {no_ship_count}")
     print(f"  Restored:            {restored}")
     print(f"  Blocked by Amazon:   {blocked}")
     print(f"{'='*55}")
-    if marked_unavailable or restored:
+    if marked_unavailable or restored or no_ship_count:
         print(f"\nRun: python export_page.py && git add docs/ && git commit -m 'Update availability' && git push")
 
     send_email_report(
         price_updated=price_updated,
         newly_unavailable=newly_unavailable_list,
         restored_list=restored_list,
+        no_ship_list=no_ship_list,
         blocked=blocked,
         total_active=len(active),
     )
 
 
-def send_email_report(price_updated, newly_unavailable, restored_list, blocked, total_active):
+def send_email_report(price_updated, newly_unavailable, restored_list, no_ship_list, blocked, total_active):
     gmail_user = os.getenv("GMAIL_USER", "")
     gmail_pass = os.getenv("GMAIL_APP_PASSWORD", "")
     if not gmail_user or not gmail_pass or "xxxx" in gmail_pass:
@@ -278,7 +292,7 @@ def send_email_report(price_updated, newly_unavailable, restored_list, blocked, 
         return
 
     today = datetime.now().strftime("%d/%m/%Y")
-    has_changes = bool(newly_unavailable or restored_list or price_updated)
+    has_changes = bool(newly_unavailable or restored_list or no_ship_list or price_updated)
 
     if has_changes:
         subject = f"🔄 דו\"ח יומי {today} — {len(newly_unavailable)} לא זמינים, {len(restored_list)} חזרו למלאי"
@@ -294,6 +308,12 @@ def send_email_report(price_updated, newly_unavailable, restored_list, blocked, 
     if newly_unavailable:
         lines.append(f"⚠️ מוצרים שהפכו ללא זמינים ({len(newly_unavailable)}):")
         for name, asin in newly_unavailable:
+            lines.append(f"  • {name[:60]} ({asin})")
+        lines.append("")
+
+    if no_ship_list:
+        lines.append(f"🚫 מוצרים שהוסרו — לא נשלחים לישראל ({len(no_ship_list)}):")
+        for name, asin in no_ship_list:
             lines.append(f"  • {name[:60]} ({asin})")
         lines.append("")
 

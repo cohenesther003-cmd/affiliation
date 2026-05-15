@@ -439,12 +439,6 @@ BASE_STYLES = """
       height: 680px;
       border-radius: 16px;
     }
-    .tiktok-label {
-      font-size: .8rem;
-      color: #AEAEB2;
-      text-align: center;
-      margin-bottom: 6px;
-    }
 
     /* ── Static pages (about / contact / terms) ── */
     .static-page {
@@ -741,7 +735,25 @@ def build_index(products: list[dict]) -> str:
     applyFilters();
   }
 
-  document.addEventListener("DOMContentLoaded", applyFilters);
+  document.addEventListener("DOMContentLoaded", () => {
+    applyFilters();
+
+    // Restore scroll position when returning from a product page
+    const savedScroll = sessionStorage.getItem("productGridScroll");
+    if (savedScroll !== null) {
+      sessionStorage.removeItem("productGridScroll");
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: parseInt(savedScroll, 10), behavior: "instant" });
+      });
+    }
+
+    // Save scroll position before navigating to a product page
+    document.querySelectorAll(".product-card").forEach(card => {
+      card.addEventListener("click", () => {
+        sessionStorage.setItem("productGridScroll", window.scrollY);
+      });
+    });
+  });
 </script>"""
 
     return f"""<!DOCTYPE html>
@@ -752,7 +764,7 @@ def build_index(products: list[dict]) -> str:
 
 <div class="hero">
   <h1>המוצרים שלי 🇮🇱</h1>
-  <p>{count} מוצרים מאומזון · משלוח לישראל</p>
+  <p>{count} מוצרים מאמאזון · משלוח לישראל</p>
 </div>
 
 <div class="container">
@@ -783,7 +795,7 @@ def build_product_page(p: dict) -> str:
     rating_str   = f"⭐ {p['rating']:.1f}" if p.get("rating") else ""
     reviews_str  = f"({p['reviews']:,} ביקורות)" if p.get("reviews") else ""
     price_str    = f"${p['price']:.2f}" if p.get("price") else ""
-    affiliate    = p.get("link") or f"https://www.amazon.com/dp/{asin}/?tag=eskl20-20"
+    affiliate    = (p.get("link") or f"https://www.amazon.com/dp/{asin}/?tag=eskl20-20") + "&language=he_IL"
     desc_he      = p.get("description_he") or "תיאור המוצר יתעדכן בקרוב."
     tiktok_url   = p.get("tiktok_url") or ""
     tiktok_video_id = ""
@@ -825,8 +837,7 @@ def build_product_page(p: dict) -> str:
     🛒&nbsp; רכישה באמזון
   </a>
 
-  {f'''<p class="tiktok-label">סרטון המוצר מ-TikTok</p>
-  <div class="tiktok-wrap">
+  {f'''<div class="tiktok-wrap">
     <iframe src="https://www.tiktok.com/embed/v2/{tiktok_video_id}"
             allowfullscreen allow="autoplay; encrypted-media">
     </iframe>
@@ -876,13 +887,15 @@ def build_contact() -> str:
 <div class="static-page">
   <div class="static-card">
     <h1>צור קשר</h1>
-    <div class="wip-badge">⏳ עמוד בבנייה — תוכן יתווסף בקרוב</div>
-    <p>
-      יש לכם שאלה, הצעה, או מוצר שאתם רוצים שנוסיף? נשמח לשמוע!
-    </p>
-    <p>
-      ניתן לפנות אלינו בדוא"ל: <a href="mailto:cohenesther003@gmail.com">cohenesther003@gmail.com</a>
-    </p>
+    <p style="color:#6E6E73; margin-bottom:28px;">נשמח לשמוע ממכם — שאלות, הצעות, או מוצרים שתרצו שנוסיף לאתר.</p>
+
+    <div style="background:#FFF3EE; border-radius:14px; padding:24px 20px; margin-bottom:24px; text-align:center;">
+      <div style="font-size:2rem; margin-bottom:10px;">✉️</div>
+      <div style="font-weight:700; font-size:1rem; margin-bottom:6px;">דוא"ל</div>
+      <a href="mailto:toppickp@gmail.com" style="color:#FF6B35; font-size:1.05rem; font-weight:600; text-decoration:none;">toppickp@gmail.com</a>
+    </div>
+
+    <p style="font-size:.88rem; color:#AEAEB2; text-align:center;">אנו מגיבים תוך 1–2 ימי עסקים.</p>
   </div>
 </div>
 {footer_html()}
@@ -900,15 +913,25 @@ def build_terms() -> str:
 <div class="static-page">
   <div class="static-card">
     <h1>תנאי שימוש</h1>
-    <div class="wip-badge">⏳ עמוד בבנייה — תוכן יתווסף בקרוב</div>
-    <p>
-      האתר כולל קישורי שותפים (Affiliate Links) לאמזון. עמלה עשויה להתקבל על
-      רכישות שבוצעו דרך קישורים אלה, ללא עלות נוספת לרוכש.
-    </p>
-    <p>
-      המוצרים, המחירים וזמינות המשלוח מתעדכנים באופן שוטף ישירות מאמזון.
-      אנו ממליצים לאמת פרטים לפני ביצוע רכישה.
-    </p>
+    <p style="color:#6E6E73; font-size:.9rem; margin-bottom:28px;">עדכון אחרון: מאי 2026</p>
+
+    <h2 style="font-size:1.05rem; font-weight:800; margin:24px 0 8px;">1. גילוי נאות — קישורי שותפים</h2>
+    <p>האתר משתתף בתכנית השותפים של אמזון (Amazon Associates). חלק מהקישורים באתר הם קישורי שותפים — אם תבצעו רכישה דרכם, אנו עשויים לקבל עמלה ללא כל עלות נוספת עבורכם.</p>
+
+    <h2 style="font-size:1.05rem; font-weight:800; margin:24px 0 8px;">2. דיוק מידע</h2>
+    <p>המחירים, הזמינות ופרטי המוצרים מתעדכנים באופן שוטף ישירות מאמזון. למרות שאנו עושים כמיטב יכולתנו לשמור על עדכניות המידע, ייתכנו שינויים בין המחיר המוצג לבין המחיר בפועל בזמן הרכישה. אנו ממליצים לאמת את הפרטים בעמוד המוצר באמזון לפני ביצוע הרכישה.</p>
+
+    <h2 style="font-size:1.05rem; font-weight:800; margin:24px 0 8px;">3. הגבלת אחריות</h2>
+    <p>האתר אינו אחראי לאיכות המוצרים, זמני האספקה, מדיניות ההחזרות, או כל נושא הקשור לשירות הלקוחות של אמזון או הספקים. כל רכישה היא עסקה ישירה בינכם לבין אמזון, בכפוף לתנאי השימוש שלהם.</p>
+
+    <h2 style="font-size:1.05rem; font-weight:800; margin:24px 0 8px;">4. קישורים חיצוניים</h2>
+    <p>לחיצה על כפתורי הרכישה תעביר אתכם לאתר אמזון. אנו אינם אחראים לתוכן, מדיניות הפרטיות, או פעולותיו של אתר אמזון. השימוש באמזון כפוף לתנאי השימוש שלהם.</p>
+
+    <h2 style="font-size:1.05rem; font-weight:800; margin:24px 0 8px;">5. שינויים בתנאים</h2>
+    <p>אנו שומרים לעצמנו את הזכות לשנות תנאים אלה בכל עת. המשך השימוש באתר לאחר פרסום שינויים מהווה הסכמה לתנאים המעודכנים.</p>
+
+    <h2 style="font-size:1.05rem; font-weight:800; margin:24px 0 8px;">6. יצירת קשר</h2>
+    <p>לשאלות בנושא תנאי השימוש: <a href="mailto:toppickp@gmail.com" style="color:#FF6B35;">toppickp@gmail.com</a></p>
   </div>
 </div>
 {footer_html()}
