@@ -10,11 +10,24 @@ Run: python refresh_products.py
 import re
 import time
 import random
+import smtplib
 import sys
-sys.path.insert(0, str(__import__("pathlib").Path(__file__).parent))
+from datetime import datetime
+from email.mime.text import MIMEText
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
 
 from src.db import init_db, get_all, upsert_product, update_status
 from playwright.sync_api import sync_playwright, Page
+
+# Load .env
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).parent / ".env")
+except ImportError:
+    pass
+import os
 
 ISRAEL_ZIP = "6100000"  # Tel Aviv
 
@@ -175,6 +188,8 @@ def main():
     marked_unavailable = 0
     restored = 0
     blocked = 0
+    newly_unavailable_list = []
+    restored_list = []
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
@@ -210,6 +225,7 @@ def main():
                 if not was_unavailable:
                     update_status(asin, "unavailable")
                     marked_unavailable += 1
+                    newly_unavailable_list.append((prod.get("name") or asin, asin))
                     print(f"[{i}/{len(products)}] {name} — UNAVAILABLE ⚠️")
                 else:
                     print(f"[{i}/{len(products)}] {name} — still unavailable")
@@ -220,6 +236,7 @@ def main():
             if was_unavailable:
                 update_status(asin, "ready_for_video")
                 restored += 1
+                restored_list.append((prod.get("name") or asin, asin))
                 print(f"[{i}/{len(products)}] {name} — RESTORED ✅")
 
             # Price update
@@ -243,6 +260,78 @@ def main():
     print(f"{'='*55}")
     if marked_unavailable or restored:
         print(f"\nRun: python export_page.py && git add docs/ && git commit -m 'Update availability' && git push")
+
+    send_email_report(
+        price_updated=price_updated,
+        newly_unavailable=newly_unavailable_list,
+        restored_list=restored_list,
+        blocked=blocked,
+        total_active=len(active),
+    )
+
+
+def send_email_report(price_updated, newly_unavailable, restored_list, blocked, total_active):
+    gmail_user = os.getenv("GMAIL_USER", "")
+    gmail_pass = os.getenv("GMAIL_APP_PASSWORD", "")
+    if not gmail_user or not gmail_pass or "xxxx" in gmail_pass:
+        print("\n[Email] No Gmail credentials configured — skipping email report.")
+        return
+
+    today = datetime.now().strftime("%d/%m/%Y")
+    has_changes = bool(newly_unavailable or restored_list or price_updated)
+
+    if has_changes:
+        subject = f"🔄 דו\"ח יומי {today} — {len(newly_unavailable)} לא זמינים, {len(restored_list)} חזרו למלאי"
+    else:
+        subject = f"✅ דו\"ח יומי {today} — הכל תקין, אין שינויים"
+
+    lines = [
+        f"דו\"ח יומי אוטומטי — {today}",
+        f"סה\"כ מוצרים פעילים באתר: {total_active}",
+        "",
+    ]
+
+    if newly_unavailable:
+        lines.append(f"⚠️ מוצרים שהפכו ללא זמינים ({len(newly_unavailable)}):")
+        for name, asin in newly_unavailable:
+            lines.append(f"  • {name[:60]} ({asin})")
+        lines.append("")
+
+    if restored_list:
+        lines.append(f"✅ מוצרים שחזרו למלאי ({len(restored_list)}):")
+        for name, asin in restored_list:
+            lines.append(f"  • {name[:60]} ({asin})")
+        lines.append("")
+
+    if price_updated:
+        lines.append(f"💰 מחירים עודכנו: {price_updated} מוצרים")
+        lines.append("")
+
+    if blocked:
+        lines.append(f"🚫 חסומים ע\"י אמזון: {blocked} מוצרים")
+        lines.append("")
+
+    if not has_changes:
+        lines.append("כל המוצרים זמינים ואין שינויים במחירים.")
+        lines.append("")
+
+    lines.append("—")
+    lines.append("המוצרים שלי — דו\"ח אוטומטי יומי")
+
+    body = "\n".join(lines)
+    msg = MIMEText(body, "plain", "utf-8")
+    msg["Subject"] = subject
+    msg["From"] = gmail_user
+    msg["To"] = gmail_user
+
+    try:
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()
+            server.login(gmail_user, gmail_pass)
+            server.sendmail(gmail_user, gmail_user, msg.as_string())
+        print(f"\n[Email] Report sent to {gmail_user} ✓")
+    except Exception as e:
+        print(f"\n[Email] Failed to send: {e}")
 
 
 if __name__ == "__main__":
