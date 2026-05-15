@@ -25,10 +25,17 @@ load_dotenv()
 PARTNER_TAG = os.getenv("AMAZON_PARTNER_TAG", "eskl20-20")
 
 
-def generate_hebrew_description(product_name: str) -> str:
+def generate_hebrew_description(product: dict) -> str:
+    name     = (product.get("name") or product["asin"])[:120]
+    category = product.get("category") or ""
+    rating   = product.get("rating") or 0
+    reviews  = product.get("review_count") or 0
+    price    = product.get("price_usd") or 0
     prompt = (
-        f"כתוב 2 משפטים שיווקיים קצרים בעברית על המוצר: {product_name}. "
-        "רק טקסט, ללא כותרות, ללא מחיר."
+        f"כתוב תיאור מוצר שיווקי בעברית (4-5 משפטים) עבור המוצר: {name}. "
+        f"קטגוריה: {category}. דירוג: {rating}/5 ({reviews} ביקורות). מחיר: ${price:.2f}. "
+        "הכלל: מה המוצר עושה, מי ירוויח ממנו, 2-3 יתרונות מרכזיים, ולמה כדאי לרכוש אותו. "
+        "סגנון שיווקי ידידותי, עברית טבעית ושוטפת. ללא כותרות, ללא מחיר, ללא מספור."
     )
     result = subprocess.run(
         ["claude", "--print", "-p", prompt],
@@ -106,7 +113,7 @@ async def enrich(products: list[dict]) -> None:
 
             if not product.get("description_he"):
                 try:
-                    description_he = generate_hebrew_description(name)
+                    description_he = generate_hebrew_description(product)
                     updates["description_he"] = description_he
                     print(f"  ✓ Hebrew: {description_he[:70]}...")
                 except Exception as e:
@@ -122,10 +129,21 @@ async def enrich(products: list[dict]) -> None:
 
 def main():
     init_db()
+    import sqlite3
+    from src.db import DB_PATH
+    conn = sqlite3.connect(DB_PATH)
+    conn.execute(
+        "UPDATE products SET description_he = NULL "
+        "WHERE status IN ('ready_for_video','video_ready','video_failed') "
+        "AND description_he IS NOT NULL AND length(description_he) < 200"
+    )
+    conn.commit()
+    conn.close()
+
     all_products = get_all()
     to_enrich = [
         p for p in all_products
-        if p["status"] == "ready_for_video"
+        if p["status"] in ("ready_for_video", "video_ready", "video_failed")
         and (not p.get("image_url") or not p.get("description_he"))
     ]
 

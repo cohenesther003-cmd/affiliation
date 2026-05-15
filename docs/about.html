@@ -373,7 +373,23 @@
       font-size: 1rem;
       line-height: 1.85;
       color: #3A3A3C;
-      margin-bottom: 32px;
+      margin-bottom: 8px;
+    }
+    #desc-text.collapsed {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .desc-toggle {
+      background: none;
+      border: none;
+      color: #FF6B35;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 2px 0 20px;
+      display: block;
     }
     .buy-btn {
       display: block;

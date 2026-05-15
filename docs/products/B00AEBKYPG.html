@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>סרט סיליקון עצמי-מדביק לתיקוני חירום — המוצרים שלי</title>
+  <title>סרט סיליקון עצמי-היתוך לתיקון חירום — המוצרים שלי</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
   
@@ -373,7 +373,23 @@
       font-size: 1rem;
       line-height: 1.85;
       color: #3A3A3C;
-      margin-bottom: 32px;
+      margin-bottom: 8px;
+    }
+    #desc-text.collapsed {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .desc-toggle {
+      background: none;
+      border: none;
+      color: #FF6B35;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 2px 0 20px;
+      display: block;
     }
     .buy-btn {
       display: block;
@@ -475,11 +491,11 @@
   <a class="back-link" href="../index.html">&#8592; חזרה למוצרים</a>
 
   <div class="detail-img-wrap">
-    <img src="https://m.media-amazon.com/images/I/615WP5bxSEL._SL1200_.jpg" alt="סרט סיליקון עצמי-מדביק לתיקוני חירום"
+    <img src="https://m.media-amazon.com/images/I/615WP5bxSEL._SL1200_.jpg" alt="סרט סיליקון עצמי-היתוך לתיקון חירום"
          onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
   </div>
 
-  <h1 class="detail-title">סרט סיליקון עצמי-מדביק לתיקוני חירום</h1>
+  <h1 class="detail-title">סרט סיליקון עצמי-היתוך לתיקון חירום</h1>
   
     <div class="detail-meta">
       
@@ -488,11 +504,39 @@
     </div>
   <hr class="divider">
 
-  <p class="detail-desc">קלטת הסיליקון האולטימטיבית שמצילה אתך בכל מצב חירום — נדבקת לעצמה בלי דבק, עמידה למים, חום ולחץ קיצוני. תיקון מיידי לצינורות דולפים, כבלים ועוד — פשוט לף סביב ותתפלאי כמה זה עובד.</p>
-
   <a class="buy-btn" href="https://www.amazon.com/dp/B00AEBKYPG/?tag=eskl20-20" target="_blank" rel="noopener noreferrer">
     🛒&nbsp; רכישה באמזון
   </a>
+
+  <div class="desc-wrap">
+    <p class="detail-desc" id="desc-text">תיאור המוצר יתעדכן בקרוב.</p>
+    <button class="desc-toggle" id="desc-toggle" onclick="toggleDesc()">הצג עוד ▾</button>
+  </div>
+
+  <script>
+    function toggleDesc() {
+      var el = document.getElementById("desc-text");
+      var btn = document.getElementById("desc-toggle");
+      if (el.classList.contains("collapsed")) {
+        el.classList.remove("collapsed");
+        btn.textContent = "הצג פחות ▴";
+        el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      } else {
+        el.classList.add("collapsed");
+        btn.textContent = "הצג עוד ▾";
+      }
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+      var el = document.getElementById("desc-text");
+      var btn = document.getElementById("desc-toggle");
+      if (el && el.scrollHeight > el.clientHeight + 10) {
+        el.classList.add("collapsed");
+        btn.style.display = "block";
+      } else if (btn) {
+        btn.style.display = "none";
+      }
+    });
+  </script>
 
   
 </div>

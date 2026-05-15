@@ -6,8 +6,10 @@ Run: python translate_names.py
 """
 
 import json
+import sqlite3
+import sys
 import subprocess
-from src.db import init_db, get_all, upsert_product
+from src.db import init_db, get_all, upsert_product, DB_PATH
 
 BATCH_SIZE = 15
 
@@ -15,13 +17,15 @@ BATCH_SIZE = 15
 def translate_batch(names: list[str]) -> list[str]:
     numbered = "\n".join(f"{i+1}. {n}" for i, n in enumerate(names))
     prompt = (
-        f"תרגם את שמות המוצרים הבאים לעברית. "
-        f"החזר רק רשימה ממוספרת בפורמט JSON: [\"שם1\", \"שם2\", ...]. "
-        f"תרגום קצר וטבעי, לא מילולי. ללא טקסט נוסף.\n\n{numbered}"
+        "תרגם את שמות המוצרים הבאים לעברית שיווקית טבעית.\n"
+        "חשוב: השתמש בטרמינולוגיה מקצועית עברית — לא תרגום מילולי.\n"
+        "לדוגמה: \"Door Stop\" → \"מעצור דלת\" (לא \"עצור דלת\"), \"Drill Bit\" → \"מקדח\" (לא \"ביט קידוח\").\n"
+        "הנחיות: שמות קצרים, זורמים, כפי שישראלי היה אומר אותם. אם חלק מהשם הוא מיותר, השמט אותו.\n"
+        f"החזר JSON בלבד: [\"שם1\", \"שם2\", ...]. ללא טקסט נוסף.\n\n{numbered}"
     )
     result = subprocess.run(
         ["claude", "--print", "-p", prompt],
-        capture_output=True, text=True, timeout=60
+        capture_output=True, text=True, timeout=120
     )
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip())
@@ -41,9 +45,17 @@ def translate_batch(names: list[str]) -> list[str]:
 
 def main():
     init_db()
+
+    if "--retranslate" in sys.argv:
+        conn = sqlite3.connect(DB_PATH)
+        conn.execute("UPDATE products SET name_he = NULL WHERE name_he IS NOT NULL")
+        conn.commit()
+        conn.close()
+        print("Cleared all name_he for re-translation")
+
     products = [
         p for p in get_all()
-        if p["status"] == "ready_for_video" and not p.get("name_he")
+        if p["status"] in ("ready_for_video", "video_ready", "video_failed") and not p.get("name_he")
     ]
 
     if not products:

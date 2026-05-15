@@ -407,7 +407,23 @@ BASE_STYLES = """
       font-size: 1rem;
       line-height: 1.85;
       color: #3A3A3C;
-      margin-bottom: 32px;
+      margin-bottom: 8px;
+    }
+    #desc-text.collapsed {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .desc-toggle {
+      background: none;
+      border: none;
+      color: #FF6B35;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 2px 0 20px;
+      display: block;
     }
     .buy-btn {
       display: block;
@@ -846,11 +862,39 @@ def build_product_page(p: dict) -> str:
   {rating_block}
   <hr class="divider">
 
-  <p class="detail-desc">{desc_he}</p>
-
   <a class="buy-btn" href="{affiliate}" target="_blank" rel="noopener noreferrer">
     🛒&nbsp; רכישה באמזון
   </a>
+
+  <div class="desc-wrap">
+    <p class="detail-desc" id="desc-text">{desc_he}</p>
+    <button class="desc-toggle" id="desc-toggle" onclick="toggleDesc()">הצג עוד ▾</button>
+  </div>
+
+  <script>
+    function toggleDesc() {{
+      var el = document.getElementById("desc-text");
+      var btn = document.getElementById("desc-toggle");
+      if (el.classList.contains("collapsed")) {{
+        el.classList.remove("collapsed");
+        btn.textContent = "הצג פחות ▴";
+        el.scrollIntoView({{ behavior: "smooth", block: "nearest" }});
+      }} else {{
+        el.classList.add("collapsed");
+        btn.textContent = "הצג עוד ▾";
+      }}
+    }}
+    document.addEventListener("DOMContentLoaded", function() {{
+      var el = document.getElementById("desc-text");
+      var btn = document.getElementById("desc-toggle");
+      if (el && el.scrollHeight > el.clientHeight + 10) {{
+        el.classList.add("collapsed");
+        btn.style.display = "block";
+      }} else if (btn) {{
+        btn.style.display = "none";
+      }}
+    }});
+  </script>
 
   {f'''<div class="tiktok-wrap">
     <iframe src="https://www.tiktok.com/embed/v2/{tiktok_video_id}"
