@@ -138,14 +138,20 @@ def scrape_price_and_shipping(page: Page, asin: str) -> dict:
         return {"price_usd": 0.0, "ships_to_israel": None, "available": True, "shipping_type": None}
 
     # ── Price ──────────────────────────────────────────────────────────
+    # IMPORTANT: only use buy-box-specific selectors. The generic '.a-price .a-offscreen'
+    # used to be in this list as a fallback but it falsely matched prices from
+    # variants/seller-lists/recommendations, producing wrong (usually lower) prices.
+    # Better to return 0 (no update) than save a wrong price.
     price = 0.0
     price_selectors = [
         "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
         "#apex_offerDisplay_desktop .a-price .a-offscreen",
         "#corePrice_feature_div .a-price .a-offscreen",
+        "#corePrice_desktop .a-price .a-offscreen",
         "#price_inside_buybox",
         "#priceblock_ourprice",
-        ".a-price .a-offscreen",
+        "#buybox .a-price .a-offscreen",
+        "#qualifiedBuybox .a-price .a-offscreen",
     ]
     for sel in price_selectors:
         try:
@@ -169,22 +175,25 @@ def scrape_price_and_shipping(page: Page, asin: str) -> dict:
         except Exception:
             continue
 
-    # Fallback: whole + fraction — check surrounding text for currency symbol
+    # Fallback: whole + fraction — but only inside the core price feature div,
+    # NOT the generic '.a-price-whole' (which matches variants and seller lists too)
     if price <= 0:
         try:
-            whole = page.query_selector(".a-price-whole")
-            frac = page.query_selector(".a-price-fraction")
-            symbol = page.query_selector(".a-price-symbol")
-            if whole:
-                w = whole.inner_text().replace(",", "").rstrip(".")
-                f = frac.inner_text() if frac else "00"
-                candidate = float(f"{w}.{f}")
-                sym = symbol.inner_text().strip() if symbol else "$"
-                if candidate > 0:
-                    if sym == "₪" or sym.upper() == "ILS":
-                        price = round(candidate * ILS_TO_USD, 2)
-                    else:
-                        price = candidate
+            scope = page.query_selector("#corePriceDisplay_desktop_feature_div, #corePrice_feature_div, #apex_offerDisplay_desktop")
+            if scope:
+                whole = scope.query_selector(".a-price-whole")
+                frac = scope.query_selector(".a-price-fraction")
+                symbol = scope.query_selector(".a-price-symbol")
+                if whole:
+                    w = whole.inner_text().replace(",", "").rstrip(".")
+                    f = frac.inner_text() if frac else "00"
+                    candidate = float(f"{w}.{f}")
+                    sym = symbol.inner_text().strip() if symbol else "$"
+                    if candidate > 0:
+                        if sym == "₪" or sym.upper() == "ILS":
+                            price = round(candidate * ILS_TO_USD, 2)
+                        else:
+                            price = candidate
         except Exception:
             pass
 
