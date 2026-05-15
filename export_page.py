@@ -91,32 +91,122 @@ BASE_STYLES = """
       background: linear-gradient(135deg, #FF6B35 0%, #FF9A5C 50%, #FFB347 100%);
       color: #fff;
       text-align: center;
-      padding: 56px 24px 48px;
+      padding: 28px 24px 24px;
     }
     .hero h1 {
-      font-size: 2.2rem;
+      font-size: 1.6rem;
       font-weight: 900;
-      margin-bottom: .5rem;
+      margin-bottom: 4px;
       letter-spacing: -0.5px;
       text-shadow: 0 2px 8px rgba(0,0,0,.15);
     }
-    .hero p { color: rgba(255,255,255,.88); font-size: 1.05rem; margin: 0; }
+    .hero p { color: rgba(255,255,255,.88); font-size: .9rem; margin: 0; }
+
+    /* ── Hero (compact) ── */
+    .hero {
+      background: linear-gradient(135deg, #FF6B35 0%, #FF9A5C 50%, #FFB347 100%);
+      color: #fff;
+      text-align: center;
+      padding: 28px 24px 24px;
+    }
+    .hero h1 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      margin-bottom: 4px;
+      letter-spacing: -0.5px;
+      text-shadow: 0 2px 8px rgba(0,0,0,.15);
+    }
+    .hero p { color: rgba(255,255,255,.88); font-size: .9rem; margin: 0; }
+
+    /* ── Page layout: sidebar + grid ── */
+    .page-layout {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      padding: 28px 0 48px;
+    }
+
+    /* ── Sidebar filters ── */
+    .filter-sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 70px;
+    }
+    .filter-sidebar h2 {
+      font-size: .7rem;
+      font-weight: 800;
+      color: #AEAEB2;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 0 0 16px;
+    }
+    .filter-section {
+      background: #fff;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 6px rgba(0,0,0,.06);
+    }
+    .filter-section-title {
+      font-size: .72rem;
+      font-weight: 800;
+      color: #AEAEB2;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      margin-bottom: 10px;
+    }
+    .filter-chips { display: flex; flex-direction: column; gap: 6px; }
+    .chip {
+      background: #F2F2F7;
+      color: #3A3A3C;
+      border: none;
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-family: 'Heebo', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: right;
+      transition: background .15s, color .15s;
+    }
+    .chip:hover { background: #FFE8DF; color: #FF6B35; }
+    .chip.active { background: #FF6B35; color: #fff; }
+    #results-count {
+      font-size: .78rem;
+      color: #AEAEB2;
+      font-weight: 500;
+      text-align: center;
+      padding: 8px 0 0;
+    }
 
     /* ── Product grid ── */
+    .grid-area { flex: 1; min-width: 0; }
     .product-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      padding: 32px 0;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
     }
-    @media (max-width: 991px) {
-      .product-grid { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 1100px) {
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 767px) {
-      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .page-layout { flex-direction: column; }
+      .filter-sidebar { width: 100%; position: static; }
+      .filter-chips { flex-direction: row; flex-wrap: wrap; }
+      .chip { padding: 5px 12px; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     }
     @media (max-width: 479px) {
       .product-grid { grid-template-columns: 1fr; }
+    }
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      color: #AEAEB2;
+      font-size: 1rem;
+      display: none;
+      grid-column: 1/-1;
     }
 
     /* ── Product card ── */
@@ -141,10 +231,10 @@ BASE_STYLES = """
     }
     .product-card .card-img {
       width: 100%;
-      height: 220px;
+      height: 260px;
       object-fit: contain;
       background: #F2F2F7;
-      padding: 12px;
+      padding: 16px;
     }
     .product-card .card-body {
       padding: 14px 16px 16px;
@@ -370,25 +460,39 @@ def head_html(title: str, extra_css: str = "") -> str:
 
 # ── Index page ─────────────────────────────────────────────────────────────
 
+CATEGORY_LABELS = {
+    "byotools": "BYOTOOLS",
+    "Best Sellers Kitchen Dining": "מטבח ואוכל",
+    "Best Sellers Sports Outdoors": "ספורט וטבע",
+    "Best Sellers Tools Home Improvement": "כלים ושיפוצים",
+}
+
+
 def build_index(products: list[dict]) -> str:
+    categories = sorted({p.get("category") or "" for p in products if p.get("category")})
+
     cards = ""
     for p in products:
-        img = p.get("image_url") or PLACEHOLDER_SVG
-        name = (p.get("name") or p["asin"]).replace('"', "&quot;")
-        name_short = name[:80]
-        rating_str = f"⭐ {p['rating']:.1f}" if p.get("rating") else "—"
-        price_str  = f"${p['price']:.2f}"   if p.get("price") else "—"
-        cat        = (p.get("category") or "").replace('"', "&quot;")
-        cat_badge  = f'<span class="category-badge">{cat[:20]}</span>' if cat and cat != "—" else ""
-        asin       = p["asin"]
+        img      = p.get("image_url") or PLACEHOLDER_SVG
+        name_he  = (p.get("name_he") or p.get("name") or p["asin"]).replace('"', "&quot;")
+        rating   = p.get("rating") or 0
+        price    = p.get("price") or 0
+        cat      = p.get("category") or ""
+        asin     = p["asin"]
+
+        rating_str = f"⭐ {rating:.1f}" if rating else "—"
+        price_str  = f"${price:.0f}" if price else "—"
+        cat_label  = CATEGORY_LABELS.get(cat, cat[:18])
+        cat_badge  = f'<span class="category-badge">{cat_label}</span>' if cat else ""
 
         cards += f"""
-    <a class="product-card" href="products/{asin}.html">
+    <a class="product-card" href="products/{asin}.html"
+       data-price="{price}" data-rating="{rating}" data-category="{cat}">
       {cat_badge}
-      <img class="card-img" src="{img}" alt="{name_short}" loading="lazy"
+      <img class="card-img" src="{img}" alt="{name_he[:60]}" loading="lazy"
            onerror="this.src='{PLACEHOLDER_SVG}'">
       <div class="card-body">
-        <div class="card-name">{name_short}</div>
+        <div class="card-name">{name_he[:70]}</div>
         <div class="card-meta">
           <span class="badge-rating">{rating_str}</span>
           <span class="card-price">{price_str}</span>
@@ -397,6 +501,87 @@ def build_index(products: list[dict]) -> str:
     </a>"""
 
     count = len(products)
+
+    sidebar = f"""
+    <aside class="filter-sidebar">
+      <div class="filter-section">
+        <div class="filter-section-title">מחיר</div>
+        <div class="filter-chips" id="price-chips">
+          <button class="chip active" data-max="99999" onclick="setPrice(this)">הכל</button>
+          <button class="chip" data-max="10"    onclick="setPrice(this)">עד $10</button>
+          <button class="chip" data-max="20"    onclick="setPrice(this)">עד $20</button>
+          <button class="chip" data-max="50"    onclick="setPrice(this)">עד $50</button>
+          <button class="chip" data-max="75"    onclick="setPrice(this)">עד $75</button>
+          <button class="chip" data-max="150"   onclick="setPrice(this)">עד $150</button>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-section-title">דירוג</div>
+        <div class="filter-chips" id="rating-chips">
+          <button class="chip active" data-min="0"   onclick="setRating(this)">הכל</button>
+          <button class="chip" data-min="4"   onclick="setRating(this)">⭐ 4 ומעלה</button>
+          <button class="chip" data-min="4.5" onclick="setRating(this)">⭐ 4.5 ומעלה</button>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-section-title">קטגוריה</div>
+        <div class="filter-chips" id="cat-chips">
+          <button class="chip active" data-cat="" onclick="setCat(this)">הכל</button>
+          {"".join(f'<button class="chip" data-cat="{c}" onclick="setCat(this)">{CATEGORY_LABELS.get(c, c)}</button>' for c in categories)}
+        </div>
+      </div>
+
+      <div id="results-count"></div>
+    </aside>"""
+
+    filter_js = """
+<script>
+  let activePrice  = 99999;
+  let activeRating = 0;
+  let activeCat    = "";
+
+  function applyFilters() {
+    const cards = document.querySelectorAll(".product-card");
+    let visible = 0;
+    cards.forEach(c => {
+      const price  = parseFloat(c.dataset.price)  || 0;
+      const rating = parseFloat(c.dataset.rating) || 0;
+      const cat    = c.dataset.category || "";
+      const show   = price <= activePrice
+                  && rating >= activeRating
+                  && (activeCat === "" || cat === activeCat);
+      c.style.display = show ? "" : "none";
+      if (show) visible++;
+    });
+    const total = cards.length;
+    document.getElementById("results-count").textContent =
+      visible === total ? `${total} מוצרים` : `${visible} מתוך ${total}`;
+  }
+
+  function setPrice(btn) {
+    document.querySelectorAll("#price-chips .chip").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activePrice = parseFloat(btn.dataset.max);
+    applyFilters();
+  }
+  function setRating(btn) {
+    document.querySelectorAll("#rating-chips .chip").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeRating = parseFloat(btn.dataset.min);
+    applyFilters();
+  }
+  function setCat(btn) {
+    document.querySelectorAll("#cat-chips .chip").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeCat = btn.dataset.cat;
+    applyFilters();
+  }
+
+  document.addEventListener("DOMContentLoaded", applyFilters);
+</script>"""
+
     return f"""<!DOCTYPE html>
 <html lang="he" dir="rtl">
 {head_html("המוצרים שלי — מוצרים מנצחים")}
@@ -404,18 +589,25 @@ def build_index(products: list[dict]) -> str:
 {nav_html("products")}
 
 <div class="hero">
-  <h1>מוצרים מנצחים לשלוח לישראל 🇮🇱</h1>
+  <h1>המוצרים שלי 🇮🇱</h1>
   <p>{count} מוצרים מאומזון · משלוח לישראל</p>
 </div>
 
 <div class="container">
-  <div class="product-grid">
-    {cards}
+  <div class="page-layout">
+    {sidebar}
+    <div class="grid-area">
+      <div class="product-grid" id="grid">
+        {cards}
+      </div>
+      <p class="no-results" id="no-results">לא נמצאו מוצרים עם הפילטרים שנבחרו</p>
+    </div>
   </div>
 </div>
 
 {footer_html()}
 {BOOTSTRAP_JS}
+{filter_js}
 </body>
 </html>"""
 
@@ -424,7 +616,7 @@ def build_index(products: list[dict]) -> str:
 
 def build_product_page(p: dict) -> str:
     asin         = p["asin"]
-    name         = (p.get("name") or asin).replace('"', "&quot;")
+    name         = (p.get("name_he") or p.get("name") or asin).replace('"', "&quot;")
     img          = p.get("image_url") or PLACEHOLDER_SVG
     rating_str   = f"⭐ {p['rating']:.1f}" if p.get("rating") else ""
     reviews_str  = f"({p['reviews']:,} ביקורות)" if p.get("reviews") else ""
@@ -560,14 +752,15 @@ def build():
     products = []
     for p in raw:
         products.append({
-            "asin":         p["asin"],
-            "name":         p.get("name") or p["asin"],
-            "category":     p.get("category") or "—",
-            "rating":       round(p.get("rating") or 0, 1),
-            "price":        round(p.get("price_usd") or 0, 2),
-            "reviews":      p.get("review_count") or 0,
-            "link":         p.get("affiliate_link") or f"https://www.amazon.com/dp/{p['asin']}/?tag=eskl20-20",
-            "image_url":    p.get("image_url") or "",
+            "asin":           p["asin"],
+            "name":           p.get("name") or p["asin"],
+            "name_he":        p.get("name_he") or "",
+            "category":       p.get("category") or "",
+            "rating":         round(p.get("rating") or 0, 1),
+            "price":          round(p.get("price_usd") or 0, 2),
+            "reviews":        p.get("review_count") or 0,
+            "link":           p.get("affiliate_link") or f"https://www.amazon.com/dp/{p['asin']}/?tag=eskl20-20",
+            "image_url":      p.get("image_url") or "",
             "description_he": p.get("description_he") or "",
         })
 
