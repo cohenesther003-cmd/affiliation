@@ -40,9 +40,19 @@ NO_SHIP_PHRASES = [
 ]
 
 def detect_shipping_type(text: str) -> str | None:
-    """Determine free shipping mode for Israel from page text."""
+    """Determine free shipping mode for Israel from page text.
+
+    Important: matches PRECISELY around 'to israel' so we don't false-positive
+    on Amazon nav links like 'Free Shipping Zone' or 'FREE International Returns'.
+    """
     t = text.lower()
-    # Threshold-based — many phrasings on Amazon for the $49 minimum
+
+    # Definitive PAID signal: a dollar amount immediately before "shipping to israel"
+    # (e.g. "$20.08 Shipping to Israel")
+    if re.search(r'\$\s*\d+(?:\.\d+)?\s*shipping to israel', t):
+        return "paid"
+
+    # Threshold-based ($49 minimum for free shipping)
     threshold_phrases = [
         "spend over $49", "spend $49 or more", "spend $49.00 or more",
         "$49 or more on eligible", "$49.00 or more on eligible",
@@ -51,11 +61,11 @@ def detect_shipping_type(text: str) -> str | None:
     ]
     if any(p in t for p in threshold_phrases):
         return "free_over_49"
-    # Direct free shipping signals
-    if ("no import charges" in t and "free shipping" in t) \
-       or "free shipping to israel" in t \
-       or "free delivery to israel" in t:
+
+    # Direct free shipping — must say "FREE Shipping to Israel" explicitly
+    if "free shipping to israel" in t or "free delivery to israel" in t:
         return "free"
+
     return "paid"
 
 
@@ -225,26 +235,15 @@ def main():
         )
         page = ctx.new_page()
 
-        # Warm up cookies + set Israel as delivery location so Amazon shows
-        # localized shipping info (incl. "spend over $49" threshold messages)
+        # Warm up cookies
         page.goto("https://www.amazon.com/", wait_until="domcontentloaded", timeout=20000)
         page.wait_for_timeout(2000)
-        if set_israel_delivery(page):
-            print("✓ Set Israel as delivery location")
-            page.wait_for_timeout(1500)
 
         for i, prod in enumerate(products, 1):
             asin = prod["asin"]
             name = (prod.get("name") or asin)[:45]
             old_price = prod.get("price_usd") or 0
             was_unavailable = prod["status"] == "unavailable"
-
-            # Re-set Israel location every 30 products in case cookies expired
-            if i > 1 and i % 30 == 1:
-                page.goto("https://www.amazon.com/", wait_until="domcontentloaded", timeout=20000)
-                page.wait_for_timeout(1000)
-                set_israel_delivery(page)
-                page.wait_for_timeout(1000)
 
             result = scrape_price_and_shipping(page, asin)
 
