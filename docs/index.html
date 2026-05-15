@@ -123,6 +123,18 @@
       letter-spacing: .8px;
       margin-bottom: 10px;
     }
+    .search-box {
+      width: 100%;
+      border: 1.5px solid #E5E5EA;
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-family: 'Heebo', sans-serif;
+      font-size: .9rem;
+      outline: none;
+      direction: rtl;
+      transition: border-color .15s;
+    }
+    .search-box:focus { border-color: #FF6B35; }
     .filter-chips { display: flex; flex-direction: column; gap: 6px; }
     .chip {
       background: #F2F2F7;
@@ -403,6 +415,9 @@
     
     <aside class="filter-sidebar">
       <div class="filter-section">
+        <input type="search" id="search-input" class="search-box" placeholder="🔍 חיפוש מוצר..." oninput="applyFilters()" autocomplete="off">
+      </div>
+      <div class="filter-section">
         <div class="filter-section-title">מחיר</div>
         <div class="filter-chips" id="price-chips">
           <button class="chip active" data-max="99999" onclick="setPrice(this)">הכל</button>
@@ -437,7 +452,7 @@
       <div class="product-grid" id="grid">
         
     <a class="product-card" href="products/B0DJ1BVZGX.html"
-       data-price="9.43" data-rating="4.7" data-category="Best Sellers Tools Home Improvement">
+       data-price="9.43" data-rating="4.7" data-category="Best Sellers Tools Home Improvement" data-name="כבל חשמל חיצוני 25 רגל עמיד במים">
       <span class="category-badge">כלים ושיפוצים</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71DU0yh7o4L._AC_SL1500_.jpg" alt="כבל חשמל חיצוני 25 רגל עמיד במים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -450,7 +465,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B08Y8NVW6Y.html"
-       data-price="14.39" data-rating="4.4" data-category="Best Sellers Tools Home Improvement">
+       data-price="14.39" data-rating="4.4" data-category="Best Sellers Tools Home Improvement" data-name="מסכות kn95 שחורות 50 יחידות">
       <span class="category-badge">כלים ושיפוצים</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/91hwswkFM-L._SL1500_.jpg" alt="מסכות KN95 שחורות 50 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -463,7 +478,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B01LZV1Y3L.html"
-       data-price="6.63" data-rating="4.7" data-category="Best Sellers Tools Home Improvement">
+       data-price="6.63" data-rating="4.7" data-category="Best Sellers Tools Home Improvement" data-name="כיסויי שקעי חשמל לבנים 10 יחידות">
       <span class="category-badge">כלים ושיפוצים</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61t1rnVcYFL._AC_SL1500_.jpg" alt="כיסויי שקעי חשמל לבנים 10 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -476,7 +491,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CJ6CLYK5.html"
-       data-price="8.0" data-rating="4.3" data-category="Best Sellers Tools Home Improvement">
+       data-price="8.0" data-rating="4.3" data-category="Best Sellers Tools Home Improvement" data-name="כדורי תאורה סולאריים לגינה">
       <span class="category-badge">כלים ושיפוצים</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81efO6THJ+L._AC_SL1500_.jpg" alt="כדורי תאורה סולאריים לגינה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -489,7 +504,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B07XXSYLL8.html"
-       data-price="19.53" data-rating="4.7" data-category="Best Sellers Kitchen Dining">
+       data-price="19.53" data-rating="4.7" data-category="Best Sellers Kitchen Dining" data-name="מד חום דיגיטלי לבשר">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71GAhr0v1hL._AC_SL1500_.jpg" alt="מד חום דיגיטלי לבשר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -502,7 +517,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B08N9Q24M9.html"
-       data-price="19.53" data-rating="4.5" data-category="Best Sellers Kitchen Dining">
+       data-price="19.53" data-rating="4.5" data-category="Best Sellers Kitchen Dining" data-name="קוצץ ירקות רב-תכליתי 10 ב-1">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/818eXrB0rwL._AC_SL1500_.jpg" alt="קוצץ ירקות רב-תכליתי 10 ב-1" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -515,7 +530,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0C3QZ7SNF.html"
-       data-price="26.67" data-rating="4.6" data-category="Best Sellers Kitchen Dining">
+       data-price="26.67" data-rating="4.6" data-category="Best Sellers Kitchen Dining" data-name="מחזיק ספוג נירוסטה למטבח">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81shIEM-H2L._AC_SL1500_.jpg" alt="מחזיק ספוג נירוסטה למטבח" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -528,7 +543,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B07N9JTJ6K.html"
-       data-price="19.53" data-rating="4.7" data-category="Best Sellers Kitchen Dining">
+       data-price="19.53" data-rating="4.7" data-category="Best Sellers Kitchen Dining" data-name="מגבת ייבוש כלים xl מיקרופייבר">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/A1+xPqVrEtL._AC_SL1500_.jpg" alt="מגבת ייבוש כלים XL מיקרופייבר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -541,7 +556,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0F2TB2MMP.html"
-       data-price="7.99" data-rating="4.7" data-category="Best Sellers Kitchen Dining">
+       data-price="7.99" data-rating="4.7" data-category="Best Sellers Kitchen Dining" data-name="ארגונית מגירה מתרחבת לסכו&quot;ם">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71Ud-lm6ESL._AC_SL1500_.jpg" alt="ארגונית מגירה מתרחבת לסכו&quot;ם" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -554,7 +569,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B09NXMDPS1.html"
-       data-price="19.53" data-rating="4.3" data-category="Best Sellers Kitchen Dining">
+       data-price="19.53" data-rating="4.3" data-category="Best Sellers Kitchen Dining" data-name="פותחן קופסאות ובקבוקים נירוסטה">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/516H0CHz1tL._AC_SL1000_.jpg" alt="פותחן קופסאות ובקבוקים נירוסטה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -567,7 +582,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0C1LB9CKH.html"
-       data-price="19.53" data-rating="4.4" data-category="Best Sellers Kitchen Dining">
+       data-price="19.53" data-rating="4.4" data-category="Best Sellers Kitchen Dining" data-name="תבניות קרח סיליקון עם מכסה 4 יחידות">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71zj4ejO0LL._AC_SL1500_.jpg" alt="תבניות קרח סיליקון עם מכסה 4 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -580,7 +595,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B00Z7D3KH0.html"
-       data-price="8.0" data-rating="4.6" data-category="Best Sellers Kitchen Dining">
+       data-price="8.0" data-rating="4.6" data-category="Best Sellers Kitchen Dining" data-name="מפת שולחן שחורה חד-פעמית 12 יחידות">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81igfhjHT+L._AC_SL1500_.jpg" alt="מפת שולחן שחורה חד-פעמית 12 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -593,7 +608,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0B56J7ZH8.html"
-       data-price="19.53" data-rating="4.7" data-category="Best Sellers Kitchen Dining">
+       data-price="19.53" data-rating="4.7" data-category="Best Sellers Kitchen Dining" data-name="מפת שולחן ספנדקס שחורה 2 יחידות">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51GZezYGHQL._AC_SL1500_.jpg" alt="מפת שולחן ספנדקס שחורה 2 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -606,7 +621,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0F9K2KXZV.html"
-       data-price="8.0" data-rating="4.5" data-category="Best Sellers Kitchen Dining">
+       data-price="8.0" data-rating="4.5" data-category="Best Sellers Kitchen Dining" data-name="קופסאות אחסון מזון זכוכית עם מכסה 8 יחידות">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/811PAhhOvYL._AC_SL1500_.jpg" alt="קופסאות אחסון מזון זכוכית עם מכסה 8 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -619,7 +634,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B09DKH8XDS.html"
-       data-price="26.67" data-rating="4.4" data-category="Best Sellers Kitchen Dining">
+       data-price="26.67" data-rating="4.4" data-category="Best Sellers Kitchen Dining" data-name="מתקן נייר מגבת שחור מנירוסטה למטבח">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51dmwtRhoPL._AC_SL1500_.jpg" alt="מתקן נייר מגבת שחור מנירוסטה למטבח" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -632,7 +647,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FS3F72HV.html"
-       data-price="8.0" data-rating="0" data-category="byotools">
+       data-price="8.0" data-rating="0" data-category="byotools" data-name="קורנס מקצועי 15 אינץ' לפירוק ומסמרים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/21B3wClTvmL._AC_.jpg" alt="קורנס מקצועי 15 אינץ' לפירוק ומסמרים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -645,7 +660,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DZ94VDP9.html"
-       data-price="26.67" data-rating="4.6" data-category="Best Sellers Kitchen Dining">
+       data-price="26.67" data-rating="4.6" data-category="Best Sellers Kitchen Dining" data-name="בקבוק מים לילדים עם קשית 14oz">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51tj7cyv+jL._AC_SL1500_.jpg" alt="בקבוק מים לילדים עם קשית 14oz" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -658,7 +673,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DSWLG759.html"
-       data-price="8.0" data-rating="0" data-category="byotools">
+       data-price="8.0" data-rating="0" data-category="byotools" data-name="מערכת הזזה לדלת כיס 22 אינץ'">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71qK6Xd1OTL._AC_SL1500_.jpg" alt="מערכת הזזה לדלת כיס 22 אינץ'" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -671,7 +686,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DK1LGBT9.html"
-       data-price="8.0" data-rating="4.3" data-category="byotools">
+       data-price="8.0" data-rating="4.3" data-category="byotools" data-name="רצפת עץ אקציה לדק ומרפסת 9 יחידות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81DBjTbokyL._AC_SL1500_.jpg" alt="רצפת עץ אקציה לדק ומרפסת 9 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -684,7 +699,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B09TSFZZXH.html"
-       data-price="8.0" data-rating="0" data-category="byotools">
+       data-price="8.0" data-rating="0" data-category="byotools" data-name="מסמרי עץ לנגרות 3.5מ&quot;מ 300 יחידות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81IT33axlCL._SL1500_.jpg" alt="מסמרי עץ לנגרות 3.5מ&quot;מ 300 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -697,7 +712,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0754D1F99.html"
-       data-price="8.0" data-rating="0" data-category="byotools">
+       data-price="8.0" data-rating="0" data-category="byotools" data-name="מערכת תריסי שמש לדק עד 11 לוחות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71rBrhWh62L._AC_SL1500_.jpg" alt="מערכת תריסי שמש לדק עד 11 לוחות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -710,7 +725,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B00M0TLQ66.html"
-       data-price="7.99" data-rating="0" data-category="byotools">
+       data-price="7.99" data-rating="0" data-category="byotools" data-name="מסיר חלודה חזק 128 אאונס">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/718nKCkYguL._AC_SL1500_.jpg" alt="מסיר חלודה חזק 128 אאונס" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -723,7 +738,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0GD67CW82.html"
-       data-price="7.97" data-rating="0" data-category="byotools">
+       data-price="7.97" data-rating="0" data-category="byotools" data-name="תבניות פלסטיק להארכת ציפורניים 240 יחידות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71E7egum+9L._SL1500_.jpg" alt="תבניות פלסטיק להארכת ציפורניים 240 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -736,7 +751,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CRBL2DNW.html"
-       data-price="7.99" data-rating="3.9" data-category="byotools">
+       data-price="7.99" data-rating="3.9" data-category="byotools" data-name="מריצת גינה 5 רגל קוביים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71kYqJJERoL._AC_SL1500_.jpg" alt="מריצת גינה 5 רגל קוביים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -749,7 +764,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B07K7TH321.html"
-       data-price="8.0" data-rating="4.8" data-category="byotools">
+       data-price="8.0" data-rating="4.8" data-category="byotools" data-name="מגש מקלחת מוכן לאריחים 38x60 אינץ'">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51RPNsHxV-L._AC_SL1500_.jpg" alt="מגש מקלחת מוכן לאריחים 38x60 אינץ'" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -762,7 +777,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CR83D428.html"
-       data-price="8.0" data-rating="4.0" data-category="byotools">
+       data-price="8.0" data-rating="4.0" data-category="byotools" data-name="כספת חבילות קיפולית לדלת הבית">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/712uwFUnv7L._AC_SL1500_.jpg" alt="כספת חבילות קיפולית לדלת הבית" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -775,7 +790,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DC5JWLZ7.html"
-       data-price="8.0" data-rating="4.3" data-category="byotools">
+       data-price="8.0" data-rating="4.3" data-category="byotools" data-name="גריל פחמים חבית גדול עם מדפים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61ZZI-3W4jL._AC_SL1500_.jpg" alt="גריל פחמים חבית גדול עם מדפים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -788,7 +803,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0GVKQQ54V.html"
-       data-price="8.0" data-rating="4.3" data-category="byotools">
+       data-price="8.0" data-rating="4.3" data-category="byotools" data-name="חומר שחרור לתבניות בטון גלון אחד">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71ylOLjJlNL._SL1500_.jpg" alt="חומר שחרור לתבניות בטון גלון אחד" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -801,7 +816,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CF212GM3.html"
-       data-price="8.0" data-rating="4.3" data-category="byotools">
+       data-price="8.0" data-rating="4.3" data-category="byotools" data-name="מטאטא רצפה ידני רוחב 65 ס&quot;מ">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71EzWLneTpL._AC_SL1500_.jpg" alt="מטאטא רצפה ידני רוחב 65 ס&quot;מ" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -814,7 +829,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DBSL5QK6.html"
-       data-price="8.0" data-rating="4.9" data-category="byotools">
+       data-price="8.0" data-rating="4.9" data-category="byotools" data-name="ציפוי עמיד באש לבתים ומטבחים ללא voc">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61Zc0YzZWCL._AC_SL1414_.jpg" alt="ציפוי עמיד באש לבתים ומטבחים ללא VOC" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -827,7 +842,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DSY5CFC2.html"
-       data-price="8.0" data-rating="4.4" data-category="byotools">
+       data-price="8.0" data-rating="4.4" data-category="byotools" data-name="אספן אבק לדלי 5 גלון למדחס">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61mmusI5k9L._AC_SL1500_.jpg" alt="אספן אבק לדלי 5 גלון למדחס" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -840,7 +855,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B014T8QVHO.html"
-       data-price="7.99" data-rating="0" data-category="byotools">
+       data-price="7.99" data-rating="0" data-category="byotools" data-name="עיפרון נגרים קו דק 0.8 מ&quot;מ ידית עץ">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51cw2zGsgJL._AC_SL1000_.jpg" alt="עיפרון נגרים קו דק 0.8 מ&quot;מ ידית עץ" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -853,7 +868,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B09G8JNGZ1.html"
-       data-price="6.31" data-rating="0" data-category="byotools">
+       data-price="6.31" data-rating="0" data-category="byotools" data-name="מתאם סיפון לחיץ פלסטיק 1.25 אינץ' לבן">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/516KnZjDQDL._AC_SL1500_.jpg" alt="מתאם סיפון לחיץ פלסטיק 1.25 אינץ' לבן" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -866,7 +881,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DHNR9WHM.html"
-       data-price="7.99" data-rating="3.7" data-category="byotools">
+       data-price="7.99" data-rating="3.7" data-category="byotools" data-name="ערכת כלים לעיגול ויישור סיליקון 4-16 מ&quot;מ">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61UTzdSWxIL._AC_SL1500_.jpg" alt="ערכת כלים לעיגול ויישור סיליקון 4-16 מ&quot;מ" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -879,7 +894,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B07DYJDMT3.html"
-       data-price="8.0" data-rating="4.0" data-category="byotools">
+       data-price="8.0" data-rating="4.0" data-category="byotools" data-name="ערכת דלי 20 ליטר לריצוף ומילוי פוגות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71m68Y+5T0L._AC_SL1500_.jpg" alt="ערכת דלי 20 ליטר לריצוף ומילוי פוגות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -892,7 +907,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B09X1XF9VR.html"
-       data-price="8.0" data-rating="0" data-category="byotools">
+       data-price="8.0" data-rating="0" data-category="byotools" data-name="כלי להחלקת סיליקון ידית ארגונומית">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51+2Euu7OCL._SL1000_.jpg" alt="כלי להחלקת סיליקון ידית ארגונומית" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -905,7 +920,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0B61JQ16J.html"
-       data-price="19.53" data-rating="0" data-category="byotools">
+       data-price="19.53" data-rating="0" data-category="byotools" data-name="דלי מתקפל 5 ליטר לניקיון וקמפינג">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61VcGOIxWOL._AC_SL1500_.jpg" alt="דלי מתקפל 5 ליטר לניקיון וקמפינג" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -918,7 +933,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B01E48V1QU.html"
-       data-price="8.0" data-rating="0" data-category="byotools">
+       data-price="8.0" data-rating="0" data-category="byotools" data-name="מנקה גלגלת צבע עם מתאם">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61gx7RokrLL._AC_SL1500_.jpg" alt="מנקה גלגלת צבע עם מתאם" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -931,7 +946,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B004GE2UXG.html"
-       data-price="8.7" data-rating="0" data-category="byotools">
+       data-price="8.7" data-rating="0" data-category="byotools" data-name="חיפוי כבלים גמיש לבן 25 רגל 3 מ&quot;מ">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/514zTNoNj7S._AC_SL1200_.jpg" alt="חיפוי כבלים גמיש לבן 25 רגל 3 מ&quot;מ" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -944,7 +959,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B00AEBKYPG.html"
-       data-price="8.0" data-rating="0" data-category="byotools">
+       data-price="8.0" data-rating="0" data-category="byotools" data-name="סרט סיליקון עצמי-מדביק לתיקוני חירום">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/615WP5bxSEL._SL1200_.jpg" alt="סרט סיליקון עצמי-מדביק לתיקוני חירום" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -957,7 +972,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CNBJYNBX.html"
-       data-price="17.59" data-rating="0" data-category="byotools">
+       data-price="17.59" data-rating="0" data-category="byotools" data-name="דבק ים אטום לבן מהיר ייבוש עמיד uv">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71Myu9RyvVL._SL1500_.jpg" alt="דבק ים אטום לבן מהיר ייבוש עמיד UV" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -970,7 +985,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DW44BKFD.html"
-       data-price="14.39" data-rating="0" data-category="byotools">
+       data-price="14.39" data-rating="0" data-category="byotools" data-name="9 זוגות עגילי חישוק זהב 14k לנשים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71C6BIkTeCL._AC_SL1500_.jpg" alt="9 זוגות עגילי חישוק זהב 14K לנשים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -983,7 +998,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0000CBIWC.html"
-       data-price="17.59" data-rating="0" data-category="byotools">
+       data-price="17.59" data-rating="0" data-category="byotools" data-name="פותח סתימות לניקוז אמבטיה ובריכה 1.5-3 אינץ'">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51dddntn+ZL._AC_SL1500_.jpg" alt="פותח סתימות לניקוז אמבטיה ובריכה 1.5-3 אינץ'" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -996,7 +1011,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B076BFV8PB.html"
-       data-price="17.59" data-rating="0" data-category="byotools">
+       data-price="17.59" data-rating="0" data-category="byotools" data-name="לוחית קיר עם נורת לילה led אוטומטית">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51+7qaEGiDL._AC_SL1000_.jpg" alt="לוחית קיר עם נורת לילה LED אוטומטית" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1009,7 +1024,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FJ32W54S.html"
-       data-price="11.99" data-rating="0" data-category="byotools">
+       data-price="11.99" data-rating="0" data-category="byotools" data-name="מאריך מברשת צבע לגובה">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/713zrVOicML._AC_SL1500_.jpg" alt="מאריך מברשת צבע לגובה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1022,7 +1037,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0BMYS2SWC.html"
-       data-price="17.59" data-rating="0" data-category="byotools">
+       data-price="17.59" data-rating="0" data-category="byotools" data-name="מנדריל מהיר לכוסות קידוח עם אביזרים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71S9ogF-DML._AC_SL1500_.jpg" alt="מנדריל מהיר לכוסות קידוח עם אביזרים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1035,7 +1050,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0D5R1FCJ5.html"
-       data-price="12.9" data-rating="0" data-category="byotools">
+       data-price="12.9" data-rating="0" data-category="byotools" data-name="סט להבי גרד למסור הדדי">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/611iP2AyCWL._SL1500_.jpg" alt="סט להבי גרד למסור הדדי" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1048,7 +1063,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0F3JJLTKB.html"
-       data-price="17.59" data-rating="0" data-category="byotools">
+       data-price="17.59" data-rating="0" data-category="byotools" data-name="קצף פוליאתילן לריפוד ואחסון">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/91Fx2zJHjmL._AC_SL1500_.jpg" alt="קצף פוליאתילן לריפוד ואחסון" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1061,7 +1076,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B00ZDUTFJO.html"
-       data-price="17.59" data-rating="0" data-category="byotools">
+       data-price="17.59" data-rating="0" data-category="byotools" data-name="חוסם דם לאצבע עם ערכת עזרה ראשונה">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/710HvcBjNGL._AC_SL1500_.jpg" alt="חוסם דם לאצבע עם ערכת עזרה ראשונה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1074,7 +1089,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CKS4DYNS.html"
-       data-price="14.39" data-rating="0" data-category="byotools">
+       data-price="14.39" data-rating="0" data-category="byotools" data-name="מחזיק ביטים לשרשרת מפתחות עם קרבינר">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61ZCebWccJL._AC_SL1200_.jpg" alt="מחזיק ביטים לשרשרת מפתחות עם קרבינר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1087,7 +1102,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0G34R3V3H.html"
-       data-price="17.59" data-rating="0" data-category="byotools">
+       data-price="17.59" data-rating="0" data-category="byotools" data-name="מגבר אוויר למפוח עלים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61OF9S16fxL._AC_SL1500_.jpg" alt="מגבר אוויר למפוח עלים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1100,7 +1115,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CTJJ1NSQ.html"
-       data-price="17.59" data-rating="0" data-category="byotools">
+       data-price="17.59" data-rating="0" data-category="byotools" data-name="ידית הידוק מהירה">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51oaXI9DAOL._AC_SL1500_.jpg" alt="ידית הידוק מהירה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1113,7 +1128,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0BQYYVWRT.html"
-       data-price="17.59" data-rating="0" data-category="byotools">
+       data-price="17.59" data-rating="0" data-category="byotools" data-name="מלכודות זבובים לגינה">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81oGxjXo6PL._AC_SL1500_.jpg" alt="מלכודות זבובים לגינה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1126,7 +1141,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DBLJ9QN3.html"
-       data-price="17.59" data-rating="0" data-category="byotools">
+       data-price="17.59" data-rating="0" data-category="byotools" data-name="סרט פינות מחוזק לגבס 100 רגל">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71HXuNEaM+L._SL1500_.jpg" alt="סרט פינות מחוזק לגבס 100 רגל" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1139,7 +1154,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0BCJXBY7P.html"
-       data-price="17.59" data-rating="0" data-category="byotools">
+       data-price="17.59" data-rating="0" data-category="byotools" data-name="נשא לוחות גבס ועץ">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/713MNXo5rcL._AC_SL1500_.jpg" alt="נשא לוחות גבס ועץ" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1152,7 +1167,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DJSZX921.html"
-       data-price="15.83" data-rating="0" data-category="byotools">
+       data-price="15.83" data-rating="0" data-category="byotools" data-name="רתמה טקטית עם רצועות זוהרות לרדיו">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71+hvzagkTL._AC_SL1500_.jpg" alt="רתמה טקטית עם רצועות זוהרות לרדיו" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1165,7 +1180,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B07WCQNSGS.html"
-       data-price="18.39" data-rating="0" data-category="byotools">
+       data-price="18.39" data-rating="0" data-category="byotools" data-name="קשרי כבלים אלסטיים רב-שימושיים (30 יח', 16 ס&quot;מ)">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71C2euOPqZL._AC_SL1175_.jpg" alt="קשרי כבלים אלסטיים רב-שימושיים (30 יח', 16 ס&quot;מ)" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1178,7 +1193,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0GD1815SK.html"
-       data-price="18.39" data-rating="0" data-category="byotools">
+       data-price="18.39" data-rating="0" data-category="byotools" data-name="גלאי עמודי קיר 5 ב-1 עם מסך lcd">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61oUA37EW4L._AC_SL1500_.jpg" alt="גלאי עמודי קיר 5 ב-1 עם מסך LCD" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1191,7 +1206,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B00DKO4XOM.html"
-       data-price="17.53" data-rating="0" data-category="byotools">
+       data-price="17.53" data-rating="0" data-category="byotools" data-name="משפך תעשייתי עם רשת לחביות (4 ליטר)">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71gX6qh30qL._SL1500_.jpg" alt="משפך תעשייתי עם רשת לחביות (4 ליטר)" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1204,7 +1219,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0BT27W9BV.html"
-       data-price="19.18" data-rating="0" data-category="byotools">
+       data-price="19.18" data-rating="0" data-category="byotools" data-name="לוחית שקע עם תאורת לילה led אוטומטית">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51VkPxp3T6L._AC_SL1000_.jpg" alt="לוחית שקע עם תאורת לילה LED אוטומטית" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1217,7 +1232,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B07XYS9JLW.html"
-       data-price="19.19" data-rating="0" data-category="byotools">
+       data-price="19.19" data-rating="0" data-category="byotools" data-name="ערכת פילוס אריחים עם מלקחיים (400 חלקים, פערים 3 מ&quot;מ)">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61A1wBT-FLL._AC_SL1500_.jpg" alt="ערכת פילוס אריחים עם מלקחיים (400 חלקים, פערים 3 מ&quot;מ)" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1230,7 +1245,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CYC132SW.html"
-       data-price="19.19" data-rating="0" data-category="byotools">
+       data-price="19.19" data-rating="0" data-category="byotools" data-name="חבלי גומי מתכווננים עם קרבינר (8 יח', עד 120 ס&quot;מ)">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81Cfb53GTcL._AC_SL1500_.jpg" alt="חבלי גומי מתכווננים עם קרבינר (8 יח', עד 120 ס&quot;מ)" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1243,7 +1258,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0GMLY86Y4.html"
-       data-price="19.99" data-rating="0" data-category="byotools">
+       data-price="19.99" data-rating="0" data-category="byotools" data-name="ערכת תיקון חורים בגבס ללא טיח - 36 פקקים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61p8S7CyuvL._AC_SL1500_.jpg" alt="ערכת תיקון חורים בגבס ללא טיח - 36 פקקים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1256,7 +1271,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FCVCRCYJ.html"
-       data-price="19.99" data-rating="0" data-category="byotools">
+       data-price="19.99" data-rating="0" data-category="byotools" data-name="פטיש רב-תכליתי עם מפתח הקס, שולף מסמרים ופותחן בקבוקים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71ztOvuY3lL._AC_SL1500_.jpg" alt="פטיש רב-תכליתי עם מפתח הקס, שולף מסמרים ופותחן בקבוקים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1269,7 +1284,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DHXG7ZX4.html"
-       data-price="21.59" data-rating="0" data-category="byotools">
+       data-price="21.59" data-rating="0" data-category="byotools" data-name="סוגרי u מתכת שחורים לקורות עץ (20 יח')">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51A6njOXqbL._AC_SL1500_.jpg" alt="סוגרי U מתכת שחורים לקורות עץ (20 יח')" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1282,7 +1297,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B096NCQD7V.html"
-       data-price="16.04" data-rating="0" data-category="byotools">
+       data-price="16.04" data-rating="0" data-category="byotools" data-name="מחגר חד-כיווני מדויק במיוחד 1/2 אינץ'">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51eu87DKecL._AC_SL1500_.jpg" alt="מחגר חד-כיווני מדויק במיוחד 1/2 אינץ'" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1295,7 +1310,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0G8LPQBL9.html"
-       data-price="22.39" data-rating="0" data-category="byotools">
+       data-price="22.39" data-rating="0" data-category="byotools" data-name="מוט החלפת נורות לתקרות גבוהות (4 מטר) עם מברשת ניקוי">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/716QVi9wvWL._SL1500_.jpg" alt="מוט החלפת נורות לתקרות גבוהות (4 מטר) עם מברשת ניקוי" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1308,7 +1323,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DD79576N.html"
-       data-price="23.18" data-rating="0" data-category="byotools">
+       data-price="23.18" data-rating="0" data-category="byotools" data-name="כלי הידוק מתכוונן עם מאריכים לחללים צרים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61g4nV5rD9L._AC_SL1500_.jpg" alt="כלי הידוק מתכוונן עם מאריכים לחללים צרים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1321,7 +1336,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0897CH8RH.html"
-       data-price="23.99" data-rating="0" data-category="byotools">
+       data-price="23.99" data-rating="0" data-category="byotools" data-name="ציירי שערים כבדים עם סגירה עצמאית 90 מעלות (זוג, שחור)">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71-Gq4L1MaL._AC_SL1500_.jpg" alt="ציירי שערים כבדים עם סגירה עצמאית 90 מעלות (זוג, שחור)" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1334,7 +1349,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FF4Q98P1.html"
-       data-price="26.38" data-rating="0" data-category="byotools">
+       data-price="26.38" data-rating="0" data-category="byotools" data-name="מוט הרמה לברזל בניין (2 יחידות)">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/511MNL0LiGL._AC_SL1500_.jpg" alt="מוט הרמה לברזל בניין (2 יחידות)" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1347,7 +1362,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0D94DNWDC.html"
-       data-price="27.95" data-rating="0" data-category="byotools">
+       data-price="27.95" data-rating="0" data-category="byotools" data-name="אקדח סיליקון מקצועי קומפקטי">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51BOA+LZeML._AC_SL1000_.jpg" alt="אקדח סיליקון מקצועי קומפקטי" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1360,7 +1375,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B091GF9MK5.html"
-       data-price="27.98" data-rating="0" data-category="byotools">
+       data-price="27.98" data-rating="0" data-category="byotools" data-name="פאנלים תלת-ממדיים לקיר דמוי לבנים (30 יחידות)">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71osWdqe8bL._AC_SL1500_.jpg" alt="פאנלים תלת-ממדיים לקיר דמוי לבנים (30 יחידות)" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1373,7 +1388,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B08DQRLDNN.html"
-       data-price="288.58" data-rating="4.0" data-category="byotools">
+       data-price="288.58" data-rating="4.0" data-category="byotools" data-name="ברכיות גלגלות ארגונומיות עם מושב">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61hG3XuUwrL._SL1500_.jpg" alt="ברכיות גלגלות ארגונומיות עם מושב" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1386,7 +1401,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B08G1WKVQC.html"
-       data-price="143.95" data-rating="4.7" data-category="byotools">
+       data-price="143.95" data-rating="4.7" data-category="byotools" data-name="שולחן עבודה מתקפל נייד עם קבציות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71ZrL3qWSmL._AC_SL1500_.jpg" alt="שולחן עבודה מתקפל נייד עם קבציות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1399,7 +1414,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DW49JGRZ.html"
-       data-price="55.96" data-rating="0" data-category="byotools">
+       data-price="55.96" data-rating="0" data-category="byotools" data-name="מרסס חרקים ויתושים 2 ליטר">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/612eqtQDThL._AC_SL1500_.jpg" alt="מרסס חרקים ויתושים 2 ליטר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1412,7 +1427,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DLYCLZBX.html"
-       data-price="13.58" data-rating="0" data-category="byotools">
+       data-price="13.58" data-rating="0" data-category="byotools" data-name="טלאי תיקון קיר דביק גמיש (3 יחידות)">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/512PZnGtJ2L._SX425_.jpg" alt="טלאי תיקון קיר דביק גמיש (3 יחידות)" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1425,7 +1440,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FS1BM7Q5.html"
-       data-price="43.18" data-rating="0" data-category="byotools">
+       data-price="43.18" data-rating="0" data-category="byotools" data-name="רעפי גג אספלט אפורים (8 יחידות)">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/A1+eLG7t4aL._SL1500_.jpg" alt="רעפי גג אספלט אפורים (8 יחידות)" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1438,7 +1453,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0BR5K3NRY.html"
-       data-price="12.23" data-rating="0" data-category="byotools">
+       data-price="12.23" data-rating="0" data-category="byotools" data-name="כפכפים מחומרים ממוחזרים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/41K214HfYEL._AC_SL1500_.jpg" alt="כפכפים מחומרים ממוחזרים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1451,7 +1466,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0GGH65D1H.html"
-       data-price="20.79" data-rating="0" data-category="byotools">
+       data-price="20.79" data-rating="0" data-category="byotools" data-name="רולר לחץ מתכוונן לרצפות ולטפט">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61hVFNANpQL._AC_SL1500_.jpg" alt="רולר לחץ מתכוונן לרצפות ולטפט" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1464,7 +1479,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B082WN9NJL.html"
-       data-price="23.95" data-rating="0" data-category="byotools">
+       data-price="23.95" data-rating="0" data-category="byotools" data-name="כובע קרח להקלה על מיגרנה וכאבי ראש">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/7146iZpwv8L._AC_SL1500_.jpg" alt="כובע קרח להקלה על מיגרנה וכאבי ראש" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1477,7 +1492,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0GJDNMNRN.html"
-       data-price="21.26" data-rating="0" data-category="byotools">
+       data-price="21.26" data-rating="0" data-category="byotools" data-name="פלסטיק מולץ׳ אדום לגינה 4×50 רגל">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71EwWCD6rsL._AC_SL1500_.jpg" alt="פלסטיק מולץ׳ אדום לגינה 4×50 רגל" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1490,7 +1505,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0GG8LLCMR.html"
-       data-price="37.58" data-rating="0" data-category="byotools">
+       data-price="37.58" data-rating="0" data-category="byotools" data-name="יתדות ברזל לקרקע (16 יחידות)">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81sp5-JVgHL._AC_SL1500_.jpg" alt="יתדות ברזל לקרקע (16 יחידות)" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1503,7 +1518,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B08KTMTV3G.html"
-       data-price="9.59" data-rating="0" data-category="byotools">
+       data-price="9.59" data-rating="0" data-category="byotools" data-name="כיסוי שקע דקורטיבי - פליז עתיק (2 יחידות)">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71Evylcc8CS._AC_SL1500_.jpg" alt="כיסוי שקע דקורטיבי - פליז עתיק (2 יחידות)" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1516,7 +1531,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FQJVDJW9.html"
-       data-price="143.88" data-rating="0" data-category="byotools">
+       data-price="143.88" data-rating="0" data-category="byotools" data-name="דלת חיות מחמד אלקטרונית חכמה - גדולה">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/516DpvucsWL._AC_SL1280_.jpg" alt="דלת חיות מחמד אלקטרונית חכמה - גדולה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1529,7 +1544,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DFN29ZKD.html"
-       data-price="79.97" data-rating="0" data-category="byotools">
+       data-price="79.97" data-rating="0" data-category="byotools" data-name="ערכת בטיחות לגגנים 50 רגל עם רתמה, עוגן גג ורצועת הצלה">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71hbgFF+ogL._AC_SL1200_.jpg" alt="ערכת בטיחות לגגנים 50 רגל עם רתמה, עוגן גג ורצועת הצלה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1542,7 +1557,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B002YC3W48.html"
-       data-price="8.13" data-rating="0" data-category="byotools">
+       data-price="8.13" data-rating="0" data-category="byotools" data-name="אקדח קוקייה ללא טפטוף עם מוט הקסגון">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71NhmGV4jrL._SL1500_.jpg" alt="אקדח קוקייה ללא טפטוף עם מוט הקסגון" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1555,7 +1570,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0997VXC6D.html"
-       data-price="20.77" data-rating="0" data-category="byotools">
+       data-price="20.77" data-rating="0" data-category="byotools" data-name="תומך ברך מקצועי עם ריפוד ג'ל ומייצבים צדדיים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81xGcZ99dlL._AC_SL1500_.jpg" alt="תומך ברך מקצועי עם ריפוד ג'ל ומייצבים צדדיים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1568,7 +1583,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CMQYDF8D.html"
-       data-price="31.95" data-rating="0" data-category="byotools">
+       data-price="31.95" data-rating="0" data-category="byotools" data-name="בטנת דלי סיליקון לשימוש חוזר 5 גלון">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51Gg6ATVnBL._AC_SL1500_.jpg" alt="בטנת דלי סיליקון לשימוש חוזר 5 גלון" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1581,7 +1596,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0058I30AQ.html"
-       data-price="6.35" data-rating="0" data-category="byotools">
+       data-price="6.35" data-rating="0" data-category="byotools" data-name="תיקון סדקים בבטון - שפופרת מילוי אפורה מוכנה לשימוש">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/6135TL-biyL._AC_SL1500_.jpg" alt="תיקון סדקים בבטון - שפופרת מילוי אפורה מוכנה לשימוש" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1594,7 +1609,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0F5XZ27F5.html"
-       data-price="150.33" data-rating="0" data-category="byotools">
+       data-price="150.33" data-rating="0" data-category="byotools" data-name="גוזז צנרת נחושת 20v max xr של dewalt">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71vo+n99YsL._SL1500_.jpg" alt="גוזז צנרת נחושת 20V MAX XR של DeWalt" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1607,7 +1622,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0D4Z41VQ8.html"
-       data-price="279.08" data-rating="0" data-category="byotools">
+       data-price="279.08" data-rating="0" data-category="byotools" data-name="אמבטיית קרח xxl לספורטאים 216 גלון מתנפחת עם מכסה מבודד">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71zOASWxnEL._AC_SL1500_.jpg" alt="אמבטיית קרח XXL לספורטאים 216 גלון מתנפחת עם מכסה מבודד" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1620,7 +1635,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0GVJ9W4RL.html"
-       data-price="71.97" data-rating="0" data-category="byotools">
+       data-price="71.97" data-rating="0" data-category="byotools" data-name="פטיש גדול 16 ליברות עם ידית פיברגלס">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51mKwVfD9NL._AC_SL1500_.jpg" alt="פטיש גדול 16 ליברות עם ידית פיברגלס" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1633,7 +1648,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CDMGLWY1.html"
-       data-price="251.21" data-rating="0" data-category="byotools">
+       data-price="251.21" data-rating="0" data-category="byotools" data-name="מטחנת אשפה insinkerator evolution 1 כוסות סוס">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61rr2ygDzlL._AC_SL1500_.jpg" alt="מטחנת אשפה InSinkErator EVOLUTION 1 כוסות סוס" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1646,7 +1661,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0F9YJRVDS.html"
-       data-price="9.59" data-rating="0" data-category="byotools">
+       data-price="9.59" data-rating="0" data-category="byotools" data-name="טבליות לגילוי דליפות אסלה - 30 יחידות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/714OixBVDxL._SL1500_.jpg" alt="טבליות לגילוי דליפות אסלה - 30 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1659,7 +1674,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FH7QV3YM.html"
-       data-price="5.58" data-rating="0" data-category="byotools">
+       data-price="5.58" data-rating="0" data-category="byotools" data-name="מחזיק עיפרון מגנטי לחגורת כלים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/41jdUxls6NL._AC_SL1500_.jpg" alt="מחזיק עיפרון מגנטי לחגורת כלים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1672,7 +1687,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FY2Q43JQ.html"
-       data-price="87.97" data-rating="0" data-category="byotools">
+       data-price="87.97" data-rating="0" data-category="byotools" data-name="כיור קמפינג נייד עם משאבה חשמלית ומיכל מים 5 גלון">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61FbBA+H9cL._AC_SL1500_.jpg" alt="כיור קמפינג נייד עם משאבה חשמלית ומיכל מים 5 גלון" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1685,7 +1700,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0C5FP9DYC.html"
-       data-price="86.37" data-rating="0" data-category="byotools">
+       data-price="86.37" data-rating="0" data-category="byotools" data-name="מדפי סולם לטנדר - קיבולת 800 ליברות ללא קידוח">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/615cIgkWIRL._AC_SL1500_.jpg" alt="מדפי סולם לטנדר - קיבולת 800 ליברות ללא קידוח" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1698,7 +1713,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B08219DSXP.html"
-       data-price="7.99" data-rating="0" data-category="byotools">
+       data-price="7.99" data-rating="0" data-category="byotools" data-name="מלכודת עכברים הומנית לשחרור חי - 2 יחידות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71HptYy4d4L._AC_SL1500_.jpg" alt="מלכודת עכברים הומנית לשחרור חי - 2 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1711,7 +1726,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FMNRFNH4.html"
-       data-price="31.98" data-rating="0" data-category="byotools">
+       data-price="31.98" data-rating="0" data-category="byotools" data-name="ערכת תיקון עמוד גדר מפלדה כבדה - 2 יחידות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71UrRqo5CsL._SL1500_.jpg" alt="ערכת תיקון עמוד גדר מפלדה כבדה - 2 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1724,7 +1739,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B019DW98E4.html"
-       data-price="13.56" data-rating="0" data-category="byotools">
+       data-price="13.56" data-rating="0" data-category="byotools" data-name="צבע חידוש קווי כביש אספלט">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71MHcV36T1L._AC_SL1500_.jpg" alt="צבע חידוש קווי כביש אספלט" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1737,7 +1752,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0G32FSQGH.html"
-       data-price="47.98" data-rating="0" data-category="byotools">
+       data-price="47.98" data-rating="0" data-category="byotools" data-name="איטום גג נוזלי עמיד למים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71AtEbU0HaL._SL1500_.jpg" alt="איטום גג נוזלי עמיד למים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1750,7 +1765,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0B28694QB.html"
-       data-price="19.43" data-rating="0" data-category="byotools">
+       data-price="19.43" data-rating="0" data-category="byotools" data-name="שטיח מסדרון צר עם גב נגד החלקה">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81VAFEtFoyL._AC_SL1500_.jpg" alt="שטיח מסדרון צר עם גב נגד החלקה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1763,7 +1778,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B00006ICOE.html"
-       data-price="5.56" data-rating="4.7" data-category="byotools">
+       data-price="5.56" data-rating="4.7" data-category="byotools" data-name="יעת פח כבדה לשימוש מקצועי">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61EQyhk14iL._AC_SL1500_.jpg" alt="יעת פח כבדה לשימוש מקצועי" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1776,7 +1791,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B00N9JXUC4.html"
-       data-price="9.99" data-rating="3.9" data-category="byotools">
+       data-price="9.99" data-rating="3.9" data-category="byotools" data-name="עצור דלת לציר - מגן קיר">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61hgnwtoy2L._AC_SL1500_.jpg" alt="עצור דלת לציר - מגן קיר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1789,7 +1804,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CLVG52J3.html"
-       data-price="35.98" data-rating="4.6" data-category="byotools">
+       data-price="35.98" data-rating="4.6" data-category="byotools" data-name="עגלת שירות מתקפלת עם גלגלים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81oob5OpONL._AC_SL1500_.jpg" alt="עגלת שירות מתקפלת עם גלגלים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1802,7 +1817,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CDX817FL.html"
-       data-price="30.38" data-rating="4.5" data-category="byotools">
+       data-price="30.38" data-rating="4.5" data-category="byotools" data-name="מייצב סולם כבד לניקוי תעלות גג">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61SjlN-BrXL._AC_SL1500_.jpg" alt="מייצב סולם כבד לניקוי תעלות גג" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1815,7 +1830,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B004UBHRWO.html"
-       data-price="23.95" data-rating="0" data-category="byotools">
+       data-price="23.95" data-rating="0" data-category="byotools" data-name="מפתח הארכה לפינות בלתי נגישות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61mo0zBNMZL._AC_SL1500_.jpg" alt="מפתח הארכה לפינות בלתי נגישות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1828,7 +1843,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B087J4Y939.html"
-       data-price="27.14" data-rating="0" data-category="byotools">
+       data-price="27.14" data-rating="0" data-category="byotools" data-name="מדריך חיתוך גלגלי למסור עגול">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51ac11SMwGL._AC_SL1500_.jpg" alt="מדריך חיתוך גלגלי למסור עגול" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1841,7 +1856,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0781YYMMJ.html"
-       data-price="39.98" data-rating="0" data-category="byotools">
+       data-price="39.98" data-rating="0" data-category="byotools" data-name="ערכת בנייה קלה לסככה">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81eSBURciIL._AC_SL1500_.jpg" alt="ערכת בנייה קלה לסככה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1854,7 +1869,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DPHF9RNS.html"
-       data-price="41.58" data-rating="0" data-category="byotools">
+       data-price="41.58" data-rating="0" data-category="byotools" data-name="מערבל בטון נייד 2100w">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61MEKbbrghL._AC_SL1500_.jpg" alt="מערבל בטון נייד 2100W" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1867,7 +1882,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DKDT1TPF.html"
-       data-price="47.98" data-rating="0" data-category="byotools">
+       data-price="47.98" data-rating="0" data-category="byotools" data-name="תומכי דק מתכווננים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71Gi61re5zL._AC_SL1500_.jpg" alt="תומכי דק מתכווננים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1880,7 +1895,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B00BNQR3G4.html"
-       data-price="48.66" data-rating="0" data-category="byotools">
+       data-price="48.66" data-rating="0" data-category="byotools" data-name="מלקחי הרמה לבלוקים כבדים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71s8hW0wwaL._AC_SL1500_.jpg" alt="מלקחי הרמה לבלוקים כבדים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1893,7 +1908,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0GQL639Z8.html"
-       data-price="51.18" data-rating="0" data-category="byotools">
+       data-price="51.18" data-rating="0" data-category="byotools" data-name="בלוקי קיר תמך עם מערכת ניקוז">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71nw4uhjyEL._AC_SL1500_.jpg" alt="בלוקי קיר תמך עם מערכת ניקוז" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1906,7 +1921,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B00XWLDZC4.html"
-       data-price="55.95" data-rating="0" data-category="byotools">
+       data-price="55.95" data-rating="0" data-category="byotools" data-name="כלי הידוק נירוסטה">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61URgrDaYDL._AC_SL1500_.jpg" alt="כלי הידוק נירוסטה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1919,7 +1934,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0F3WM29B5.html"
-       data-price="63.26" data-rating="0" data-category="byotools">
+       data-price="63.26" data-rating="0" data-category="byotools" data-name="נישת מקלחת נירוסטה שחורה 12×24 אינץ'">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/514NvS56qbL._AC_SL1500_.jpg" alt="נישת מקלחת נירוסטה שחורה 12×24 אינץ'" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1932,7 +1947,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FBRHW2MF.html"
-       data-price="63.65" data-rating="0" data-category="byotools">
+       data-price="63.65" data-rating="0" data-category="byotools" data-name="מדף תחתון חלופי למדיח ge">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71HdoPRO7cL._AC_SL1500_.jpg" alt="מדף תחתון חלופי למדיח GE" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1945,7 +1960,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FHGWG8FG.html"
-       data-price="63.98" data-rating="0" data-category="byotools">
+       data-price="63.98" data-rating="0" data-category="byotools" data-name="מדף תחתון משודרג למדיח ge עם סל כלי שולחן">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71xIpyIFrdL._AC_SL1500_.jpg" alt="מדף תחתון משודרג למדיח GE עם סל כלי שולחן" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1958,7 +1973,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0D7NY9547.html"
-       data-price="63.98" data-rating="0" data-category="byotools">
+       data-price="63.98" data-rating="0" data-category="byotools" data-name="מאוורר קירור אלחוטי לקסדת בטיחות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51iaH3kWWJL._AC_SL1000_.jpg" alt="מאוורר קירור אלחוטי לקסדת בטיחות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1971,7 +1986,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0F21JYKNT.html"
-       data-price="63.98" data-rating="0" data-category="byotools">
+       data-price="63.98" data-rating="0" data-category="byotools" data-name="מדף תחתון למדיח ge (תואם דגמים מרובים)">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71tOR3VlTRL._AC_SL1500_.jpg" alt="מדף תחתון למדיח GE (תואם דגמים מרובים)" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1984,7 +1999,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FR8VJDQG.html"
-       data-price="71.97" data-rating="0" data-category="byotools">
+       data-price="71.97" data-rating="0" data-category="byotools" data-name="מדף תחתון משודרג למדיח ge עם גלגלים וסל">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71MpJKtyhRL._AC_SL1500_.jpg" alt="מדף תחתון משודרג למדיח GE עם גלגלים וסל" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -1997,7 +2012,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FM1JL3NT.html"
-       data-price="75.94" data-rating="4.3" data-category="byotools">
+       data-price="75.94" data-rating="4.3" data-category="byotools" data-name="בורגי עוגן לבטון רבע אינץ׳ – 500 יחידות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/714GhvniYsL._SL1500_.jpg" alt="בורגי עוגן לבטון רבע אינץ׳ – 500 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2010,7 +2025,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0GTHJBS85.html"
-       data-price="79.96" data-rating="4.2" data-category="byotools">
+       data-price="79.96" data-rating="4.2" data-category="byotools" data-name="סאונה ביתית ניידת עם גנרטור קיטור">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71TkXblgoIL._AC_SL1500_.jpg" alt="סאונה ביתית ניידת עם גנרטור קיטור" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2023,7 +2038,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CX7TC118.html"
-       data-price="90.37" data-rating="4.3" data-category="byotools">
+       data-price="90.37" data-rating="4.3" data-category="byotools" data-name="ערכת מעקה כבל שחור לעמודי עץ – 20 יחידות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71RnKtRMaBL._SL1500_.jpg" alt="ערכת מעקה כבל שחור לעמודי עץ – 20 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2036,7 +2051,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B09MR96PHY.html"
-       data-price="95.17" data-rating="4.6" data-category="byotools">
+       data-price="95.17" data-rating="4.6" data-category="byotools" data-name="ערכת ניקוי להב מסור ונתב">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71xzqWInQfL._AC_SL1500_.jpg" alt="ערכת ניקוי להב מסור ונתב" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2049,7 +2064,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B09Y6T3TZ3.html"
-       data-price="103.96" data-rating="4.0" data-category="byotools">
+       data-price="103.96" data-rating="4.0" data-category="byotools" data-name="מסור שרשרת אלחוטי 40v קומפקטי">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61jgRe5hvgL._AC_SL1500_.jpg" alt="מסור שרשרת אלחוטי 40V קומפקטי" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2062,7 +2077,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DWFG2D6V.html"
-       data-price="111.96" data-rating="4.6" data-category="byotools">
+       data-price="111.96" data-rating="4.6" data-category="byotools" data-name="ערכת פרגולה עם סוגרי גג משופע לקורות 4×4">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61L7471YRSL._AC_SL1500_.jpg" alt="ערכת פרגולה עם סוגרי גג משופע לקורות 4×4" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2075,7 +2090,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0D45CLK1P.html"
-       data-price="119.96" data-rating="4.4" data-category="byotools">
+       data-price="119.96" data-rating="4.4" data-category="byotools" data-name="מערכת ניקוז תת-דק – 4 יחידות שחורות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71pJSggnLYL._AC_SL1500_.jpg" alt="מערכת ניקוז תת-דק – 4 יחידות שחורות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2088,7 +2103,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B096NCP13C.html"
-       data-price="119.97" data-rating="4.6" data-category="byotools">
+       data-price="119.97" data-rating="4.6" data-category="byotools" data-name="רצ׳ט מדויק ללא גלגלי שיניים 3/8 אינץ׳">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51Gw6766WwL._AC_SL1500_.jpg" alt="רצ׳ט מדויק ללא גלגלי שיניים 3/8 אינץ׳" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2101,7 +2116,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FZK6V2L2.html"
-       data-price="127.96" data-rating="4.7" data-category="byotools">
+       data-price="127.96" data-rating="4.7" data-category="byotools" data-name="עגלת גינה כבדה עם פריקה מהירה 900 ליברות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71PNEF6k+FL._AC_SL1500_.jpg" alt="עגלת גינה כבדה עם פריקה מהירה 900 ליברות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2114,7 +2129,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CQ3VKS98.html"
-       data-price="135.92" data-rating="4.4" data-category="byotools">
+       data-price="135.92" data-rating="4.4" data-category="byotools" data-name="גלגל יהלום לשחיקה וחיתוך 4.5 אינץ' לגריינדר">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81qcSSMa1fL._SL1500_.jpg" alt="גלגל יהלום לשחיקה וחיתוך 4.5 אינץ' לגריינדר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2127,7 +2142,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B09S9LM8WD.html"
-       data-price="137.27" data-rating="4.6" data-category="byotools">
+       data-price="137.27" data-rating="4.6" data-category="byotools" data-name="כוס יניקה חשמלית עד 170 ק&quot;ג">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61XphZ+5e8L._AC_SL1500_.jpg" alt="כוס יניקה חשמלית עד 170 ק&quot;ג" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2140,7 +2155,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0851SZCDH.html"
-       data-price="143.92" data-rating="4.5" data-category="byotools">
+       data-price="143.92" data-rating="4.5" data-category="byotools" data-name="קודח קרקע חשמלי לעמודים ועצים 1500w">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/919XAhHMNVL._AC_SL1500_.jpg" alt="קודח קרקע חשמלי לעמודים ועצים 1500W" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2153,7 +2168,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B00LIQF9YC.html"
-       data-price="143.95" data-rating="4.0" data-category="byotools">
+       data-price="143.95" data-rating="4.0" data-category="byotools" data-name="מאריך עומק חיתוך למסור עגול עד 30 ס&quot;מ">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61dMBxEH0JL._AC_SL1354_.jpg" alt="מאריך עומק חיתוך למסור עגול עד 30 ס&quot;מ" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2166,7 +2181,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CCBMPGP5.html"
-       data-price="159.16" data-rating="3.5" data-category="byotools">
+       data-price="159.16" data-rating="3.5" data-category="byotools" data-name="מדריך קידוח מתכוונן לארונות כיור ואמבטיה">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/716gemdC-ML._AC_SL1500_.jpg" alt="מדריך קידוח מתכוונן לארונות כיור ואמבטיה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2179,7 +2194,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B01A5X0QRI.html"
-       data-price="187.94" data-rating="4.0" data-category="byotools">
+       data-price="187.94" data-rating="4.0" data-category="byotools" data-name="בלוקי שחיקת בטון יהלום למשחזות רצפה, סט 3 יחידות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/615GRicfuNL._AC_SL1000_.jpg" alt="בלוקי שחיקת בטון יהלום למשחזות רצפה, סט 3 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2192,7 +2207,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CY7J3RTH.html"
-       data-price="237.53" data-rating="4.8" data-category="byotools">
+       data-price="237.53" data-rating="4.8" data-category="byotools" data-name="ערכת תושבות דק מתכווננות, 12 יחידות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71bug2d9QEL._AC_SL1500_.jpg" alt="ערכת תושבות דק מתכווננות, 12 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2205,7 +2220,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0GJD9YPQ1.html"
-       data-price="239.13" data-rating="3.7" data-category="byotools">
+       data-price="239.13" data-rating="3.7" data-category="byotools" data-name="מגש אלומיניום מתקפל ונשלף לפיקאפ בינוני">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71p9Wdtp9YL._AC_SL1500_.jpg" alt="מגש אלומיניום מתקפל ונשלף לפיקאפ בינוני" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2218,7 +2233,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0G5MZJR46.html"
-       data-price="239.93" data-rating="4.7" data-category="byotools">
+       data-price="239.93" data-rating="4.7" data-category="byotools" data-name="מגש נשלף כבד לתא המשא של פיקאפ גדול">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71RVvgLFDVL._AC_SL1024_.jpg" alt="מגש נשלף כבד לתא המשא של פיקאפ גדול" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2231,7 +2246,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DP6S5KTZ.html"
-       data-price="247.92" data-rating="4.0" data-category="byotools">
+       data-price="247.92" data-rating="4.0" data-category="byotools" data-name="מערכת ניקוז תת-דק hdpe, 4 יחידות 15 מטר">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81kVjzapRXL._SL1500_.jpg" alt="מערכת ניקוז תת-דק HDPE, 4 יחידות 15 מטר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2244,7 +2259,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B000PDU9EY.html"
-       data-price="294.32" data-rating="4.7" data-category="byotools">
+       data-price="294.32" data-rating="4.7" data-category="byotools" data-name="משאבת שקועה לשפכים עם ערבל חצי כ&quot;ס">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61NE3oQ3MvL._AC_SL1500_.jpg" alt="משאבת שקועה לשפכים עם ערבל חצי כ&quot;ס" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2257,7 +2272,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0D8BWZCQD.html"
-       data-price="420.52" data-rating="4.6" data-category="byotools">
+       data-price="420.52" data-rating="4.6" data-category="byotools" data-name="מכונת ספוג אוטומטית לאריחים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51VlTGyGZVL._AC_SL1000_.jpg" alt="מכונת ספוג אוטומטית לאריחים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2270,7 +2285,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B08FXFDR5G.html"
-       data-price="879.75" data-rating="3.9" data-category="byotools">
+       data-price="879.75" data-rating="3.9" data-category="byotools" data-name="מריצה חשמלית 48v עד 300 ק&quot;ג">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81oddTSnmnL._AC_SL1500_.jpg" alt="מריצה חשמלית 48V עד 300 ק&quot;ג" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2283,7 +2298,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B07C8LXD7W.html"
-       data-price="1678.74" data-rating="4.3" data-category="byotools">
+       data-price="1678.74" data-rating="4.3" data-category="byotools" data-name="מרסס hvlp מקצועי לגימור ועבודות צביעה">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51tsfJ5astL._AC_SL1000_.jpg" alt="מרסס HVLP מקצועי לגימור ועבודות צביעה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2296,7 +2311,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B08MFFZXN4.html"
-       data-price="39.91" data-rating="0" data-category="byotools">
+       data-price="39.91" data-rating="0" data-category="byotools" data-name="מערבל בטון חשמלי ידני 2100w">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61vdQTiMobL._AC_SL1500_.jpg" alt="מערבל בטון חשמלי ידני 2100W" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2309,7 +2324,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0GN2B6YRY.html"
-       data-price="27.98" data-rating="0" data-category="byotools">
+       data-price="27.98" data-rating="0" data-category="byotools" data-name="פותחן פחיות חשמלי בלחיצת כפתור">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/51FUNgra0xL._AC_SL1500_.jpg" alt="פותחן פחיות חשמלי בלחיצת כפתור" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2322,7 +2337,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CCXNDVSD.html"
-       data-price="31.98" data-rating="0" data-category="byotools">
+       data-price="31.98" data-rating="0" data-category="byotools" data-name="מערכת הידוק נסתרת לדקים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61sphq1EobL._AC_SL1000_.jpg" alt="מערכת הידוק נסתרת לדקים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2335,7 +2350,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FKLZDKVM.html"
-       data-price="27.35" data-rating="0" data-category="byotools">
+       data-price="27.35" data-rating="0" data-category="byotools" data-name="סט מדריך חיתוך לדפנות תקרה">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71BxGUAfU5L._AC_SL1500_.jpg" alt="סט מדריך חיתוך לדפנות תקרה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2348,7 +2363,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0G5PT918Y.html"
-       data-price="25.59" data-rating="0" data-category="byotools">
+       data-price="25.59" data-rating="0" data-category="byotools" data-name="פאנלים דקורטיביים להדבקה עצמית לקיר">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71NI5OqJq-L._AC_SL1500_.jpg" alt="פאנלים דקורטיביים להדבקה עצמית לקיר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2361,7 +2376,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CDWJSTRW.html"
-       data-price="9.59" data-rating="0" data-category="byotools">
+       data-price="9.59" data-rating="0" data-category="byotools" data-name="סט מקדחים מצופי טיטניום">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71qcBnB8hjL._SL1500_.jpg" alt="סט מקדחים מצופי טיטניום" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2374,7 +2389,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0C6Y8NYK1.html"
-       data-price="14.8" data-rating="4.6" data-category="Best Sellers Kitchen Dining">
+       data-price="14.8" data-rating="4.6" data-category="Best Sellers Kitchen Dining" data-name="ניירות חד פעמיים לאייר פריייר">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81b6E1JVs-L._AC_SL1500_.jpg" alt="ניירות חד פעמיים לאייר פריייר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2387,7 +2402,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0C7TNXZQS.html"
-       data-price="5.59" data-rating="4.5" data-category="Best Sellers Tools Home Improvement">
+       data-price="5.59" data-rating="4.5" data-category="Best Sellers Tools Home Improvement" data-name="קליפסים להדבקה לניהול כבלים">
       <span class="category-badge">כלים ושיפוצים</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61izHfzoErL._AC_SL1500_.jpg" alt="קליפסים להדבקה לניהול כבלים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2400,7 +2415,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B09B792N27.html"
-       data-price="9.59" data-rating="0" data-category="byotools">
+       data-price="9.59" data-rating="0" data-category="byotools" data-name="קישוטי שולחן למסיבת היפי">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81uGjsME+OL._AC_SL1500_.jpg" alt="קישוטי שולחן למסיבת היפי" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2413,7 +2428,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0732NXYNS.html"
-       data-price="11.99" data-rating="4.6" data-category="Best Sellers Kitchen Dining">
+       data-price="11.99" data-rating="4.6" data-category="Best Sellers Kitchen Dining" data-name="מחבת גרניט נון-סטיק">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/813pNQFeaeL._AC_SL1500_.jpg" alt="מחבת גרניט נון-סטיק" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2426,7 +2441,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0F8HFLNQG.html"
-       data-price="4.78" data-rating="4.6" data-category="Best Sellers Kitchen Dining">
+       data-price="4.78" data-rating="4.6" data-category="Best Sellers Kitchen Dining" data-name="מגש מתרחב לסידור כלי אוכל במגירה">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71aJuHtRGsL._AC_SL1500_.jpg" alt="מגש מתרחב לסידור כלי אוכל במגירה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2439,7 +2454,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CC27124P.html"
-       data-price="6.39" data-rating="4.5" data-category="Best Sellers Kitchen Dining">
+       data-price="6.39" data-rating="4.5" data-category="Best Sellers Kitchen Dining" data-name="מחזיק מגבת נייר לקיר">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61vCoDRLyxL._AC_SL1500_.jpg" alt="מחזיק מגבת נייר לקיר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2452,7 +2467,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0D8PSDMYH.html"
-       data-price="11.19" data-rating="4.5" data-category="Best Sellers Kitchen Dining">
+       data-price="11.19" data-rating="4.5" data-category="Best Sellers Kitchen Dining" data-name="סט תבניות קרח סיליקון עם מכסה ומיכל">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61NNkHyvrjL._AC_SL1500_.jpg" alt="סט תבניות קרח סיליקון עם מכסה ומיכל" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2465,7 +2480,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0F61RSDZJ.html"
-       data-price="17.19" data-rating="0" data-category="byotools">
+       data-price="17.19" data-rating="0" data-category="byotools" data-name="מגש צבע עמוק עם מנוחת רולר">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61qwtOzVk5L._AC_SL1500_.jpg" alt="מגש צבע עמוק עם מנוחת רולר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2478,7 +2493,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DDQ6HKX4.html"
-       data-price="7.99" data-rating="0" data-category="byotools">
+       data-price="7.99" data-rating="0" data-category="byotools" data-name="מדי מדרגות לסקוואר נגרות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61TW5zJ1zcL._SL1500_.jpg" alt="מדי מדרגות לסקוואר נגרות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2491,7 +2506,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B08VL6C8JG.html"
-       data-price="7.99" data-rating="0" data-category="byotools">
+       data-price="7.99" data-rating="0" data-category="byotools" data-name="טלאי מהיר לתיקון קיר">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71a6iSp2DhL._AC_SL1500_.jpg" alt="טלאי מהיר לתיקון קיר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2504,7 +2519,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B096SL3GS5.html"
-       data-price="15.99" data-rating="4.1" data-category="byotools">
+       data-price="15.99" data-rating="4.1" data-category="byotools" data-name="סט לק ג'ל זוהר בחושך לעיצוב ציפורניים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71Jwjq2hdYL._SL1500_.jpg" alt="סט לק ג'ל זוהר בחושך לעיצוב ציפורניים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2517,7 +2532,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CRCCXKQR.html"
-       data-price="39.95" data-rating="4.7" data-category="byotools">
+       data-price="39.95" data-rating="4.7" data-category="byotools" data-name="מלחציי הארכה - 3 יחידות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61bKWdqEPhL._AC_SL1500_.jpg" alt="מלחציי הארכה - 3 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2530,7 +2545,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0GWRSNC8K.html"
-       data-price="66.34" data-rating="0" data-category="byotools">
+       data-price="66.34" data-rating="0" data-category="byotools" data-name="סט מפתחות מטרי 7 חלקים בזווית 45°">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71hzgVCYtVL._AC_SL1500_.jpg" alt="סט מפתחות מטרי 7 חלקים בזווית 45°" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2543,7 +2558,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B07R9ZKW43.html"
-       data-price="6.39" data-rating="4.5" data-category="Best Sellers Kitchen Dining">
+       data-price="6.39" data-rating="4.5" data-category="Best Sellers Kitchen Dining" data-name="תבנית מאפינס סיליקון 12 כוסות">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61czG78F1-L._AC_SL1500_.jpg" alt="תבנית מאפינס סיליקון 12 כוסות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2556,7 +2571,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CP4XY9QC.html"
-       data-price="7.03" data-rating="4.4" data-category="Best Sellers Kitchen Dining">
+       data-price="7.03" data-rating="4.4" data-category="Best Sellers Kitchen Dining" data-name="בקבוק ספריי שמן זית זכוכית 470 מ&quot;ל">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71ZjnwrH7iL._AC_SL1500_.jpg" alt="בקבוק ספריי שמן זית זכוכית 470 מ&quot;ל" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2569,7 +2584,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B08QN6B2FD.html"
-       data-price="27.98" data-rating="0" data-category="byotools">
+       data-price="27.98" data-rating="0" data-category="byotools" data-name="פאנלים אקוסטיים פירמידה שחורים - 24 יחידות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71VrWBqU+fL._AC_SL1500_.jpg" alt="פאנלים אקוסטיים פירמידה שחורים - 24 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2582,7 +2597,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B00ITQ366W.html"
-       data-price="27.98" data-rating="0" data-category="byotools">
+       data-price="27.98" data-rating="0" data-category="byotools" data-name="מגש צבע על גלגלים 2.5 ליטר">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71281NWvjTL._AC_SL1500_.jpg" alt="מגש צבע על גלגלים 2.5 ליטר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2595,7 +2610,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0BYBJ3CSY.html"
-       data-price="28.78" data-rating="0" data-category="byotools">
+       data-price="28.78" data-rating="0" data-category="byotools" data-name="ארגנייזר ציוד מגן עם מגנט וקליפס">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61ye3qrVdoL._AC_SL1500_.jpg" alt="ארגנייזר ציוד מגן עם מגנט וקליפס" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2608,7 +2623,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0736P3SS7.html"
-       data-price="29.58" data-rating="4.7" data-category="byotools">
+       data-price="29.58" data-rating="4.7" data-category="byotools" data-name="נשא לוחות פלייווד וגבס">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/8130C9VglVL._SL1500_.jpg" alt="נשא לוחות פלייווד וגבס" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2621,7 +2636,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DLKK8G82.html"
-       data-price="30.38" data-rating="0" data-category="byotools">
+       data-price="30.38" data-rating="0" data-category="byotools" data-name="ציירי ציר נסתר לארון ספרים סודי">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71UvqZqsBiL._AC_SL1500_.jpg" alt="ציירי ציר נסתר לארון ספרים סודי" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2634,7 +2649,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DQ9T7LQK.html"
-       data-price="31.95" data-rating="0" data-category="byotools">
+       data-price="31.95" data-rating="0" data-category="byotools" data-name="אביזר חיבור לאקדח ריסוס">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61wH78uSniL._AC_SL1500_.jpg" alt="אביזר חיבור לאקדח ריסוס" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2647,7 +2662,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B09SK4S8LS.html"
-       data-price="33.55" data-rating="0" data-category="byotools">
+       data-price="33.55" data-rating="0" data-category="byotools" data-name="ספריי ניקוי גגות ומשטחים - 2 יחידות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/711eKBm341L._AC_SL1500_.jpg" alt="ספריי ניקוי גגות ומשטחים - 2 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2660,7 +2675,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B07W4XG3F4.html"
-       data-price="35.18" data-rating="0" data-category="byotools">
+       data-price="35.18" data-rating="0" data-category="byotools" data-name="רצועות קשירה תעשייתיות - 4 יחידות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71OlmF8vBoL._AC_SL1500_.jpg" alt="רצועות קשירה תעשייתיות - 4 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2673,7 +2688,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DJCJ7SW3.html"
-       data-price="35.98" data-rating="0" data-category="byotools">
+       data-price="35.98" data-rating="0" data-category="byotools" data-name="שקיות אחסון אטומות לצבע - 4 יחידות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71lqseLGKFL._AC_SL1500_.jpg" alt="שקיות אחסון אטומות לצבע - 4 יחידות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2686,7 +2701,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0GJFX8PFK.html"
-       data-price="38.11" data-rating="0" data-category="byotools">
+       data-price="38.11" data-rating="0" data-category="byotools" data-name="מרובע נגרים 7.5&quot; עם מחשבון גגות דיגיטלי">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61i4rWo1yFL._AC_SL1000_.jpg" alt="מרובע נגרים 7.5&quot; עם מחשבון גגות דיגיטלי" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2699,7 +2714,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B07NDF1DHF.html"
-       data-price="103.17" data-rating="4.5" data-category="byotools">
+       data-price="103.17" data-rating="4.5" data-category="byotools" data-name="וו ייצוב סולם לגג עם נעילה מהירה">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71MKH+Z4TjL._AC_SL1500_.jpg" alt="וו ייצוב סולם לגג עם נעילה מהירה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2712,7 +2727,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0G4N2QBWC.html"
-       data-price="60.78" data-rating="0" data-category="byotools">
+       data-price="60.78" data-rating="0" data-category="byotools" data-name="כלי עצירת מים ידני לצינורות 0.5–4 אינץ'">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61PFju9QPRL._AC_SL1500_.jpg" alt="כלי עצירת מים ידני לצינורות 0.5–4 אינץ'" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2725,7 +2740,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0BBH4XQ9P.html"
-       data-price="60.78" data-rating="0" data-category="byotools">
+       data-price="60.78" data-rating="0" data-category="byotools" data-name="קצף פוליאוריתן מתפשט לבידוד וציפה – ערכת גלון">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81Do0u1pU6L._SL1500_.jpg" alt="קצף פוליאוריתן מתפשט לבידוד וציפה – ערכת גלון" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2738,7 +2753,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B00U2OYH9O.html"
-       data-price="34.79" data-rating="0" data-category="byotools">
+       data-price="34.79" data-rating="0" data-category="byotools" data-name="מוט פירוק לרצפות עץ קשה ולוחות דק">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61aEFlhSLbL._AC_SL1052_.jpg" alt="מוט פירוק לרצפות עץ קשה ולוחות דק" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2751,7 +2766,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B09ZVLT78G.html"
-       data-price="55.96" data-rating="4.3" data-category="byotools">
+       data-price="55.96" data-rating="4.3" data-category="byotools" data-name="מערכת ריסוס קוטלי חרקים ויתושים – מיכל 2 ליטר">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/612eqtQDThL._AC_SL1500_.jpg" alt="מערכת ריסוס קוטלי חרקים ויתושים – מיכל 2 ליטר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2764,7 +2779,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CN7DC7N9.html"
-       data-price="47.97" data-rating="0" data-category="byotools">
+       data-price="47.97" data-rating="0" data-category="byotools" data-name="מפריד אבק פרו לשואבי רטוב/יבש">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61O7n-iq5dL._AC_SL1500_.jpg" alt="מפריד אבק פרו לשואבי רטוב/יבש" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2777,7 +2792,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0917VXLDK.html"
-       data-price="47.96" data-rating="0" data-category="byotools">
+       data-price="47.96" data-rating="0" data-category="byotools" data-name="גלאי קורות קיר עם 13 חיישנים ואיתור חוטים חיים">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71WOAL6-8lL._AC_SL1500_.jpg" alt="גלאי קורות קיר עם 13 חיישנים ואיתור חוטים חיים" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2790,7 +2805,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0F2MD26T6.html"
-       data-price="47.95" data-rating="0" data-category="byotools">
+       data-price="47.95" data-rating="0" data-category="byotools" data-name="מעקות בטיחות מתקפלים למיטה לקשישים עם תאורת חיישן">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71DMwbZJOWL._AC_SL1500_.jpg" alt="מעקות בטיחות מתקפלים למיטה לקשישים עם תאורת חיישן" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2803,7 +2818,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0GFDDM9VW.html"
-       data-price="10.07" data-rating="0" data-category="byotools">
+       data-price="10.07" data-rating="0" data-category="byotools" data-name="מרובע נגרים אלומיניום 12&quot; לגגות וסימון זוויות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61lIHQG3OgL._SL1500_.jpg" alt="מרובע נגרים אלומיניום 12&quot; לגגות וסימון זוויות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2816,7 +2831,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CJCW9ZGR.html"
-       data-price="45.0" data-rating="0" data-category="byotools">
+       data-price="45.0" data-rating="0" data-category="byotools" data-name="מלחצי עץ irwin 12 אינץ'">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/41HyB6Ms9UL._AC_SL1000_.jpg" alt="מלחצי עץ IRWIN 12 אינץ'" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2829,7 +2844,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0969G39FL.html"
-       data-price="20.01" data-rating="0" data-category="byotools">
+       data-price="20.01" data-rating="0" data-category="byotools" data-name="מד קווי מתאר עם נעילה">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/712OoxQgqnL._AC_SL1500_.jpg" alt="מד קווי מתאר עם נעילה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2842,7 +2857,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B076W2B9PK.html"
-       data-price="7.93" data-rating="4.6" data-category="Best Sellers Kitchen Dining">
+       data-price="7.93" data-rating="4.6" data-category="Best Sellers Kitchen Dining" data-name="מפת שולחן פלסטיק סגולה חד-פעמית">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81qOhsAPZUL._AC_SL1500_.jpg" alt="מפת שולחן פלסטיק סגולה חד-פעמית" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2855,7 +2870,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0B27MDKXD.html"
-       data-price="17.62" data-rating="4.6" data-category="Best Sellers Kitchen Dining">
+       data-price="17.62" data-rating="4.6" data-category="Best Sellers Kitchen Dining" data-name="סט 5 קופסאות שמירת טריות לפירות וירקות במקרר">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71G7Lu0rtvL._AC_SL1500_.jpg" alt="סט 5 קופסאות שמירת טריות לפירות וירקות במקרר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2868,7 +2883,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0BFSVKNHS.html"
-       data-price="12.81" data-rating="4.7" data-category="Best Sellers Kitchen Dining">
+       data-price="12.81" data-rating="4.7" data-category="Best Sellers Kitchen Dining" data-name="סט 2 כוסות מדידה מזכוכית פיירקס">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61oNa1XDV2L._AC_SL1500_.jpg" alt="סט 2 כוסות מדידה מזכוכית פיירקס" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2881,7 +2896,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B07GTC4NCV.html"
-       data-price="8.01" data-rating="4.6" data-category="Best Sellers Kitchen Dining">
+       data-price="8.01" data-rating="4.6" data-category="Best Sellers Kitchen Dining" data-name="מכסה סיליקון מתקפל למיקרוגל">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71XMdFy300L._AC_SL1500_.jpg" alt="מכסה סיליקון מתקפל למיקרוגל" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2894,7 +2909,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0B4K1XH8Y.html"
-       data-price="20.02" data-rating="4.4" data-category="Best Sellers Kitchen Dining">
+       data-price="20.02" data-rating="4.4" data-category="Best Sellers Kitchen Dining" data-name="מתקן ייבוש כלים מנירוסטה לדלפק המטבח">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/7103oavAa3L._AC_SL1500_.jpg" alt="מתקן ייבוש כלים מנירוסטה לדלפק המטבח" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2907,7 +2922,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DK3HY47Z.html"
-       data-price="17.61" data-rating="4.5" data-category="Best Sellers Kitchen Dining">
+       data-price="17.61" data-rating="4.5" data-category="Best Sellers Kitchen Dining" data-name="סט 50 קופסאות הכנת ארוחות רב-פעמי">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71lDm3VL9KL._AC_SL1500_.jpg" alt="סט 50 קופסאות הכנת ארוחות רב-פעמי" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2920,7 +2935,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B07W7MG36T.html"
-       data-price="12.01" data-rating="4.6" data-category="Best Sellers Kitchen Dining">
+       data-price="12.01" data-rating="4.6" data-category="Best Sellers Kitchen Dining" data-name="ריפוד מגירות וארונות נגד החלקה">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71WVFXPEXEL._AC_SL1112_.jpg" alt="ריפוד מגירות וארונות נגד החלקה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2933,7 +2948,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CMQC79L4.html"
-       data-price="15.22" data-rating="4.7" data-category="Best Sellers Kitchen Dining">
+       data-price="15.22" data-rating="4.7" data-category="Best Sellers Kitchen Dining" data-name="סט 6 צנצנות זכוכית עם מכסה אטום">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71hftYKcRzL._AC_SL1500_.jpg" alt="סט 6 צנצנות זכוכית עם מכסה אטום" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2946,7 +2961,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B01LR5RG08.html"
-       data-price="7.83" data-rating="4.8" data-category="Best Sellers Sports Outdoors">
+       data-price="7.83" data-rating="4.8" data-category="Best Sellers Sports Outdoors" data-name="משקולות ניאופרן לאימון כוח">
       <span class="category-badge">ספורט וטבע</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61UEXxKIlrL._AC_SL1500_.jpg" alt="משקולות ניאופרן לאימון כוח" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2959,7 +2974,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B01K1TX77W.html"
-       data-price="10.41" data-rating="4.7" data-category="Best Sellers Sports Outdoors">
+       data-price="10.41" data-rating="4.7" data-category="Best Sellers Sports Outdoors" data-name="מגבת מיקרופייבר קלה לטיולים וחדר כושר">
       <span class="category-badge">ספורט וטבע</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61HHXRkRz6L._AC_SL1000_.jpg" alt="מגבת מיקרופייבר קלה לטיולים וחדר כושר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2972,7 +2987,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B01AVDVHTI.html"
-       data-price="8.0" data-rating="4.5" data-category="Best Sellers Sports Outdoors">
+       data-price="8.0" data-rating="4.5" data-category="Best Sellers Sports Outdoors" data-name="סט 5 גומיות התנגדות לאימון">
       <span class="category-badge">ספורט וטבע</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71S4-NjoTDL._AC_SL1500_.jpg" alt="סט 5 גומיות התנגדות לאימון" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2985,7 +3000,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FJ5G1Y31.html"
-       data-price="12.01" data-rating="4.5" data-category="Best Sellers Sports Outdoors">
+       data-price="12.01" data-rating="4.5" data-category="Best Sellers Sports Outdoors" data-name="משאבת בלונים חשמלית ניידת לקישוטי מסיבות">
       <span class="category-badge">ספורט וטבע</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71+zOwxb15L._AC_SL1500_.jpg" alt="משאבת בלונים חשמלית ניידת לקישוטי מסיבות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -2998,7 +3013,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B01LP0U5X0.html"
-       data-price="18.01" data-rating="4.6" data-category="Best Sellers Sports Outdoors">
+       data-price="18.01" data-rating="4.6" data-category="Best Sellers Sports Outdoors" data-name="מזרן יוגה עבה במיוחד עם רצועת נשיאה">
       <span class="category-badge">ספורט וטבע</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61WrjbRYC3L._AC_SL1500_.jpg" alt="מזרן יוגה עבה במיוחד עם רצועת נשיאה" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -3011,7 +3026,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B000BVXDZM.html"
-       data-price="7.2" data-rating="4.4" data-category="Best Sellers Sports Outdoors">
+       data-price="7.2" data-rating="4.4" data-category="Best Sellers Sports Outdoors" data-name="כבל נעילה לאופניים עם קוד שילוב">
       <span class="category-badge">ספורט וטבע</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61Lq0UqkrjL._AC_SL1000_.jpg" alt="כבל נעילה לאופניים עם קוד שילוב" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -3024,7 +3039,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0FSDL9TK9.html"
-       data-price="29.99" data-rating="0" data-category="byotools">
+       data-price="29.99" data-rating="0" data-category="byotools" data-name="מילוי סדקים בבטון אלסטי ועמיד למים לשביל וחצר">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/91CNP-NDNhL._SL1500_.jpg" alt="מילוי סדקים בבטון אלסטי ועמיד למים לשביל וחצר" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -3037,7 +3052,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0C1LXSVSH.html"
-       data-price="20.99" data-rating="0" data-category="byotools">
+       data-price="20.99" data-rating="0" data-category="byotools" data-name="סרט מדידה dewalt 30 רגל">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/71dVsSrJn1L._SL1500_.jpg" alt="סרט מדידה DEWALT 30 רגל" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -3050,7 +3065,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B089S9B49G.html"
-       data-price="19.8" data-rating="0" data-category="byotools">
+       data-price="19.8" data-rating="0" data-category="byotools" data-name="פטיש בנייה 22 אאונקיות">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61rWuUHirzL._AC_SL1500_.jpg" alt="פטיש בנייה 22 אאונקיות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -3063,7 +3078,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0DKC4H76K.html"
-       data-price="18.99" data-rating="0" data-category="byotools">
+       data-price="18.99" data-rating="0" data-category="byotools" data-name="שקיות לדלי 5 גלון">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61LtWAqa6YL._AC_SL1500_.jpg" alt="שקיות לדלי 5 גלון" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -3076,7 +3091,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0BSTZNJQK.html"
-       data-price="7.99" data-rating="0" data-category="byotools">
+       data-price="7.99" data-rating="0" data-category="byotools" data-name="מתקן סרט דבק קומפקטי 3 יחידות לצבע">
       <span class="category-badge">BYOTOOLS</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/81QeKIPt4jL._SL1500_.jpg" alt="מתקן סרט דבק קומפקטי 3 יחידות לצבע" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -3089,7 +3104,7 @@
       </div>
     </a>
     <a class="product-card" href="products/B0CQN2PKC8.html"
-       data-price="22.99" data-rating="4.7" data-category="Best Sellers Kitchen Dining">
+       data-price="22.99" data-rating="4.7" data-category="Best Sellers Kitchen Dining" data-name="כוס קוקטייל מבודדת 16 אונקיות">
       <span class="category-badge">מטבח ואוכל</span>
       <img class="card-img" src="https://m.media-amazon.com/images/I/61UUS4xlxlL._AC_SL1500_.jpg" alt="כוס קוקטייל מבודדת 16 אונקיות" loading="lazy"
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
@@ -3120,15 +3135,18 @@
   let activeCat    = "";
 
   function applyFilters() {
-    const cards = document.querySelectorAll(".product-card");
-    let visible = 0;
+    const query  = (document.getElementById("search-input").value || "").toLowerCase().trim();
+    const cards  = document.querySelectorAll(".product-card");
+    let visible  = 0;
     cards.forEach(c => {
       const price  = parseFloat(c.dataset.price)  || 0;
       const rating = parseFloat(c.dataset.rating) || 0;
       const cat    = c.dataset.category || "";
+      const name   = c.dataset.name || "";
       const show   = price <= activePrice
                   && rating >= activeRating
-                  && (activeCat === "" || cat === activeCat);
+                  && (activeCat === "" || cat === activeCat)
+                  && (query === "" || name.includes(query));
       c.style.display = show ? "" : "none";
       if (show) visible++;
     });
