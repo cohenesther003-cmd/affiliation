@@ -384,19 +384,21 @@ BASE_STYLES = """
       align-items: center;
       gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 20px;
+      margin-bottom: 6px;
     }
     .detail-meta .price-tag {
       font-size: 1.25rem;
       font-weight: 800;
       color: #1C1C1E;
     }
+    .price-note-row {
+      text-align: right;
+      margin-bottom: 18px;
+    }
     .price-note {
-      display: block;
       font-size: .72rem;
       color: #999;
       font-weight: 400;
-      margin-top: 2px;
     }
     .detail-meta .reviews-count {
       color: #6E6E73;
@@ -440,6 +442,7 @@ BASE_STYLES = """
       text-align: center;
       text-decoration: none;
       transition: background .15s, transform .1s;
+      margin-bottom: 28px;
     }
     .buy-btn:hover {
       background: #F7CA00;
@@ -623,8 +626,8 @@ def nav_html(active: str = "products", depth: str = "") -> str:
 </nav>"""
 
 
-def footer_html() -> str:
-    return """
+def footer_html(depth: str = "") -> str:
+    return f"""
 <footer class="site-footer">
   <div class="footer-social">
     <a href="https://www.tiktok.com/@toppickproducts7" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
@@ -638,7 +641,7 @@ def footer_html() -> str:
     </a>
   </div>
   <p class="mb-1">Top Picks · מוצרי אמזון מובחרים לשלוח לישראל 🇮🇱</p>
-  <p class="mb-0"><a href="terms.html">תנאי שימוש</a> · <a href="contact.html">צור קשר</a></p>
+  <p class="mb-0"><a href="{depth}terms.html">תנאי שימוש</a> · <a href="{depth}contact.html">צור קשר</a></p>
 </footer>"""
 
 
@@ -991,7 +994,7 @@ def build_product_page(p: dict) -> str:
         updated_label = dt.strftime("%-d/%-m/%Y")
     except Exception:
         updated_label = ""
-    price_note   = f'<span class="price-note">נבדק {updated_label} · המחיר עשוי להשתנות</span>' if updated_label else ""
+    price_note_row = f'<div class="price-note-row"><span class="price-note">נבדק {updated_label} · המחיר עשוי להשתנות</span></div>' if updated_label else ""
     affiliate    = p.get("link") or f"https://www.amazon.com/dp/{asin}/?tag=eskl20-20"
     desc_he      = p.get("description_he") or "תיאור המוצר יתעדכן בקרוב."
     tiktok_url   = p.get("tiktok_url") or ""
@@ -1007,8 +1010,9 @@ def build_product_page(p: dict) -> str:
     <div class="detail-meta">
       {f'<span class="badge-rating">{rating_str}</span>' if rating_str else ""}
       {f'<span class="reviews-count">{reviews_str}</span>' if reviews_str else ""}
-      {f'<span class="price-tag">{price_str}{price_note}</span>' if price_str else ""}
-    </div>"""
+      {f'<span class="price-tag">{price_str}</span>' if price_str else ""}
+    </div>
+    {price_note_row}"""
 
     return f"""<!DOCTYPE html>
 <html lang="he" dir="rtl">
@@ -1069,7 +1073,7 @@ def build_product_page(p: dict) -> str:
   </div>''' if tiktok_video_id else ""}
 </div>
 
-{footer_html()}
+{footer_html(depth="../")}
 {BOOTSTRAP_JS}
 </body>
 </html>"""
