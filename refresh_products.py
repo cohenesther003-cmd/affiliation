@@ -212,16 +212,6 @@ def scrape_price_and_shipping(page: Page, asin: str) -> dict:
     available = not any(phrase in body for phrase in UNAVAILABLE_PHRASES)
     shipping_type = detect_shipping_type(full_text) if ships_to_israel else None
 
-    # Buy-box check: if Amazon has flagged this as "High price" and replaced the
-    # Add-to-Cart button with "See Similar Items", the product isn't directly buyable.
-    # Mark as unavailable so it gets pulled from the site.
-    has_buy_button = page.query_selector(
-        "#add-to-cart-button, #buy-now-button, input[name='submit.add-to-cart']"
-    ) is not None
-    has_high_price_warning = "high price" in body and "see similar items" in body
-    if has_high_price_warning or not has_buy_button:
-        available = False
-
     return {"price_usd": round(price, 2), "ships_to_israel": ships_to_israel, "available": available, "shipping_type": shipping_type}
 
 
