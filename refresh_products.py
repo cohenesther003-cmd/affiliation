@@ -39,6 +39,26 @@ NO_SHIP_PHRASES = [
     "not available for",
 ]
 
+def detect_shipping_type(text: str) -> str | None:
+    """Determine free shipping mode for Israel from page text."""
+    t = text.lower()
+    # Threshold-based — many phrasings on Amazon for the $49 minimum
+    threshold_phrases = [
+        "spend over $49", "spend $49 or more", "spend $49.00 or more",
+        "$49 or more on eligible", "$49.00 or more on eligible",
+        "free shipping when you spend",
+        "מעל $49", "מעל 49",
+    ]
+    if any(p in t for p in threshold_phrases):
+        return "free_over_49"
+    # Direct free shipping signals
+    if ("no import charges" in t and "free shipping" in t) \
+       or "free shipping to israel" in t \
+       or "free delivery to israel" in t:
+        return "free"
+    return "paid"
+
+
 UNAVAILABLE_PHRASES = [
     "currently unavailable",
     "we don't know when or if this item will be back in stock",
@@ -96,7 +116,7 @@ def scrape_price_and_shipping(page: Page, asin: str) -> dict:
         page.goto(f"https://www.amazon.com/dp/{asin}/", wait_until="domcontentloaded", timeout=25000)
         page.wait_for_timeout(random.randint(1500, 2500))
     except Exception:
-        return {"price_usd": 0.0, "ships_to_israel": None}
+        return {"price_usd": 0.0, "ships_to_israel": None, "available": True, "shipping_type": None}
 
     body = ""
     try:
@@ -105,7 +125,7 @@ def scrape_price_and_shipping(page: Page, asin: str) -> dict:
         pass
 
     if "robot" in body or "captcha" in body:
-        return {"price_usd": 0.0, "ships_to_israel": None, "available": True}
+        return {"price_usd": 0.0, "ships_to_israel": None, "available": True, "shipping_type": None}
 
     # ── Price ──────────────────────────────────────────────────────────
     price = 0.0
@@ -171,8 +191,9 @@ def scrape_price_and_shipping(page: Page, asin: str) -> dict:
 
     ships_to_israel = not any(phrase in full_text for phrase in NO_SHIP_PHRASES)
     available = not any(phrase in body for phrase in UNAVAILABLE_PHRASES)
+    shipping_type = detect_shipping_type(full_text) if ships_to_israel else None
 
-    return {"price_usd": round(price, 2), "ships_to_israel": ships_to_israel, "available": available}
+    return {"price_usd": round(price, 2), "ships_to_israel": ships_to_israel, "available": available, "shipping_type": shipping_type}
 
 
 def main():
@@ -204,15 +225,26 @@ def main():
         )
         page = ctx.new_page()
 
-        # Warm up cookies
+        # Warm up cookies + set Israel as delivery location so Amazon shows
+        # localized shipping info (incl. "spend over $49" threshold messages)
         page.goto("https://www.amazon.com/", wait_until="domcontentloaded", timeout=20000)
         page.wait_for_timeout(2000)
+        if set_israel_delivery(page):
+            print("✓ Set Israel as delivery location")
+            page.wait_for_timeout(1500)
 
         for i, prod in enumerate(products, 1):
             asin = prod["asin"]
             name = (prod.get("name") or asin)[:45]
             old_price = prod.get("price_usd") or 0
             was_unavailable = prod["status"] == "unavailable"
+
+            # Re-set Israel location every 30 products in case cookies expired
+            if i > 1 and i % 30 == 1:
+                page.goto("https://www.amazon.com/", wait_until="domcontentloaded", timeout=20000)
+                page.wait_for_timeout(1000)
+                set_israel_delivery(page)
+                page.wait_for_timeout(1000)
 
             result = scrape_price_and_shipping(page, asin)
 
@@ -251,6 +283,10 @@ def main():
                 restored_list.append((prod.get("name") or asin, asin))
                 print(f"[{i}/{len(products)}] {name} — RESTORED ✅")
 
+            # Save shipping type
+            if result.get("shipping_type") and result["shipping_type"] != prod.get("free_shipping_type"):
+                upsert_product(asin, {"free_shipping_type": result["shipping_type"]})
+
             # Price update
             new_price = result["price_usd"]
             if new_price > 0 and abs(new_price - old_price) > 0.05:
@@ -258,7 +294,7 @@ def main():
                 price_updated += 1
                 print(f"[{i}/{len(products)}] {name} — ${old_price:.2f} → ${new_price:.2f} ✓")
             elif not was_unavailable:
-                print(f"[{i}/{len(products)}] {name} — ${old_price:.2f} (ok)")
+                print(f"[{i}/{len(products)}] {name} — ${old_price:.2f} (ok) [{result.get('shipping_type') or '?'}]")
 
             time.sleep(random.uniform(2.0, 3.5))
 

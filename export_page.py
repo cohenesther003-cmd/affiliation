@@ -313,6 +313,17 @@ BASE_STYLES = """
       gap: 10px;
       margin-top: auto;
     }
+    .ship-badge {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-top: 6px;
+      white-space: nowrap;
+    }
+    .ship-free { background: #E8F5E9; color: #2E7D32; }
+    .ship-49   { background: #FFF3E0; color: #E65100; }
     .badge-rating {
       background: #FFF3CD;
       color: #856404;
@@ -732,9 +743,17 @@ def build_index(products: list[dict]) -> str:
         cat_label  = CATEGORY_LABELS.get(cat, cat[:18])
         cat_badge  = f'<span class="category-badge">{cat_label}</span>' if cat else ""
 
+        ship_type = p.get("free_shipping_type") or ""
+        if ship_type == "free":
+            ship_badge = '<span class="ship-badge ship-free">🚚 משלוח חינם</span>'
+        elif ship_type == "free_over_49":
+            ship_badge = '<span class="ship-badge ship-49">🚚 חינם בקנייה +$49</span>'
+        else:
+            ship_badge = ""
+
         cards += f"""
     <a class="product-card" href="products/{asin}.html"
-       data-price="{price}" data-rating="{rating}" data-category="{cat}" data-name="{name_he[:80].lower()}">
+       data-price="{price}" data-rating="{rating}" data-category="{cat}" data-ship="{ship_type}" data-name="{name_he[:80].lower()}">
       {cat_badge}
       <img class="card-img" src="{img}" alt="{name_he[:60]}" loading="lazy"
            onerror="this.src='{PLACEHOLDER_SVG}'">
@@ -744,6 +763,7 @@ def build_index(products: list[dict]) -> str:
           <span class="badge-rating">{rating_str}</span>
           <span class="card-price">{price_str}</span>
         </div>
+        {ship_badge}
       </div>
     </a>"""
 
@@ -782,6 +802,15 @@ def build_index(products: list[dict]) -> str:
       </div>
 
       <div class="filter-section">
+        <div class="filter-section-title">משלוח</div>
+        <div class="filter-chips" id="ship-chips">
+          <button class="chip active" data-ship=""              onclick="setShip(this)">הכל</button>
+          <button class="chip"        data-ship="free"          onclick="setShip(this)">🚚 משלוח חינם</button>
+          <button class="chip"        data-ship="free_over_49"  onclick="setShip(this)">חינם בקנייה +$49</button>
+        </div>
+      </div>
+
+      <div class="filter-section">
         <div class="filter-section-title">קטגוריה</div>
         <div class="filter-chips" id="cat-chips">
           <button class="chip active" data-cat="" onclick="setCat(this)">הכל</button>
@@ -797,6 +826,7 @@ def build_index(products: list[dict]) -> str:
   let activePrice  = 99999;
   let activeRating = 0;
   let activeCat    = "";
+  let activeShip   = "";
 
   let activeSuggestion = -1;
 
@@ -810,10 +840,12 @@ def build_index(products: list[dict]) -> str:
       const price  = parseFloat(c.dataset.price)  || 0;
       const rating = parseFloat(c.dataset.rating) || 0;
       const cat    = c.dataset.category || "";
+      const ship   = c.dataset.ship || "";
       const name   = c.dataset.name || "";
       const show   = price <= activePrice
                   && rating >= activeRating
                   && (activeCat === "" || cat === activeCat)
+                  && (activeShip === "" || ship === activeShip)
                   && (query === "" || name.includes(query));
       c.style.display = show ? "" : "none";
       if (show) visible++;
@@ -837,6 +869,7 @@ def build_index(products: list[dict]) -> str:
       price: activePrice,
       rating: activeRating,
       cat: activeCat,
+      ship: activeShip,
       query: document.getElementById("search-input").value || ""
     };
     sessionStorage.setItem("productGridFilters", JSON.stringify(state));
@@ -869,6 +902,12 @@ def build_index(products: list[dict]) -> str:
           b.classList.toggle("active", (b.dataset.cat || "") === s.cat);
         });
         activeCat = s.cat;
+      }
+      if (s.ship !== undefined) {
+        document.querySelectorAll("#ship-chips .chip").forEach(b => {
+          b.classList.toggle("active", (b.dataset.ship || "") === s.ship);
+        });
+        activeShip = s.ship;
       }
       return true;
     } catch (e) { return false; }
@@ -974,6 +1013,12 @@ def build_index(products: list[dict]) -> str:
     activeCat = btn.dataset.cat;
     applyFilters();
   }
+  function setShip(btn) {
+    document.querySelectorAll("#ship-chips .chip").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeShip = btn.dataset.ship || "";
+    applyFilters();
+  }
 
   document.addEventListener("DOMContentLoaded", () => {
     // Restore filter state if returning from a product page
@@ -1061,6 +1106,13 @@ def build_product_page(p: dict) -> str:
     except Exception:
         updated_label = ""
     price_note_row = f'<div class="price-note-row"><span class="price-note">נבדק {updated_label} · המחיר עשוי להשתנות</span></div>' if updated_label else ""
+    ship_type = p.get("free_shipping_type") or ""
+    if ship_type == "free":
+        detail_ship_badge = '<div style="margin-bottom:16px;"><span class="ship-badge ship-free">🚚 משלוח חינם</span></div>'
+    elif ship_type == "free_over_49":
+        detail_ship_badge = '<div style="margin-bottom:16px;"><span class="ship-badge ship-49">🚚 חינם בקנייה +$49</span></div>'
+    else:
+        detail_ship_badge = ""
     affiliate    = p.get("link") or f"https://www.amazon.com/dp/{asin}/?tag=eskl20-20"
     desc_he      = p.get("description_he") or "תיאור המוצר יתעדכן בקרוב."
     tiktok_url   = p.get("tiktok_url") or ""
@@ -1096,6 +1148,7 @@ def build_product_page(p: dict) -> str:
 
   <h1 class="detail-title">{name}</h1>
   {rating_block}
+  {detail_ship_badge}
   <hr class="divider">
 
   <a class="buy-btn" href="{affiliate}" target="_blank" rel="noopener noreferrer">
@@ -1257,6 +1310,7 @@ def build():
             "description_he": p.get("description_he") or "",
             "tiktok_url":     p.get("tiktok_url") or "",
             "updated_at":     p.get("updated_at") or "",
+            "free_shipping_type": p.get("free_shipping_type") or "",
         })
 
     DOCS.mkdir(exist_ok=True)
