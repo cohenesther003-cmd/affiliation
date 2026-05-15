@@ -61,14 +61,21 @@ def run() -> tuple[int, int]:
             passed += 1
             continue
 
-        ok, reasons = _passes(product, rules)
+        # Telegram products: apply quality filters (rating, reviews, price, shipping),
+        # but skip the category check (the channel curates across all categories)
+        rules_for_product = rules
+        if product.get("category") == "telegram":
+            rules_for_product = {k: v for k, v in rules.items() if k != "allowed_categories"}
+
+        ok, reasons = _passes(product, rules_for_product)
         if ok:
             update_status(product["asin"], "ready_for_video")
             passed += 1
         else:
             update_status(product["asin"], "filtered_out")
             filtered_out += 1
-            print(f"  Filtered out {product['asin']} ({product.get('name', '')[:40]}): {'; '.join(reasons)}")
+            name = (product.get("name") or "")[:40]
+            print(f"  Filtered out {product['asin']} ({name}): {'; '.join(reasons)}")
 
     print(f"  Filter results: {passed} ready for video, {filtered_out} filtered out.")
     return passed, filtered_out

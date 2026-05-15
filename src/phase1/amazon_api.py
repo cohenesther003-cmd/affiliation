@@ -161,15 +161,23 @@ async def _set_delivery_to_israel(page: Page) -> bool:
         await page.wait_for_timeout(2000)
         loc_btn = await page.query_selector("#nav-global-location-popover-link")
         if not loc_btn:
+            print("  [Israel] Location popover button not found — skipping")
             return False
-        await loc_btn.click()
+        try:
+            await loc_btn.click(timeout=3000)
+        except Exception:
+            print("  [Israel] Could not click location button — skipping")
+            return False
         await page.wait_for_timeout(1500)
 
         intl_link = await page.query_selector(
             ".a-popover-content a[href*='international'], .GLUXPopoverFooter a, #GLUXCountryListDropdown"
         )
         if intl_link:
-            await intl_link.click()
+            try:
+                await intl_link.click(timeout=3000)
+            except Exception:
+                pass
             await page.wait_for_timeout(1000)
 
         country_select = await page.query_selector(
@@ -178,7 +186,10 @@ async def _set_delivery_to_israel(page: Page) -> bool:
         if not country_select:
             return False
 
-        await country_select.select_option(_ISRAEL_COUNTRY_CODE)
+        try:
+            await country_select.select_option(_ISRAEL_COUNTRY_CODE, timeout=3000)
+        except Exception:
+            return False
         await page.wait_for_timeout(800)
 
         done_btn = await page.query_selector(
@@ -186,7 +197,10 @@ async def _set_delivery_to_israel(page: Page) -> bool:
             ".a-popover-footer input[type='submit'], span[data-action='GLUXCountryConfirm'] input"
         )
         if done_btn:
-            await done_btn.click()
+            try:
+                await done_btn.click(timeout=3000)
+            except Exception:
+                return False
             await page.wait_for_timeout(2000)
             print("  [Israel] Delivery location set to Israel.")
             return True
@@ -286,7 +300,7 @@ async def _validate_all(products: list[dict], partner_tag: str) -> int:
 
         for product in products:
             asin = product["asin"]
-            print(f"  {asin} — {product.get('name', '')[:50]}")
+            print(f"  {asin} — {(product.get('name') or '')[:50]}")
 
             data = await _scrape_product(page, asin, partner_tag)
 
