@@ -97,8 +97,9 @@ affiliation/
 - **Framework**: Bootstrap 5 RTL (`bootstrap.rtl.min.css`), Hebrew font: Heebo (Google Fonts)
 - **Layout**: `dir="rtl"`, sticky white header, compact orange hero banner
 - **Index page**: 3-column product grid + sticky right sidebar with filters
-- **Sidebar filters**: price ranges (up to $10/$20/$50/$75/$150), rating (4+, 4.5+), category chips
-- **Product card**: product image (260px tall) + Hebrew name + rating + price → clicks to detail page
+- **Sidebar filters**: search box (autocomplete dropdown), price ranges (up to $10/$20/$50/$75/$150), rating (4+, 4.5+), category chips
+- **Search**: live filter by Hebrew product name; autocomplete dropdown shows up to 6 matching suggestions, keyboard navigable (↑↓ Enter Escape)
+- **Product card**: product image (260px tall) + Hebrew name + rating + price → clicks to detail page; has `data-name` (lowercase Hebrew) for JS search filtering
 - **Detail page**: big image + Hebrew name + rating/price + Hebrew description + yellow "🛒 רכישה באמזון" button
 - **Nav tabs**: עמוד מוצרים / עלינו / צור קשר / תנאי שימוש
 - **Mobile**: sidebar stacks above grid, chips go horizontal, grid goes 2→1 column
@@ -106,7 +107,8 @@ affiliation/
 
 ## Key behaviors
 - **Delta scraping**: both `scraper.py` and `byotools_scrape.py` skip ASINs already in the DB
-- **ILS price handling**: scraper runs from Israeli IP → Amazon shows ILS → auto-converted to USD at ~3.65 rate
+- **ILS price handling**: scraper runs from Israeli IP → Amazon shows ILS → auto-converted to USD at ~3.65 rate. `refresh_products.py` detects both "ILS" text prefix and "₪" symbol (including in `.a-price-whole` fallback). Run after any bulk scrape to correct prices.
+- **Price refresh**: run `python refresh_products.py` to re-scrape USD prices for all `ready_for_video` products. Detects and converts ILS prices correctly. Run whenever prices look wrong.
 - **byotools pipeline**: scrapes byotools.me/byotlinks → resolves Amazon ASINs → scrapes product page
 - **Image scraping**: `amazon_api.py` captures `image_url` automatically for new products. Run `enrich_products.py` to backfill existing ones.
 - **Hebrew descriptions**: `enrich_products.py` generates 2–3 sentence Hebrew marketing descriptions using `claude --print -p` CLI (no API key needed — uses Claude Code auth)
