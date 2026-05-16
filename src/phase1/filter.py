@@ -67,10 +67,10 @@ def run() -> tuple[int, int]:
                 passed += 1
             continue
 
-        # top/telegram products: apply quality filters (rating, reviews, price, shipping),
-        # but skip the category check (hand-picked / channel curates across categories)
+        # TikTok/external curated sources: apply quality filters (rating, reviews, price, shipping),
+        # but skip the category check (channel curates across categories)
         rules_for_product = rules
-        if product.get("category") in ("top", "telegram"):
+        if product.get("category") in ("top", "telegram", "amitkapit", "bk_owner"):
             rules_for_product = {k: v for k, v in rules.items() if k != "allowed_categories"}
 
         ok, reasons = _passes(product, rules_for_product)
