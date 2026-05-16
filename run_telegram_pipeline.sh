@@ -54,4 +54,8 @@ else
     echo "No docs/ changes to push"
 fi
 
+echo ""
+echo "─── Sending email report ───"
+.venv/bin/python telegram_report.py || echo "(email report failed, continuing)"
+
 echo "─── Done: $(date) ───"

@@ -95,6 +95,11 @@ def main() -> int:
             time.sleep(0.3)
 
     print(f"Discovered {len(new_asins)} new products from Telegram")
+
+    # Write discovered ASINs for the post-pipeline email report
+    with open("/tmp/telegram_new_asins.txt", "w") as f:
+        f.write("\n".join(sorted(new_asins)))
+
     return len(new_asins)
 
 
