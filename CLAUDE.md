@@ -148,7 +148,8 @@ TikTok/external curated sources skip the `allowed_categories` check (channel cur
 ## Key behaviors
 
 - **Delta scraping**: `scraper.py`, `byotools_scrape.py`, and `amitkapit_scrape.py` all skip ASINs already in the DB
-- **ILS price handling**: scraper may run from an Israeli IP → Amazon shows ILS → auto-converted to USD at ~3.65 rate. Run `refresh_products.py` after any bulk scrape to correct prices.
+- **ILS price handling**: scraper runs from an Israeli IP → Amazon shows ILS prices → auto-converted to USD at ~3.65 rate. Run `refresh_products.py` after any bulk scrape to correct prices.
+- **Price mismatch vs. Amazon.com**: prices on the site will look lower than Amazon.com's USD prices. This is expected and correct — Amazon charges less in ILS than the USD equivalent (local pricing strategy). A logged-in US Amazon account sees the US USD price ($60), while an Israeli customer (our target audience) actually pays the ILS price (~$47). Our site shows the ILS-converted USD price, which is what Israeli shoppers actually pay. Do NOT treat this as a bug.
 - **Price scraping (amazon_api.py + refresh_products.py)**: uses `.priceToPay` selectors first — this is Amazon's class for the actual selling price. **Never use `.basisPrice`** — that is the crossed-out list/original price. ILS prices are parsed from `inner_text()` directly (no `.a-offscreen` child needed) with whitespace collapsed first, so split renders like `ILS116\n.\n63` parse correctly as `ILS116.63`.
 - **Prime shipping classification**: `refresh_products.py` distinguishes "FREE delivery to Israel with Prime" (`free_with_prime`) from universal free shipping (`free`) and threshold-based free shipping (`free_over_49`).
 - **Validate phase**: when `_scrape_product()` returns None (blocked/CAPTCHA), the product stays `discovered` for retry — it is NOT set to `filtered_out`. Only `filter.py` writes `filtered_out`.
