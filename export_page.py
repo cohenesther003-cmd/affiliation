@@ -552,7 +552,7 @@ BASE_STYLES = """
 
     /* ── Mobile filter drawer ── */
     .filter-toggle-bar { display: none; }
-    .filter-apply-bar  { display: none; }
+    .filter-apply-bar  { display: none; }  /* unused — kept for safety */
     .mobile-search     { display: none; }
     @media (max-width: 767px) {
       .filter-toggle-bar {
@@ -612,7 +612,7 @@ BASE_STYLES = """
         background: #F7F7F7;
         z-index: 1050;
         overflow-y: auto;
-        padding: 16px 16px 90px;
+        padding: 16px 16px 24px;
         transition: right .25s ease;
         box-shadow: -4px 0 14px rgba(0,0,0,.15);
       }
@@ -636,20 +636,9 @@ BASE_STYLES = """
         padding: 0;
         margin-bottom: 8px;
       }
-      .filter-apply-bar {
-        display: none;
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        width: 88%;
-        max-width: 360px;
-        padding: 12px 16px;
-        background: #fff;
-        border-top: 1px solid #E5E5EA;
-        z-index: 1060;
-        box-shadow: 0 -2px 8px rgba(0,0,0,.06);
+      .filter-apply-btn {
+        margin-top: 16px;
       }
-      .filter-apply-bar.open { display: block; }
       .filter-apply-btn {
         width: 100%;
         background: #FF6B35;
@@ -825,6 +814,7 @@ def build_index(products: list[dict]) -> str:
       </div>
 
       <div id="results-count"></div>
+      <button class="filter-apply-btn d-md-none" onclick="closeFilterDrawer()" id="filter-apply-btn">הצג {count} מוצרים</button>
     </aside>"""
 
     filter_js = """
@@ -922,13 +912,11 @@ def build_index(products: list[dict]) -> str:
   function openFilterDrawer() {
     document.getElementById("filter-sidebar").classList.add("open");
     document.getElementById("filter-backdrop").classList.add("open");
-    document.getElementById("filter-apply-bar").classList.add("open");
     document.body.style.overflow = "hidden";
   }
   function closeFilterDrawer() {
     document.getElementById("filter-sidebar").classList.remove("open");
     document.getElementById("filter-backdrop").classList.remove("open");
-    document.getElementById("filter-apply-bar").classList.remove("open");
     document.body.style.overflow = "";
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -1074,9 +1062,6 @@ def build_index(products: list[dict]) -> str:
     </div>
   </div>
   <div class="filter-backdrop" id="filter-backdrop" onclick="closeFilterDrawer()"></div>
-  <div class="filter-apply-bar" id="filter-apply-bar">
-    <button class="filter-apply-btn" onclick="closeFilterDrawer()" id="filter-apply-btn">הצג {count} מוצרים</button>
-  </div>
   <div class="page-layout">
     {sidebar}
     <div class="grid-area">

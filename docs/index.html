@@ -518,7 +518,7 @@
 
     /* ── Mobile filter drawer ── */
     .filter-toggle-bar { display: none; }
-    .filter-apply-bar  { display: none; }
+    .filter-apply-bar  { display: none; }  /* unused — kept for safety */
     .mobile-search     { display: none; }
     @media (max-width: 767px) {
       .filter-toggle-bar {
@@ -578,7 +578,7 @@
         background: #F7F7F7;
         z-index: 1050;
         overflow-y: auto;
-        padding: 16px 16px 90px;
+        padding: 16px 16px 24px;
         transition: right .25s ease;
         box-shadow: -4px 0 14px rgba(0,0,0,.15);
       }
@@ -602,20 +602,9 @@
         padding: 0;
         margin-bottom: 8px;
       }
-      .filter-apply-bar {
-        display: none;
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        width: 88%;
-        max-width: 360px;
-        padding: 12px 16px;
-        background: #fff;
-        border-top: 1px solid #E5E5EA;
-        z-index: 1060;
-        box-shadow: 0 -2px 8px rgba(0,0,0,.06);
+      .filter-apply-btn {
+        margin-top: 16px;
       }
-      .filter-apply-bar.open { display: block; }
       .filter-apply-btn {
         width: 100%;
         background: #FF6B35;
@@ -662,9 +651,6 @@
     </div>
   </div>
   <div class="filter-backdrop" id="filter-backdrop" onclick="closeFilterDrawer()"></div>
-  <div class="filter-apply-bar" id="filter-apply-bar">
-    <button class="filter-apply-btn" onclick="closeFilterDrawer()" id="filter-apply-btn">הצג 331 מוצרים</button>
-  </div>
   <div class="page-layout">
     
     <aside class="filter-sidebar" id="filter-sidebar">
@@ -716,24 +702,11 @@
       </div>
 
       <div id="results-count"></div>
+      <button class="filter-apply-btn d-md-none" onclick="closeFilterDrawer()" id="filter-apply-btn">הצג 331 מוצרים</button>
     </aside>
     <div class="grid-area">
       <div class="product-grid" id="grid">
         
-    <a class="product-card" href="products/B0D8Q5C922.html"
-       data-price="39.99" data-rating="0" data-category="byotools" data-ship="paid" data-name="בטנת סיליקון לדלי 20 ליטר רב-שימושית">
-      <span class="category-badge">BYOTOOLS</span>
-      <img class="card-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E" alt="בטנת סיליקון לדלי 20 ליטר רב-שימושית" loading="lazy"
-           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
-      <div class="card-body">
-        <div class="card-name">בטנת סיליקון לדלי 20 ליטר רב-שימושית</div>
-        <div class="card-meta">
-          <span class="badge-rating">—</span>
-          <span class="card-price">$39.99</span>
-        </div>
-        
-      </div>
-    </a>
     <a class="product-card" href="products/B001FZCVTM.html"
        data-price="2.87" data-rating="4.8" data-category="Best Sellers Sports Outdoors" data-ship="paid" data-name="כדורי טניס וילסון">
       <span class="category-badge">ספורט וטבע</span>
@@ -772,6 +745,118 @@
         <div class="card-meta">
           <span class="badge-rating">⭐ 4.2</span>
           <span class="card-price">$21.99</span>
+        </div>
+        
+      </div>
+    </a>
+    <a class="product-card" href="products/B08B3N8M83.html"
+       data-price="66.49" data-rating="4.4" data-category="telegram" data-ship="free" data-name="תיק גג לרכב 425 ליטר עמיד למים">
+      <span class="category-badge">telegram</span>
+      <img class="card-img" src="https://m.media-amazon.com/images/I/51vJyUHAP-L._AC_SL1500_.jpg" alt="תיק גג לרכב 425 ליטר עמיד למים" loading="lazy"
+           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
+      <div class="card-body">
+        <div class="card-name">תיק גג לרכב 425 ליטר עמיד למים</div>
+        <div class="card-meta">
+          <span class="badge-rating">⭐ 4.4</span>
+          <span class="card-price">$66.49</span>
+        </div>
+        <span class="ship-badge ship-free">🚚 משלוח חינם</span>
+      </div>
+    </a>
+    <a class="product-card" href="products/B0D369CGVQ.html"
+       data-price="71.96" data-rating="4.4" data-category="telegram" data-ship="free" data-name="aeropress go plus – מכין קפה נייד">
+      <span class="category-badge">telegram</span>
+      <img class="card-img" src="https://m.media-amazon.com/images/I/612AL+7Yv1L._AC_SL1500_.jpg" alt="AeroPress Go Plus – מכין קפה נייד" loading="lazy"
+           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
+      <div class="card-body">
+        <div class="card-name">AeroPress Go Plus – מכין קפה נייד</div>
+        <div class="card-meta">
+          <span class="badge-rating">⭐ 4.4</span>
+          <span class="card-price">$71.96</span>
+        </div>
+        <span class="ship-badge ship-free">🚚 משלוח חינם</span>
+      </div>
+    </a>
+    <a class="product-card" href="products/B0FH6PT5GC.html"
+       data-price="59.99" data-rating="4.5" data-category="telegram" data-ship="free" data-name="מנפח אוויר חשמלי נטען fanttik b10 pro max">
+      <span class="category-badge">telegram</span>
+      <img class="card-img" src="https://m.media-amazon.com/images/I/61DtOwQAXlL._AC_SL1500_.jpg" alt="מנפח אוויר חשמלי נטען Fanttik B10 Pro Max" loading="lazy"
+           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
+      <div class="card-body">
+        <div class="card-name">מנפח אוויר חשמלי נטען Fanttik B10 Pro Max</div>
+        <div class="card-meta">
+          <span class="badge-rating">⭐ 4.5</span>
+          <span class="card-price">$59.99</span>
+        </div>
+        <span class="ship-badge ship-free">🚚 משלוח חינם</span>
+      </div>
+    </a>
+    <a class="product-card" href="products/B0FR97DDPW.html"
+       data-price="66.97" data-rating="4.6" data-category="telegram" data-ship="free" data-name="קופסת מסמכים חסינת אש ומים עם מנעול">
+      <span class="category-badge">telegram</span>
+      <img class="card-img" src="https://m.media-amazon.com/images/I/71rm--P3c7L._AC_SL1500_.jpg" alt="קופסת מסמכים חסינת אש ומים עם מנעול" loading="lazy"
+           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
+      <div class="card-body">
+        <div class="card-name">קופסת מסמכים חסינת אש ומים עם מנעול</div>
+        <div class="card-meta">
+          <span class="badge-rating">⭐ 4.6</span>
+          <span class="card-price">$66.97</span>
+        </div>
+        <span class="ship-badge ship-free">🚚 משלוח חינם</span>
+      </div>
+    </a>
+    <a class="product-card" href="products/B00G3LST76.html"
+       data-price="122.14" data-rating="4.6" data-category="telegram" data-ship="paid" data-name="שעון guess נירוסטה כחול">
+      <span class="category-badge">telegram</span>
+      <img class="card-img" src="https://m.media-amazon.com/images/I/71gKB2dqTHL._AC_SL1280_.jpg" alt="שעון Guess נירוסטה כחול" loading="lazy"
+           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
+      <div class="card-body">
+        <div class="card-name">שעון Guess נירוסטה כחול</div>
+        <div class="card-meta">
+          <span class="badge-rating">⭐ 4.6</span>
+          <span class="card-price">$122.14</span>
+        </div>
+        
+      </div>
+    </a>
+    <a class="product-card" href="products/B0DWRJDDTY.html"
+       data-price="39.92" data-rating="4.3" data-category="telegram" data-ship="paid" data-name="זרי נורות סולאריות לגינה ip65">
+      <span class="category-badge">telegram</span>
+      <img class="card-img" src="https://m.media-amazon.com/images/I/71bHTQg9hwL._AC_SL1500_.jpg" alt="זרי נורות סולאריות לגינה IP65" loading="lazy"
+           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
+      <div class="card-body">
+        <div class="card-name">זרי נורות סולאריות לגינה IP65</div>
+        <div class="card-meta">
+          <span class="badge-rating">⭐ 4.3</span>
+          <span class="card-price">$39.92</span>
+        </div>
+        
+      </div>
+    </a>
+    <a class="product-card" href="products/B0D4H74QHF.html"
+       data-price="49.99" data-rating="4.2" data-category="telegram" data-ship="free" data-name="אוהל חוף עם הגנת uv upf 50+">
+      <span class="category-badge">telegram</span>
+      <img class="card-img" src="https://m.media-amazon.com/images/I/71jWj8lNXVL._AC_SL1500_.jpg" alt="אוהל חוף עם הגנת UV UPF 50+" loading="lazy"
+           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
+      <div class="card-body">
+        <div class="card-name">אוהל חוף עם הגנת UV UPF 50+</div>
+        <div class="card-meta">
+          <span class="badge-rating">⭐ 4.2</span>
+          <span class="card-price">$49.99</span>
+        </div>
+        <span class="ship-badge ship-free">🚚 משלוח חינם</span>
+      </div>
+    </a>
+    <a class="product-card" href="products/B0D8Q5C922.html"
+       data-price="39.99" data-rating="0" data-category="byotools" data-ship="paid" data-name="בטנת סיליקון לדלי 20 ליטר רב-שימושית">
+      <span class="category-badge">BYOTOOLS</span>
+      <img class="card-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E" alt="בטנת סיליקון לדלי 20 ליטר רב-שימושית" loading="lazy"
+           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
+      <div class="card-body">
+        <div class="card-name">בטנת סיליקון לדלי 20 ליטר רב-שימושית</div>
+        <div class="card-meta">
+          <span class="badge-rating">—</span>
+          <span class="card-price">$39.99</span>
         </div>
         
       </div>
@@ -2162,20 +2247,6 @@
         
       </div>
     </a>
-    <a class="product-card" href="products/B0D4H74QHF.html"
-       data-price="49.99" data-rating="4.2" data-category="telegram" data-ship="free" data-name="אוהל חוף עם הגנת uv upf 50+">
-      <span class="category-badge">telegram</span>
-      <img class="card-img" src="https://m.media-amazon.com/images/I/71jWj8lNXVL._AC_SL1500_.jpg" alt="אוהל חוף עם הגנת UV UPF 50+" loading="lazy"
-           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
-      <div class="card-body">
-        <div class="card-name">אוהל חוף עם הגנת UV UPF 50+</div>
-        <div class="card-meta">
-          <span class="badge-rating">⭐ 4.2</span>
-          <span class="card-price">$49.99</span>
-        </div>
-        <span class="ship-badge ship-free">🚚 משלוח חינם</span>
-      </div>
-    </a>
     <a class="product-card" href="products/B0FP15NZVP.html"
        data-price="29.99" data-rating="0" data-category="byotools" data-ship="paid" data-name="חופר יתדות ידני כבד עם להבים כפולים — 1.4 מ'">
       <span class="category-badge">BYOTOOLS</span>
@@ -2186,34 +2257,6 @@
         <div class="card-meta">
           <span class="badge-rating">—</span>
           <span class="card-price">$29.99</span>
-        </div>
-        
-      </div>
-    </a>
-    <a class="product-card" href="products/B0DWRJDDTY.html"
-       data-price="39.92" data-rating="4.3" data-category="telegram" data-ship="paid" data-name="זרי נורות סולאריות לגינה ip65">
-      <span class="category-badge">telegram</span>
-      <img class="card-img" src="https://m.media-amazon.com/images/I/71bHTQg9hwL._AC_SL1500_.jpg" alt="זרי נורות סולאריות לגינה IP65" loading="lazy"
-           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
-      <div class="card-body">
-        <div class="card-name">זרי נורות סולאריות לגינה IP65</div>
-        <div class="card-meta">
-          <span class="badge-rating">⭐ 4.3</span>
-          <span class="card-price">$39.92</span>
-        </div>
-        
-      </div>
-    </a>
-    <a class="product-card" href="products/B00G3LST76.html"
-       data-price="122.14" data-rating="4.6" data-category="telegram" data-ship="paid" data-name="שעון guess נירוסטה כחול">
-      <span class="category-badge">telegram</span>
-      <img class="card-img" src="https://m.media-amazon.com/images/I/71gKB2dqTHL._AC_SL1280_.jpg" alt="שעון Guess נירוסטה כחול" loading="lazy"
-           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
-      <div class="card-body">
-        <div class="card-name">שעון Guess נירוסטה כחול</div>
-        <div class="card-meta">
-          <span class="badge-rating">⭐ 4.6</span>
-          <span class="card-price">$122.14</span>
         </div>
         
       </div>
@@ -2232,20 +2275,6 @@
         
       </div>
     </a>
-    <a class="product-card" href="products/B0FR97DDPW.html"
-       data-price="66.97" data-rating="4.6" data-category="telegram" data-ship="free" data-name="קופסת מסמכים חסינת אש ומים עם מנעול">
-      <span class="category-badge">telegram</span>
-      <img class="card-img" src="https://m.media-amazon.com/images/I/71rm--P3c7L._AC_SL1500_.jpg" alt="קופסת מסמכים חסינת אש ומים עם מנעול" loading="lazy"
-           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
-      <div class="card-body">
-        <div class="card-name">קופסת מסמכים חסינת אש ומים עם מנעול</div>
-        <div class="card-meta">
-          <span class="badge-rating">⭐ 4.6</span>
-          <span class="card-price">$66.97</span>
-        </div>
-        <span class="ship-badge ship-free">🚚 משלוח חינם</span>
-      </div>
-    </a>
     <a class="product-card" href="products/B0FQJVDJW9.html"
        data-price="179.9" data-rating="0" data-category="byotools" data-ship="paid" data-name="דלת חיות חכמה אוטומטית עם חיישן">
       <span class="category-badge">BYOTOOLS</span>
@@ -2260,20 +2289,6 @@
         
       </div>
     </a>
-    <a class="product-card" href="products/B0FH6PT5GC.html"
-       data-price="59.99" data-rating="4.5" data-category="telegram" data-ship="free" data-name="מנפח אוויר חשמלי נטען fanttik b10 pro max">
-      <span class="category-badge">telegram</span>
-      <img class="card-img" src="https://m.media-amazon.com/images/I/61DtOwQAXlL._AC_SL1500_.jpg" alt="מנפח אוויר חשמלי נטען Fanttik B10 Pro Max" loading="lazy"
-           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
-      <div class="card-body">
-        <div class="card-name">מנפח אוויר חשמלי נטען Fanttik B10 Pro Max</div>
-        <div class="card-meta">
-          <span class="badge-rating">⭐ 4.5</span>
-          <span class="card-price">$59.99</span>
-        </div>
-        <span class="ship-badge ship-free">🚚 משלוח חינם</span>
-      </div>
-    </a>
     <a class="product-card" href="products/B08KTMTV3G.html"
        data-price="11.99" data-rating="0" data-category="byotools" data-ship="paid" data-name="כיסוי שקע דקורטיבי פליז עתיק – 2 יח'">
       <span class="category-badge">BYOTOOLS</span>
@@ -2286,34 +2301,6 @@
           <span class="card-price">$11.99</span>
         </div>
         
-      </div>
-    </a>
-    <a class="product-card" href="products/B0D369CGVQ.html"
-       data-price="71.96" data-rating="4.4" data-category="telegram" data-ship="free" data-name="aeropress go plus – מכין קפה נייד">
-      <span class="category-badge">telegram</span>
-      <img class="card-img" src="https://m.media-amazon.com/images/I/612AL+7Yv1L._AC_SL1500_.jpg" alt="AeroPress Go Plus – מכין קפה נייד" loading="lazy"
-           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
-      <div class="card-body">
-        <div class="card-name">AeroPress Go Plus – מכין קפה נייד</div>
-        <div class="card-meta">
-          <span class="badge-rating">⭐ 4.4</span>
-          <span class="card-price">$71.96</span>
-        </div>
-        <span class="ship-badge ship-free">🚚 משלוח חינם</span>
-      </div>
-    </a>
-    <a class="product-card" href="products/B08B3N8M83.html"
-       data-price="66.49" data-rating="4.4" data-category="telegram" data-ship="free" data-name="תיק גג לרכב 425 ליטר עמיד למים">
-      <span class="category-badge">telegram</span>
-      <img class="card-img" src="https://m.media-amazon.com/images/I/51vJyUHAP-L._AC_SL1500_.jpg" alt="תיק גג לרכב 425 ליטר עמיד למים" loading="lazy"
-           onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
-      <div class="card-body">
-        <div class="card-name">תיק גג לרכב 425 ליטר עמיד למים</div>
-        <div class="card-meta">
-          <span class="badge-rating">⭐ 4.4</span>
-          <span class="card-price">$66.49</span>
-        </div>
-        <span class="ship-badge ship-free">🚚 משלוח חינם</span>
       </div>
     </a>
     <a class="product-card" href="products/B0DKC4H76K.html"
@@ -5472,13 +5459,11 @@
   function openFilterDrawer() {
     document.getElementById("filter-sidebar").classList.add("open");
     document.getElementById("filter-backdrop").classList.add("open");
-    document.getElementById("filter-apply-bar").classList.add("open");
     document.body.style.overflow = "hidden";
   }
   function closeFilterDrawer() {
     document.getElementById("filter-sidebar").classList.remove("open");
     document.getElementById("filter-backdrop").classList.remove("open");
-    document.getElementById("filter-apply-bar").classList.remove("open");
     document.body.style.overflow = "";
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
