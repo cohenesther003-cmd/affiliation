@@ -56,8 +56,9 @@ affiliation/
 ├── enrich_products.py            # Generates rich 4-5 sentence Hebrew descriptions; resets short stubs (<200 chars) on each run
 ├── translate_names.py            # Batch-translates product names to natural Hebrew (15 per Claude call). --retranslate flag clears all and re-runs
 ├── byotools_scrape.py            # Scrapes byotools.me/byotlinks → finds Amazon ASINs → checks price/shipping/rating
-├── telegram_scrape.py            # Polls public Telegram channel (t.me/s/{CHANNEL}) → extracts Amazon links → ingests new ASINs as status='discovered', category='telegram'
-├── run_telegram_pipeline.sh      # Orchestrator: telegram_scrape → validate → filter → translate → enrich → export → push (run every 6h by launchd)
+├── telegram_scrape.py            # Polls public Telegram channel (t.me/s/{CHANNEL}) → extracts Amazon links → ingests new ASINs as status='discovered', category='telegram'. Writes discovered ASINs to /tmp/telegram_new_asins.txt for the email report.
+├── telegram_report.py            # Sends Hebrew email report to toppickp@gmail.com after each Telegram pipeline run: lists products that passed/failed filters
+├── run_telegram_pipeline.sh      # Orchestrator: telegram_scrape → validate → filter → translate → enrich → export → push → telegram_report email (run every 6h by launchd)
 ├── update_ratings.py             # Re-scrapes ratings for products with rating=0 (bot-safe)
 ├── verify_israel_shipping.py     # Re-verifies Israel shipping for all ready_for_video products
 ├── fix_missing_names.py          # Fixes products where name = ASIN (name never scraped)
@@ -81,7 +82,7 @@ affiliation/
 | ships_to_israel | INTEGER | 0 or 1 |
 | free_shipping_type | TEXT | NULL / 'free' / 'free_over_49' / 'paid' — Israel free-shipping classification |
 | affiliate_link | TEXT | Built as amazon.com/dp/{ASIN}/?tag=eskl20-20 |
-| source_video_url | TEXT | NULL until Phase 2 |
+| source_video_url | TEXT | TikTok URL of the @byotools video that featured this product (set for 'top' category products); also used by Phase 2 |
 | image_url | TEXT | Amazon product image URL (scraped by amazon_api.py / enrich_products.py) |
 | description_he | TEXT | Rich 4-5 sentence Hebrew marketing description (no niqqud, metric units) |
 | tiktok_url | TEXT | TikTok video URL for products that have a matched video |
@@ -110,9 +111,9 @@ affiliation/
 - **Detail page**: big image + Hebrew name + rating/price (with "נבדק [date] · המחיר עשוי להשתנות" note aligned right under the rating) + shipping badge + yellow "🛒 רכישה באמזון" button (always visible above the fold) + Hebrew description (collapses to 3 lines, "הצג עוד / הצג פחות" toggle) + optional TikTok video
 - **Scroll restore**: clicking a product card saves `window.scrollY` to `sessionStorage`; returning to the grid restores the position so users don't lose their place
 - **Nav tabs (always visible, no hamburger)**: עמוד מוצרים / צור קשר / תנאי שימוש (active tab gets orange color, no underline)
-- **Mobile**: sidebar becomes a slide-in drawer triggered by "סינון" button next to a search input (both always visible at top); drawer has sticky "הצג X מוצרים" apply button at bottom that closes the drawer and scrolls to top; grid goes 2→1 column
+- **Mobile**: sidebar becomes a slide-in drawer triggered by "סינון" button next to a search input (both always visible at top); "הצג X מוצרים" apply button sits inside the drawer right after the product count (not fixed at bottom); close button (✕) is at top-right of the drawer; grid goes 2→1 column
 - **Footer**: social icons (TikTok @toppickproducts7 / Instagram placeholder / mailto:toppickp@gmail.com) + brand line + terms/contact links (depth-prefixed paths so they work from product subpages)
-- **Category labels**: byotools → BYOTOOLS, telegram → TELEGRAM, Best Sellers Kitchen Dining → מטבח ואוכל, etc.
+- **Category labels**: top → ⭐ TOP, byotools → BYOTOOLS, telegram → TELEGRAM, Best Sellers Kitchen Dining → מטבח ואוכל, etc.
 
 ## Key behaviors
 - **Delta scraping**: both `scraper.py` and `byotools_scrape.py` skip ASINs already in the DB
@@ -122,11 +123,12 @@ affiliation/
 - **Image scraping**: `amazon_api.py` captures `image_url` automatically for new products. Run `enrich_products.py` to backfill existing ones.
 - **Hebrew descriptions**: `enrich_products.py` generates rich 4–5 sentence Hebrew marketing descriptions using `claude --print -p` CLI (no API key needed). The prompt includes category, rating, review count, and price for context. Prompt forbids niqqud and forces metric units (no inches/feet/lb/oz/gallons). Each run automatically resets any existing descriptions shorter than 200 chars so they get regenerated with the richer prompt.
 - **Hebrew name translation**: `translate_names.py` sends 15 names per batch to Claude CLI → saves `name_he` to DB. Prompt enforces natural Hebrew terminology (e.g. "Door Stop" → "מעצור דלת", not literal "עצור דלת"), forbids niqqud, and converts imperial units (inch→ס"מ, ft→מטר, lb→ק"ג, oz→גרם, gallon→ליטר). Safe to re-run (skips already-translated). Use `python translate_names.py --retranslate` to clear all `name_he` and re-translate everything.
-- **Daily refresh schedule**: `refresh_products.py` runs daily at 8:00 AM via Mac launchd (`~/Library/LaunchAgents/me.affiliation.daily-refresh.plist`). Detects price changes (uses ONLY specific buy-box selectors — no generic `.a-price` fallback to avoid grabbing variant/seller prices), sets `unavailable` for out-of-stock products, `filtered_out` for products that no longer ship to Israel, detects free-shipping type (free / free_over_49 / paid), auto-restores recovered products, and sends a Hebrew email report to `GMAIL_USER` (toppickp@gmail.com) via Gmail SMTP App Password.
-- **Telegram pipeline**: `telegram_scrape.py` polls `t.me/s/haregakaniti` (public web preview, no auth) and extracts Amazon URLs from recent messages. Short links (amzn.to, a.co, amzn.eu) are resolved via redirect. New ASINs go in as `status='discovered'`, `category='telegram'`. The orchestrator `run_telegram_pipeline.sh` then runs validate → filter → translate → enrich → export → git push. Filter skips the `allowed_categories` check for telegram products (channel curates across categories) but still applies rating/reviews/price/shipping rules. Runs every 6h (2 AM / 8:15 AM / 2 PM / 8 PM) via `~/Library/LaunchAgents/me.affiliation.telegram-ingest.plist`. Logs to `/tmp/affiliation-telegram.log`.
-- **Filter rules**: products with `category='byotools'` bypass ALL filter rules (pre-filtered at scrape time). Products with `category='telegram'` bypass only the `allowed_categories` check. All other products go through every rule in `config.yaml` filters.
+- **Daily refresh schedule**: `refresh_products.py` runs daily at 8:00 AM UTC (= ~11:00 AM Israel time) via Mac launchd (`~/Library/LaunchAgents/me.affiliation.daily-refresh.plist`). The plist says `Hour: 8` but the Mac clock runs in UTC, so it fires at 11 AM Israel time. Detects price changes (uses ONLY specific buy-box selectors — no generic `.a-price` fallback to avoid grabbing variant/seller prices), sets `unavailable` for out-of-stock products, `filtered_out` for products that no longer ship to Israel, detects free-shipping type (free / free_over_49 / paid), auto-restores recovered products, and sends a Hebrew email report to `GMAIL_USER` (toppickp@gmail.com) via Gmail SMTP App Password.
+- **Telegram pipeline**: `telegram_scrape.py` polls `t.me/s/haregakaniti` (public web preview, no auth) and extracts Amazon URLs from recent messages. Short links (amzn.to, a.co, amzn.eu) are resolved via redirect. New ASINs go in as `status='discovered'`, `category='telegram'`. The orchestrator `run_telegram_pipeline.sh` then runs validate → filter → translate → enrich → export → git push → email report. After each run, `telegram_report.py` emails a Hebrew summary to `toppickp@gmail.com` listing which products passed/failed filters. Filter skips the `allowed_categories` check for telegram products (channel curates across categories) but still applies rating/reviews/price/shipping rules. Runs every 6h (2 AM / 8:15 AM / 2 PM / 8 PM) via `~/Library/LaunchAgents/me.affiliation.telegram-ingest.plist`. Logs to `/tmp/affiliation-telegram.log`.
+- **Filter rules**: products with `category='byotools'` or `category='top'` bypass ALL filter rules (pre-filtered/hand-picked). Products with `category='telegram'` bypass only the `allowed_categories` check. All other products go through every rule in `config.yaml` filters.
+- **Top category**: 20 hand-picked byotools products with the highest @byotools TikTok view counts (≥5K views), rating ≥ 4, ships to Israel, price ≤ $100. Their `source_video_url` points to the matching @byotools TikTok video. Shown with ⭐ TOP badge on the site. These are the priority products for Phase 2 video creation.
 - **Public site update**: run `export_page.py` → regenerates all of `docs/` → push to GitHub
-- **byotools filter bypass**: products with `category="byotools"` skip Amazon filter rules (min_rating, min_reviews)
+- **byotools/top filter bypass**: products with `category="byotools"` or `category="top"` skip all Amazon filter rules (pre-filtered/hand-picked at source)
 - **Rating update**: run `python update_ratings.py` to fill in missing ratings. Uses 2.5–4.5s delays + cookie re-warm every 30 products.
 - **Israel shipping verification**: run `python verify_israel_shipping.py` to re-check all ready_for_video products. Re-sets location every 5 products.
 - **Phase 2 video**: run `python main.py --phase video --limit 20 --max-price 75 --ships-to-israel`
