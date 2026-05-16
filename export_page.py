@@ -714,6 +714,7 @@ def head_html(title: str, extra_css: str = "") -> str:
 # ── Index page ─────────────────────────────────────────────────────────────
 
 CATEGORY_LABELS = {
+    "top": "⭐ TOP",
     "byotools": "BYOTOOLS",
     "Best Sellers Kitchen Dining": "מטבח ואוכל",
     "Best Sellers Sports Outdoors": "ספורט וטבע",
