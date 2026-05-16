@@ -145,45 +145,52 @@ def scrape_price_and_shipping(page: Page, asin: str) -> dict:
         return {"price_usd": 0.0, "ships_to_israel": None, "available": True, "shipping_type": None}
 
     # ── Price ──────────────────────────────────────────────────────────
-    # IMPORTANT: only use buy-box-specific selectors. The generic '.a-price .a-offscreen'
-    # used to be in this list as a fallback but it falsely matched prices from
-    # variants/seller-lists/recommendations, producing wrong (usually lower) prices.
-    # Better to return 0 (no update) than save a wrong price.
+    # .priceToPay is the actual selling price. .basisPrice is the struck-out list price.
+    # Read inner_text() of .priceToPay directly — .a-offscreen child may not exist.
     price = 0.0
-    price_selectors = [
-        "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
-        "#apex_offerDisplay_desktop .a-price .a-offscreen",
-        "#corePrice_feature_div .a-price .a-offscreen",
-        "#corePrice_desktop .a-price .a-offscreen",
-        "#price_inside_buybox",
-        "#priceblock_ourprice",
-        "#buybox .a-price .a-offscreen",
-        "#qualifiedBuybox .a-price .a-offscreen",
-    ]
-    for sel in price_selectors:
+
+    def _parse_raw(raw: str) -> float:
+        # Collapse whitespace so split renders like "ILS116\n.\n63" become "ILS116.63"
+        raw = re.sub(r"\s+", "", raw).replace(",", "")
+        m = re.search(r"\$([\d]+\.?\d*)", raw)
+        if m:
+            v = float(m.group(1))
+            return v if v > 0 else 0.0
+        m = re.search(r"(?:ILS|₪)([\d]+\.?\d*)", raw)
+        if m:
+            ils = float(m.group(1))
+            return round(ils * ILS_TO_USD, 2) if ils > 0 else 0.0
+        return 0.0
+
+    # Strategy 1: .priceToPay inner_text (actual selling price, not list price)
+    for sel in [
+        "#corePriceDisplay_desktop_feature_div .priceToPay",
+        "#apex_offerDisplay_desktop .priceToPay",
+        "#corePrice_feature_div .priceToPay",
+        ".priceToPay",
+    ]:
         try:
             el = page.query_selector(sel)
-            if not el:
-                continue
-            raw = el.inner_text().strip()
-            # USD price
-            m = re.search(r"\$(\d[\d,]*\.?\d*)", raw)
-            if m:
-                price = float(m.group(1).replace(",", ""))
+            if el:
+                price = _parse_raw(el.inner_text().strip())
                 if price > 0:
-                    break
-            # ILS price — "ILS 123" or "₪123"
-            m_ils = re.search(r"(?:ILS\s*|₪\s*)([\d,]+\.?\d*)", raw)
-            if m_ils:
-                ils = float(m_ils.group(1).replace(",", ""))
-                if ils > 0:
-                    price = round(ils * ILS_TO_USD, 2)
                     break
         except Exception:
             continue
 
-    # Fallback: whole + fraction — but only inside the core price feature div,
-    # NOT the generic '.a-price-whole' (which matches variants and seller lists too)
+    # Strategy 2: legacy buy-box selectors (older page layouts)
+    if price <= 0:
+        for sel in ["#price_inside_buybox", "#priceblock_ourprice", "#priceblock_dealprice"]:
+            try:
+                el = page.query_selector(sel)
+                if el:
+                    price = _parse_raw(el.inner_text().strip())
+                    if price > 0:
+                        break
+            except Exception:
+                continue
+
+    # Strategy 3: whole + fraction scoped inside buy-box — avoids variant/seller prices
     if price <= 0:
         try:
             scope = page.query_selector("#corePriceDisplay_desktop_feature_div, #corePrice_feature_div, #apex_offerDisplay_desktop")
@@ -197,10 +204,7 @@ def scrape_price_and_shipping(page: Page, asin: str) -> dict:
                     candidate = float(f"{w}.{f}")
                     sym = symbol.inner_text().strip() if symbol else "$"
                     if candidate > 0:
-                        if sym == "₪" or sym.upper() == "ILS":
-                            price = round(candidate * ILS_TO_USD, 2)
-                        else:
-                            price = candidate
+                        price = round(candidate * ILS_TO_USD, 2) if sym in ("₪", "ILS") else candidate
         except Exception:
             pass
 

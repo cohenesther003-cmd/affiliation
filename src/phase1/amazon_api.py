@@ -44,14 +44,27 @@ def _parse_review_count(text: str) -> int | None:
     return int(match.group(1)) if match else None
 
 
+ILS_TO_USD = 1 / 3.65
+
 def _parse_price(text: str) -> float | None:
-    match = re.search(r"\$(\d[\d,]*\.?\d*)", text.replace(",", ""))
-    if match:
+    # Collapse newlines/spaces so split price renders like "ILS116\n.\n63" become "ILS116.63"
+    clean = re.sub(r"\s+", "", text).replace(",", "")
+    # USD
+    m = re.search(r"\$(\d[\d]*\.?\d*)", clean)
+    if m:
         try:
-            val = float(match.group(1))
+            val = float(m.group(1))
             return val if val > 0 else None
         except ValueError:
-            return None
+            pass
+    # ILS — "ILS116.63" or "₪116.63"
+    m = re.search(r"(?:ILS|₪)([\d]+\.?\d*)", clean)
+    if m:
+        try:
+            ils = float(m.group(1))
+            return round(ils * ILS_TO_USD, 2) if ils > 0 else None
+        except ValueError:
+            pass
     return None
 
 
@@ -97,41 +110,53 @@ async def _extract_review_count(page: Page) -> int | None:
 
 
 async def _extract_price(page: Page) -> float | None:
-    # Prefer the regular (non-Prime) price first via basisPrice selectors,
-    # then fall back to the main buy-box price.
-    # Never use generic ".a-price .a-offscreen" — it matches Prime badges,
-    # variant/seller-list prices, and other off-target elements.
-    priority_selectors = [
-        "#corePriceDisplay_desktop_feature_div .basisPrice .a-offscreen",
-        "#corePriceDisplay_desktop_feature_div .basisPrice span",
-        "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
-        "#apex_offerDisplay_desktop .a-price .a-offscreen",
-        "#corePrice_feature_div .a-price .a-offscreen",
-        "#price_inside_buybox",
-        "#priceblock_ourprice",
-        "#priceblock_dealprice",
-        "#sns-base-price",
-    ]
-    for selector in priority_selectors:
-        els = await page.query_selector_all(selector)
+    # Strategy 1: .priceToPay is the actual selling price (not the struck-out .basisPrice).
+    # The element may or may not have an .a-offscreen child, so read inner_text directly.
+    # Try scoped to buy-box containers first; fall back to any .priceToPay on the page.
+    for sel in [
+        "#corePriceDisplay_desktop_feature_div .priceToPay",
+        "#apex_offerDisplay_desktop .priceToPay",
+        "#corePrice_feature_div .priceToPay",
+        ".priceToPay",
+    ]:
+        els = await page.query_selector_all(sel)
         for el in els:
             text = (await el.inner_text()).strip()
             price = _parse_price(text)
             if price:
                 return price
 
-    # Fallback: reconstruct from whole + fraction parts
-    whole_el = await page.query_selector(".a-price-whole")
-    frac_el  = await page.query_selector(".a-price-fraction")
-    if whole_el:
-        whole = re.sub(r"[^\d]", "", await whole_el.inner_text())
-        frac  = re.sub(r"[^\d]", "", await frac_el.inner_text()) if frac_el else "00"
-        try:
-            price = float(f"{whole}.{frac or '00'}")
-            if price > 0:
+    # Strategy 2: legacy buy-box selectors (older page layouts)
+    for sel in [
+        "#price_inside_buybox",
+        "#priceblock_ourprice",
+        "#priceblock_dealprice",
+        "#sns-base-price",
+    ]:
+        el = await page.query_selector(sel)
+        if el:
+            text = (await el.inner_text()).strip()
+            price = _parse_price(text)
+            if price:
                 return price
-        except ValueError:
-            pass
+
+    # Strategy 3: reconstruct from whole + fraction scoped inside buy-box only.
+    # Never use the bare .a-price-whole — it matches variants and seller lists too.
+    scope_el = await page.query_selector(
+        "#corePriceDisplay_desktop_feature_div, #corePrice_feature_div, #apex_offerDisplay_desktop"
+    )
+    if scope_el:
+        whole_el = await scope_el.query_selector(".a-price-whole")
+        frac_el  = await scope_el.query_selector(".a-price-fraction")
+        if whole_el:
+            whole = re.sub(r"[^\d]", "", await whole_el.inner_text())
+            frac  = re.sub(r"[^\d]", "", await frac_el.inner_text()) if frac_el else "00"
+            try:
+                price = float(f"{whole}.{frac or '00'}")
+                if price > 0:
+                    return price
+            except ValueError:
+                pass
 
     return None
 
