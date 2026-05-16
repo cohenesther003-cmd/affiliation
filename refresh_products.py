@@ -220,7 +220,17 @@ def scrape_price_and_shipping(page: Page, asin: str) -> dict:
             pass
 
     ships_to_israel = not any(phrase in full_text for phrase in NO_SHIP_PHRASES)
-    available = not any(phrase in body for phrase in UNAVAILABLE_PHRASES)
+
+    # Availability: phrase check first, then confirm with Add to Cart button.
+    # A product without an Add to Cart button has no active buy box → unavailable.
+    phrase_unavailable = any(phrase in body for phrase in UNAVAILABLE_PHRASES)
+    try:
+        add_to_cart = page.query_selector("#add-to-cart-button, #buy-now-button")
+        no_buy_box = add_to_cart is None
+    except Exception:
+        no_buy_box = False
+    available = not phrase_unavailable and not no_buy_box
+
     shipping_type = detect_shipping_type(full_text) if ships_to_israel else None
 
     return {"price_usd": round(price, 2), "ships_to_israel": ships_to_israel, "available": available, "shipping_type": shipping_type}
