@@ -64,13 +64,23 @@ def detect_shipping_type(text: str) -> str | None:
         return "free_over_49"
 
     # Direct free shipping — must say "FREE Shipping/Delivery to Israel" explicitly.
-    # If the phrase is followed by "with prime" / "for prime members", it's Prime-gated
-    # conditional shipping, not universal free shipping → treat as free_over_49.
+    # If the page shows a Prime price AND a regular price, both may say
+    # "free shipping to Israel" — in that case the regular price also has free
+    # shipping so we classify as "free", not "free_with_prime".
+    # Only use "free_with_prime" when free shipping is exclusively for Prime members
+    # (i.e. "with prime" appears but the regular price section has no free shipping).
     free_to_israel = "free shipping to israel" in t or "free delivery to israel" in t
-    prime_gated = "with prime" in t or "for prime members" in t or "prime members get" in t
-    if free_to_israel and not prime_gated:
+    prime_mentioned = "with prime" in t or "for prime members" in t or "prime members get" in t
+    # "exclusively for" signals Prime-only pricing; if the regular price row
+    # also says free shipping the "exclusively" phrase will be present for the
+    # Prime PRICE but not for the shipping line of the regular option.
+    prime_exclusive = "exclusively for" in t or "this price is exclusively" in t
+    if free_to_israel and not prime_mentioned:
         return "free"
-    if free_to_israel and prime_gated:
+    if free_to_israel and prime_mentioned and not prime_exclusive:
+        # Both Prime and regular price have free shipping
+        return "free"
+    if free_to_israel and prime_mentioned and prime_exclusive:
         return "free_with_prime"
 
     return "paid"
@@ -162,21 +172,35 @@ def scrape_price_and_shipping(page: Page, asin: str) -> dict:
             return round(ils * ILS_TO_USD, 2) if ils > 0 else 0.0
         return 0.0
 
-    # Strategy 1: .priceToPay inner_text (actual selling price, not list price)
-    for sel in [
-        "#corePriceDisplay_desktop_feature_div .priceToPay",
-        "#apex_offerDisplay_desktop .priceToPay",
-        "#corePrice_feature_div .priceToPay",
-        ".priceToPay",
+    # Strategy 1: prefer the regular (non-Prime) price.
+    # When Amazon shows both a Prime price and a regular price, both appear as
+    # .priceToPay elements inside the buy-box — Prime first, regular last.
+    # Taking the LAST .priceToPay in the container gives the regular price.
+    # For products with only one price there is only one element, so last = correct.
+    for container in [
+        "#corePriceDisplay_desktop_feature_div",
+        "#apex_offerDisplay_desktop",
+        "#corePrice_feature_div",
     ]:
         try:
-            el = page.query_selector(sel)
-            if el:
-                price = _parse_raw(el.inner_text().strip())
-                if price > 0:
+            els = page.query_selector_all(f"{container} .priceToPay")
+            if els:
+                # Last element = regular (non-Prime) price
+                v = _parse_raw(els[-1].inner_text().strip())
+                if v > 0:
+                    price = v
                     break
         except Exception:
             continue
+
+    # Fall back: any .priceToPay on page (last one to prefer regular over Prime)
+    if price <= 0:
+        try:
+            els = page.query_selector_all(".priceToPay")
+            if els:
+                price = _parse_raw(els[-1].inner_text().strip())
+        except Exception:
+            pass
 
     # Strategy 2: legacy buy-box selectors (older page layouts)
     if price <= 0:

@@ -110,21 +110,29 @@ async def _extract_review_count(page: Page) -> int | None:
 
 
 async def _extract_price(page: Page) -> float | None:
-    # Strategy 1: .priceToPay is the actual selling price (not the struck-out .basisPrice).
-    # The element may or may not have an .a-offscreen child, so read inner_text directly.
-    # Try scoped to buy-box containers first; fall back to any .priceToPay on the page.
-    for sel in [
-        "#corePriceDisplay_desktop_feature_div .priceToPay",
-        "#apex_offerDisplay_desktop .priceToPay",
-        "#corePrice_feature_div .priceToPay",
-        ".priceToPay",
+    # Strategy 1: prefer the regular (non-Prime) price.
+    # When Amazon shows Prime + regular prices, both appear as .priceToPay inside
+    # the buy-box container — Prime first, regular last. Taking the LAST element
+    # gives the regular price. For single-price products, last = only = correct.
+    for container in [
+        "#corePriceDisplay_desktop_feature_div",
+        "#apex_offerDisplay_desktop",
+        "#corePrice_feature_div",
     ]:
-        els = await page.query_selector_all(sel)
-        for el in els:
-            text = (await el.inner_text()).strip()
+        els = await page.query_selector_all(f"{container} .priceToPay")
+        if els:
+            text = (await els[-1].inner_text()).strip()
             price = _parse_price(text)
             if price:
                 return price
+
+    # Fall back: any .priceToPay (last = regular over Prime)
+    els = await page.query_selector_all(".priceToPay")
+    if els:
+        text = (await els[-1].inner_text()).strip()
+        price = _parse_price(text)
+        if price:
+            return price
 
     # Strategy 2: legacy buy-box selectors (older page layouts)
     for sel in [
