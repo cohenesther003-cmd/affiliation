@@ -149,7 +149,7 @@ TikTok/external curated sources skip the `allowed_categories` check (channel cur
 
 - **Delta scraping**: `scraper.py`, `byotools_scrape.py`, and `amitkapit_scrape.py` all skip ASINs already in the DB
 - **ILS price handling**: scraper may run from an Israeli IP → Amazon shows ILS → auto-converted to USD at ~3.65 rate. Run `refresh_products.py` after any bulk scrape to correct prices.
-- **Price scraping (amazon_api.py)**: prefers the regular (non-Prime) price via `basisPrice` selectors first, then falls back to buy-box selectors. The generic `.a-price .a-offscreen` fallback was removed — it matched Prime badges and variant prices.
+- **Price scraping (amazon_api.py + refresh_products.py)**: uses `.priceToPay` selectors first — this is Amazon's class for the actual selling price. **Never use `.basisPrice`** — that is the crossed-out list/original price. ILS prices are parsed from `inner_text()` directly (no `.a-offscreen` child needed) with whitespace collapsed first, so split renders like `ILS116\n.\n63` parse correctly as `ILS116.63`.
 - **Prime shipping classification**: `refresh_products.py` distinguishes "FREE delivery to Israel with Prime" (`free_with_prime`) from universal free shipping (`free`) and threshold-based free shipping (`free_over_49`).
 - **Validate phase**: when `_scrape_product()` returns None (blocked/CAPTCHA), the product stays `discovered` for retry — it is NOT set to `filtered_out`. Only `filter.py` writes `filtered_out`.
 - **Daily refresh (`refresh_products.py`)**: runs daily at 8:00 AM UTC (11 AM Israel) via launchd. Re-scrapes all `ready_for_video` products for price/availability/shipping. Auto-runs filter + exports site + git push when anything changes. Sends Hebrew email report to `GMAIL_USER`.
