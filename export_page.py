@@ -1111,7 +1111,7 @@ def build_product_page(p: dict) -> str:
         detail_ship_badge = '<div style="margin-bottom:16px;"><span class="ship-badge ship-prime">🚚 משלוח חינם עם Prime</span></div>'
     else:
         detail_ship_badge = ""
-    affiliate    = p.get("link") or f"https://www.amazon.com/dp/{asin}/?tag=eskl20-20"
+    affiliate    = p.get("link") or f"https://www.amazon.com/dp/{asin}/?tag=eskl20-20&language=he_IL"
     desc_he      = p.get("description_he") or "תיאור המוצר יתעדכן בקרוב."
     tiktok_url   = p.get("tiktok_url") or ""
     tiktok_video_id = ""
@@ -1303,7 +1303,7 @@ def build():
             "rating":         round(p.get("rating") or 0, 1),
             "price":          round(p.get("price_usd") or 0, 2),
             "reviews":        p.get("review_count") or 0,
-            "link":           p.get("affiliate_link") or f"https://www.amazon.com/dp/{p['asin']}/?tag=eskl20-20",
+            "link":           p.get("affiliate_link") or f"https://www.amazon.com/dp/{p['asin']}/?tag=eskl20-20&language=he_IL",
             "image_url":      p.get("image_url") or "",
             "description_he": p.get("description_he") or "",
             "tiktok_url":     p.get("tiktok_url") or "",
