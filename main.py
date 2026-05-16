@@ -7,6 +7,7 @@ Usage:
     python main.py --phase filter                  # only apply filters
     python main.py --phase status                  # print DB summary
     python main.py --phase report                  # show ready products + affiliate links
+    python main.py --phase video                   # Phase 2: download videos + generate Hebrew scripts
 """
 
 import argparse
@@ -68,9 +69,12 @@ def print_summary() -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Affiliation Pipeline — Phase 1")
     parser.add_argument("--url", help="Amazon Best Sellers page URL to scrape")
+    parser.add_argument("--limit", type=int, help="Max number of products to process (Phase 2)")
+    parser.add_argument("--max-price", type=float, dest="max_price", help="Max price filter (Phase 2)")
+    parser.add_argument("--ships-to-israel", action="store_true", dest="ships_to_israel", help="Only products shipping to Israel (Phase 2)")
     parser.add_argument(
         "--phase",
-        choices=["scrape", "validate", "filter", "status", "report", "all"],
+        choices=["scrape", "validate", "filter", "status", "report", "all", "video"],
         default="all",
         help="Which phase to run (default: all)",
     )
@@ -84,6 +88,16 @@ def main() -> None:
 
     if args.phase == "report":
         print_report()
+        return
+
+    if args.phase == "video":
+        print("\n[Phase 2] Downloading videos + generating Hebrew scripts...")
+        from src.phase2.pipeline import run as run_video
+        run_video(
+            limit=args.limit,
+            max_price=args.max_price,
+            ships_to_israel=args.ships_to_israel,
+        )
         return
 
     run_scrape = args.phase in ("scrape", "all")
