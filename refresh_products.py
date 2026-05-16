@@ -11,6 +11,7 @@ import re
 import time
 import random
 import smtplib
+import subprocess
 import sys
 from datetime import datetime
 from email.mime.text import MIMEText
@@ -308,15 +309,34 @@ def main():
 
         browser.close()
 
+    # Run filter to catch any validated products with bad shipping (e.g. byotools that slipped through)
+    from src.phase1.filter import run as run_filter
+    filter_passed, filter_removed = run_filter()
+    if filter_removed:
+        print(f"\n  Filter cleaned up {filter_removed} validated products that failed shipping/quality rules.")
+
     print(f"\n{'='*55}")
     print(f"  Prices updated:      {price_updated}")
     print(f"  Marked unavailable:  {marked_unavailable}")
     print(f"  No Israel shipping:  {no_ship_count}")
     print(f"  Restored:            {restored}")
     print(f"  Blocked by Amazon:   {blocked}")
+    print(f"  Filter removed:      {filter_removed}")
     print(f"{'='*55}")
-    if marked_unavailable or restored or no_ship_count:
-        print(f"\nRun: python export_page.py && git add docs/ && git commit -m 'Update availability' && git push")
+
+    # Auto-export and push the site whenever anything changed
+    has_site_changes = marked_unavailable or restored or no_ship_count or filter_removed
+    if has_site_changes:
+        print("\nAuto-updating site...")
+        root = Path(__file__).parent
+        try:
+            subprocess.run(["python", "export_page.py"], cwd=root, check=True)
+            subprocess.run(["git", "add", "docs/"], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-m", "Daily refresh: update availability and shipping"], cwd=root, check=True)
+            subprocess.run(["git", "push"], cwd=root, check=True)
+            print("Site updated and pushed ✓")
+        except subprocess.CalledProcessError as e:
+            print(f"Site update failed: {e}")
 
     send_email_report(
         price_updated=price_updated,

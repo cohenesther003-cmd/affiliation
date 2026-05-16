@@ -55,16 +55,22 @@ def run() -> tuple[int, int]:
     filtered_out = 0
 
     for product in candidates:
-        # External sources (byotools, top) are pre-filtered — skip Amazon rules
-        if product.get("category") in ("byotools", "top"):
-            update_status(product["asin"], "ready_for_video")
-            passed += 1
+        # byotools products skip quality rules (pre-filtered) but still require Israel shipping
+        if product.get("category") == "byotools":
+            if rules.get("ships_to_israel") and not product.get("ships_to_israel"):
+                update_status(product["asin"], "filtered_out")
+                filtered_out += 1
+                name = (product.get("name") or "")[:40]
+                print(f"  Filtered out {product['asin']} ({name}): does not ship to Israel")
+            else:
+                update_status(product["asin"], "ready_for_video")
+                passed += 1
             continue
 
-        # Telegram products: apply quality filters (rating, reviews, price, shipping),
-        # but skip the category check (the channel curates across all categories)
+        # top/telegram products: apply quality filters (rating, reviews, price, shipping),
+        # but skip the category check (hand-picked / channel curates across categories)
         rules_for_product = rules
-        if product.get("category") == "telegram":
+        if product.get("category") in ("top", "telegram"):
             rules_for_product = {k: v for k, v in rules.items() if k != "allowed_categories"}
 
         ok, reasons = _passes(product, rules_for_product)
