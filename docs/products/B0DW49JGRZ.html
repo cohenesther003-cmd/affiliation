@@ -19,36 +19,56 @@
     /* ── Navbar ── */
     .site-nav {
       background: #fff;
-      padding: 0 1.5rem;
+      padding: 0 1.25rem;
       position: sticky;
       top: 0;
       z-index: 1000;
       box-shadow: 0 2px 10px rgba(0,0,0,.08);
       border-bottom: 1px solid #F0F0F0;
+      min-height: 48px;
+    }
+    .site-nav .navbar {
+      padding-top: 6px;
+      padding-bottom: 6px;
     }
     .site-nav .navbar-brand {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 900;
       background: linear-gradient(90deg, #FF6B35, #FF9A5C);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       letter-spacing: -0.3px;
+      margin: 0;
     }
     .site-nav .nav-link {
       color: #4A4A4A !important;
       font-weight: 600;
-      font-size: .95rem;
-      padding: .8rem .9rem;
+      font-size: .9rem;
+      padding: .55rem .8rem;
       transition: color .15s;
     }
     .site-nav .nav-link:hover,
     .site-nav .nav-link.active {
       color: #FF6B35 !important;
     }
-    .navbar-toggler { border-color: #E0E0E0; }
-    .navbar-toggler-icon {
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280%2C0%2C0%2C.6%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    .site-nav .navbar-nav {
+      flex-direction: row;
+      gap: 4px;
+    }
+    /* Mobile: hide redundant brand (hero already shows Top Picks); tabs sit side-by-side, no hamburger */
+    @media (max-width: 767px) {
+      .site-nav .navbar-brand { display: none; }
+      .site-nav { padding: 0 .75rem; }
+      .site-nav .nav-link {
+        font-size: .82rem;
+        padding: .5rem .55rem;
+      }
+      .site-nav .navbar-nav {
+        gap: 2px;
+        justify-content: flex-start;
+        width: 100%;
+      }
     }
 
     /* ── Hero ── */
@@ -56,32 +76,16 @@
       background: linear-gradient(135deg, #FF6B35 0%, #FF9A5C 50%, #FFB347 100%);
       color: #fff;
       text-align: center;
-      padding: 28px 24px 24px;
+      padding: 18px 24px 16px;
     }
     .hero h1 {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: 900;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
       letter-spacing: -0.5px;
       text-shadow: 0 2px 8px rgba(0,0,0,.15);
     }
-    .hero p { color: rgba(255,255,255,.88); font-size: .9rem; margin: 0; }
-
-    /* ── Hero (compact) ── */
-    .hero {
-      background: linear-gradient(135deg, #FF6B35 0%, #FF9A5C 50%, #FFB347 100%);
-      color: #fff;
-      text-align: center;
-      padding: 28px 24px 24px;
-    }
-    .hero h1 {
-      font-size: 1.6rem;
-      font-weight: 900;
-      margin-bottom: 4px;
-      letter-spacing: -0.5px;
-      text-shadow: 0 2px 8px rgba(0,0,0,.15);
-    }
-    .hero p { color: rgba(255,255,255,.88); font-size: .9rem; margin: 0; }
+    .hero p { color: rgba(255,255,255,.88); font-size: .82rem; margin: 0; }
 
     /* ── Page layout: sidebar + grid ── */
     .page-layout {
@@ -97,7 +101,15 @@
       flex-shrink: 0;
       position: sticky;
       top: 70px;
+      max-height: calc(100vh - 90px);
+      overflow-y: auto;
+      padding-left: 4px;
+      scrollbar-width: thin;
+      scrollbar-color: #D1D1D6 transparent;
     }
+    .filter-sidebar::-webkit-scrollbar { width: 6px; }
+    .filter-sidebar::-webkit-scrollbar-track { background: transparent; }
+    .filter-sidebar::-webkit-scrollbar-thumb { background: #D1D1D6; border-radius: 3px; }
     .filter-sidebar h2 {
       font-size: .7rem;
       font-weight: 800;
@@ -108,18 +120,18 @@
     }
     .filter-section {
       background: #fff;
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 12px;
+      border-radius: 12px;
+      padding: 12px 12px 10px;
+      margin-bottom: 10px;
       box-shadow: 0 1px 6px rgba(0,0,0,.06);
     }
     .filter-section-title {
-      font-size: .72rem;
+      font-size: .7rem;
       font-weight: 800;
       color: #AEAEB2;
       text-transform: uppercase;
       letter-spacing: .8px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
     .search-wrap { position: relative; }
     .search-inner { position: relative; display: flex; align-items: center; }
@@ -177,19 +189,20 @@
     .suggestion-item:last-child { border-bottom: none; }
     .suggestion-item:hover, .suggestion-item.active { background: #FFF3EE; color: #FF6B35; }
     .suggestion-item mark { background: none; color: #FF6B35; font-weight: 700; }
-    .filter-chips { display: flex; flex-direction: column; gap: 6px; }
+    .filter-chips { display: flex; flex-wrap: wrap; gap: 5px; }
     .chip {
       background: #F2F2F7;
       color: #3A3A3C;
       border: none;
-      border-radius: 8px;
-      padding: 7px 12px;
+      border-radius: 7px;
+      padding: 5px 10px;
       font-family: 'Heebo', sans-serif;
-      font-size: .85rem;
+      font-size: .8rem;
       font-weight: 600;
       cursor: pointer;
-      text-align: right;
+      text-align: center;
       transition: background .15s, color .15s;
+      white-space: nowrap;
     }
     .chip:hover { background: #FFE8DF; color: #FF6B35; }
     .chip.active { background: #FF6B35; color: #fff; }
@@ -624,18 +637,12 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md site-nav">
+<nav class="navbar navbar-expand site-nav">
   <div class="container">
     <a class="navbar-brand" href="../index.html">Top Picks</a>
-    <button class="navbar-toggler" type="button"
-            data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link active" href="../index.html">עמוד מוצרים</a></li><li class="nav-item"><a class="nav-link" href="../about.html">עלינו</a></li><li class="nav-item"><a class="nav-link" href="../contact.html">צור קשר</a></li><li class="nav-item"><a class="nav-link" href="../terms.html">תנאי שימוש</a></li>
-      </ul>
-    </div>
+    <ul class="navbar-nav me-auto">
+      <li class="nav-item"><a class="nav-link active" href="../index.html">עמוד מוצרים</a></li><li class="nav-item"><a class="nav-link" href="../contact.html">צור קשר</a></li><li class="nav-item"><a class="nav-link" href="../terms.html">תנאי שימוש</a></li>
+    </ul>
   </div>
 </nav>
 
@@ -654,7 +661,7 @@
       
       <span class="price-tag">$69.97</span>
     </div>
-    <div class="price-note-row"><span class="price-note">נבדק 15/5/2026 · המחיר עשוי להשתנות</span></div>
+    <div class="price-note-row"><span class="price-note">נבדק 16/5/2026 · המחיר עשוי להשתנות</span></div>
   
   <hr class="divider">
 
