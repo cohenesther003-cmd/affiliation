@@ -335,8 +335,9 @@ BASE_STYLES = """
       margin-top: 6px;
       white-space: nowrap;
     }
-    .ship-free { background: #E8F5E9; color: #2E7D32; }
-    .ship-49   { background: #FFF3E0; color: #E65100; }
+    .ship-free  { background: #E8F5E9; color: #2E7D32; }
+    .ship-49    { background: #FFF3E0; color: #E65100; }
+    .ship-prime { background: #E3F2FD; color: #1565C0; }
     .badge-rating {
       background: #FFF3CD;
       color: #856404;
@@ -744,6 +745,8 @@ def build_index(products: list[dict]) -> str:
             ship_badge = '<span class="ship-badge ship-free">🚚 משלוח חינם</span>'
         elif ship_type == "free_over_49":
             ship_badge = '<span class="ship-badge ship-49">🚚 חינם בקנייה +$49</span>'
+        elif ship_type == "free_with_prime":
+            ship_badge = '<span class="ship-badge ship-prime">🚚 משלוח חינם עם Prime</span>'
         else:
             ship_badge = ""
 
@@ -801,8 +804,9 @@ def build_index(products: list[dict]) -> str:
         <div class="filter-section-title">משלוח</div>
         <div class="filter-chips" id="ship-chips">
           <button class="chip active" data-ship=""              onclick="setShip(this)">הכל</button>
-          <button class="chip"        data-ship="free"          onclick="setShip(this)">🚚 משלוח חינם</button>
+          <button class="chip"        data-ship="free"            onclick="setShip(this)">🚚 משלוח חינם</button>
           <button class="chip"        data-ship="free_over_49"  onclick="setShip(this)">חינם בקנייה +$49</button>
+          <button class="chip"        data-ship="free_with_prime" onclick="setShip(this)">🚚 חינם עם Prime</button>
         </div>
       </div>
 
@@ -1103,6 +1107,8 @@ def build_product_page(p: dict) -> str:
         detail_ship_badge = '<div style="margin-bottom:16px;"><span class="ship-badge ship-free">🚚 משלוח חינם</span></div>'
     elif ship_type == "free_over_49":
         detail_ship_badge = '<div style="margin-bottom:16px;"><span class="ship-badge ship-49">🚚 חינם בקנייה +$49</span></div>'
+    elif ship_type == "free_with_prime":
+        detail_ship_badge = '<div style="margin-bottom:16px;"><span class="ship-badge ship-prime">🚚 משלוח חינם עם Prime</span></div>'
     else:
         detail_ship_badge = ""
     affiliate    = p.get("link") or f"https://www.amazon.com/dp/{asin}/?tag=eskl20-20"

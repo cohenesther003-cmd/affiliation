@@ -63,9 +63,15 @@ def detect_shipping_type(text: str) -> str | None:
     if any(p in t for p in threshold_phrases):
         return "free_over_49"
 
-    # Direct free shipping — must say "FREE Shipping to Israel" explicitly
-    if "free shipping to israel" in t or "free delivery to israel" in t:
+    # Direct free shipping — must say "FREE Shipping/Delivery to Israel" explicitly.
+    # If the phrase is followed by "with prime" / "for prime members", it's Prime-gated
+    # conditional shipping, not universal free shipping → treat as free_over_49.
+    free_to_israel = "free shipping to israel" in t or "free delivery to israel" in t
+    prime_gated = "with prime" in t or "for prime members" in t or "prime members get" in t
+    if free_to_israel and not prime_gated:
         return "free"
+    if free_to_israel and prime_gated:
+        return "free_with_prime"
 
     return "paid"
 

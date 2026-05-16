@@ -80,7 +80,7 @@ affiliation/
 | review_count | INTEGER | Number of reviews (0 if unknown) |
 | price_usd | REAL | In USD (ILS prices converted at ~3.65 rate) |
 | ships_to_israel | INTEGER | 0 or 1 |
-| free_shipping_type | TEXT | NULL / 'free' / 'free_over_49' / 'paid' — Israel free-shipping classification |
+| free_shipping_type | TEXT | NULL / 'free' / 'free_over_49' / 'free_with_prime' / 'paid' — Israel free-shipping classification |
 | affiliate_link | TEXT | Built as amazon.com/dp/{ASIN}/?tag=eskl20-20 |
 | source_video_url | TEXT | TikTok URL of the @byotools video that featured this product (set for 'top' category products); also used by Phase 2 |
 | image_url | TEXT | Amazon product image URL (scraped by amazon_api.py / enrich_products.py) |

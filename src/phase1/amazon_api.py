@@ -97,8 +97,13 @@ async def _extract_review_count(page: Page) -> int | None:
 
 
 async def _extract_price(page: Page) -> float | None:
-    # Try the most common current Amazon price containers first
+    # Prefer the regular (non-Prime) price first via basisPrice selectors,
+    # then fall back to the main buy-box price.
+    # Never use generic ".a-price .a-offscreen" — it matches Prime badges,
+    # variant/seller-list prices, and other off-target elements.
     priority_selectors = [
+        "#corePriceDisplay_desktop_feature_div .basisPrice .a-offscreen",
+        "#corePriceDisplay_desktop_feature_div .basisPrice span",
         "#corePriceDisplay_desktop_feature_div .a-price .a-offscreen",
         "#apex_offerDisplay_desktop .a-price .a-offscreen",
         "#corePrice_feature_div .a-price .a-offscreen",
@@ -106,7 +111,6 @@ async def _extract_price(page: Page) -> float | None:
         "#priceblock_ourprice",
         "#priceblock_dealprice",
         "#sns-base-price",
-        ".a-price .a-offscreen",
     ]
     for selector in priority_selectors:
         els = await page.query_selector_all(selector)
@@ -305,7 +309,9 @@ async def _validate_all(products: list[dict], partner_tag: str) -> int:
             data = await _scrape_product(page, asin, partner_tag)
 
             if data is None:
-                update_status(asin, "filtered_out")
+                # Scrape failed (bot-blocked, CAPTCHA, missing data) — leave as
+                # 'discovered' so it gets retried on the next validate run.
+                # Only filter.py should ever write 'filtered_out'.
                 continue
 
             print(f"    ✓ {data['rating']}★  ${data['price_usd']}  "

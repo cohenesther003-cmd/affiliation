@@ -301,8 +301,9 @@
       margin-top: 6px;
       white-space: nowrap;
     }
-    .ship-free { background: #E8F5E9; color: #2E7D32; }
-    .ship-49   { background: #FFF3E0; color: #E65100; }
+    .ship-free  { background: #E8F5E9; color: #2E7D32; }
+    .ship-49    { background: #FFF3E0; color: #E65100; }
+    .ship-prime { background: #E3F2FD; color: #1565C0; }
     .badge-rating {
       background: #FFF3CD;
       color: #856404;
@@ -688,8 +689,9 @@
         <div class="filter-section-title">משלוח</div>
         <div class="filter-chips" id="ship-chips">
           <button class="chip active" data-ship=""              onclick="setShip(this)">הכל</button>
-          <button class="chip"        data-ship="free"          onclick="setShip(this)">🚚 משלוח חינם</button>
+          <button class="chip"        data-ship="free"            onclick="setShip(this)">🚚 משלוח חינם</button>
           <button class="chip"        data-ship="free_over_49"  onclick="setShip(this)">חינם בקנייה +$49</button>
+          <button class="chip"        data-ship="free_with_prime" onclick="setShip(this)">🚚 חינם עם Prime</button>
         </div>
       </div>
 
