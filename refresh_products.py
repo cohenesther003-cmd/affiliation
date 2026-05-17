@@ -151,7 +151,26 @@ def scrape_price_and_shipping(page: Page, asin: str) -> dict:
     except Exception:
         pass
 
-    if "robot" in body or "captcha" in body:
+    # Detect bot-blocking / interstitial pages (Amazon shows these without always
+    # saying "robot" — "just a moment", "access denied", "verify" pages also lack
+    # a buy box and would falsely mark every product as unavailable).
+    BOT_SIGNALS = [
+        "robot", "captcha", "access denied", "just a moment",
+        "verify you are human", "verify your identity", "security check",
+        "sorry, we just need to make sure", "prove you're not a robot",
+        "unusual traffic", "automated access", "please try again later",
+        "enable javascript and cookies",
+    ]
+    if any(signal in body for signal in BOT_SIGNALS):
+        return {"price_usd": 0.0, "ships_to_israel": None, "available": True, "shipping_type": None}
+
+    # Secondary bot check: a real Amazon product page always has a product title.
+    # If there's no title element, we're on a bot-detection / error page.
+    try:
+        has_title = page.query_selector("#productTitle, #title, #titleSection") is not None
+    except Exception:
+        has_title = True  # assume real page if selector check fails
+    if not has_title:
         return {"price_usd": 0.0, "ships_to_israel": None, "available": True, "shipping_type": None}
 
     # ── Price ──────────────────────────────────────────────────────────
