@@ -374,7 +374,7 @@ def main():
         print("\nAuto-updating site...")
         root = Path(__file__).parent
         try:
-            subprocess.run(["python", "export_page.py"], cwd=root, check=True)
+            subprocess.run([sys.executable, "export_page.py"], cwd=root, check=True)
             subprocess.run(["git", "add", "docs/"], cwd=root, check=True)
             subprocess.run(["git", "commit", "-m", "Daily refresh: update availability and shipping"], cwd=root, check=True)
             subprocess.run(["git", "push"], cwd=root, check=True)

@@ -27,6 +27,8 @@ echo ""
 echo "─── Validating $NEW new products ───"
 .venv/bin/python main.py --phase validate
 
+sleep 2
+
 echo ""
 echo "─── Filtering against config.yaml rules ───"
 .venv/bin/python main.py --phase filter
