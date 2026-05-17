@@ -30,7 +30,7 @@ _NO_SHIP_PHRASES = [
 
 
 def _affiliate_link(asin: str, partner_tag: str) -> str:
-    return f"https://www.amazon.com/dp/{asin}/?tag={partner_tag}&language=he_IL"
+    return f"https://www.amazon.com/dp/{asin}/?tag={partner_tag}"
 
 
 def _parse_rating(text: str) -> float | None:
