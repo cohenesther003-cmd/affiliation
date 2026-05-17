@@ -1,9 +1,10 @@
 """
-Send an email summary of the Telegram pipeline run.
+Build a Hebrew summary of the Telegram pipeline run and queue it for sending.
 
 Reads /tmp/telegram_new_asins.txt (written by telegram_scrape.py),
-looks up final product status from the DB, and emails a Hebrew report
-to GMAIL_USER.
+looks up final product status from the DB, and writes a report JSON to
+data/pending_reports/. The mail-sender agent (send_pending_reports.py)
+picks it up within 30 minutes and sends it via Gmail.
 
 Run: python telegram_report.py
 """

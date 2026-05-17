@@ -76,15 +76,16 @@ Then: `git add docs/ && git commit -m "..." && git push` → GitHub Pages publis
 
 ## Automated schedules (Mac launchd)
 
-| Job | Schedule | Script |
-|-----|----------|--------|
-| Telegram ingest | Every 6h (2 AM / 8:15 AM / 2 PM / 8 PM) | `run_telegram_pipeline.sh` |
-| Daily refresh | 8:00 AM UTC (≈ 11 AM Israel) | `refresh_products.py` |
+| Job | Schedule | Script | What it does |
+|-----|----------|--------|-------------|
+| Telegram ingest | Every 6h (2 AM / 8:15 AM / 2 PM / 8 PM) | `run_telegram_pipeline.sh` | Scrape → validate → filter → translate → enrich → export → push → queue email |
+| Daily refresh | 8:00 AM (local) | `refresh_products.py` | Re-scrape prices/availability → export → push → queue email |
+| Mail sender | Every 30 min | `send_pending_reports.py` | Send queued emails from `data/pending_reports/`, delete after send |
 
-**`run_telegram_pipeline.sh`** runs the full Telegram pipeline end-to-end:
-telegram_scrape → validate → filter → translate → enrich → export → git push → email report
-
-**`refresh_products.py`** re-scrapes all `ready_for_video` products to detect price changes, out-of-stock, and shipping changes. Sends a Hebrew email summary to toppickp@gmail.com.
+**Email architecture (separated agents):**
+- Pipelines **never send email directly**. At the end of each run, they write a JSON file to `data/pending_reports/` with `subject`, `body`, and `created_at`.
+- `send_pending_reports.py` (mail-sender agent) runs independently every 30 minutes, picks up any pending files, sends via Gmail SMTP (`GMAIL_USER` + `GMAIL_APP_PASSWORD`), and deletes each file after sending.
+- Pending report files: `data/pending_reports/telegram_YYYYMMDD_HHMMSS.json`, `data/pending_reports/refresh_YYYYMMDD_HHMMSS.json`
 
 ---
 
