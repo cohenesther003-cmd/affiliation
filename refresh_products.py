@@ -7,14 +7,13 @@ Also re-checks previously unavailable products — restores them if back in stoc
 Run: python refresh_products.py
 """
 
+import json
 import re
 import time
 import random
-import smtplib
 import subprocess
 import sys
 from datetime import datetime
-from email.mime.text import MIMEText
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -393,12 +392,6 @@ def main():
 
 
 def send_email_report(price_updated, newly_unavailable, restored_list, no_ship_list, blocked, total_active):
-    gmail_user = os.getenv("GMAIL_USER", "")
-    gmail_pass = os.getenv("GMAIL_APP_PASSWORD", "")
-    if not gmail_user or not gmail_pass or "xxxx" in gmail_pass:
-        print("\n[Email] No Gmail credentials configured — skipping email report.")
-        return
-
     today = datetime.now().strftime("%d/%m/%Y")
     has_changes = bool(newly_unavailable or restored_list or no_ship_list or price_updated)
 
@@ -447,19 +440,15 @@ def send_email_report(price_updated, newly_unavailable, restored_list, no_ship_l
     lines.append("המוצרים שלי — דו\"ח אוטומטי יומי")
 
     body = "\n".join(lines)
-    msg = MIMEText(body, "plain", "utf-8")
-    msg["Subject"] = subject
-    msg["From"] = gmail_user
-    msg["To"] = gmail_user
 
-    try:
-        with smtplib.SMTP("smtp.gmail.com", 587) as server:
-            server.starttls()
-            server.login(gmail_user, gmail_pass)
-            server.sendmail(gmail_user, gmail_user, msg.as_string())
-        print(f"\n[Email] Report sent to {gmail_user} ✓")
-    except Exception as e:
-        print(f"\n[Email] Failed to send: {e}")
+    pending_dir = Path(__file__).parent / "data" / "pending_reports"
+    pending_dir.mkdir(parents=True, exist_ok=True)
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    (pending_dir / f"refresh_{ts}.json").write_text(
+        json.dumps({"subject": subject, "body": body, "created_at": datetime.now().isoformat()}, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    print("\n[Email] Report queued for mail sender ✓")
 
 
 if __name__ == "__main__":

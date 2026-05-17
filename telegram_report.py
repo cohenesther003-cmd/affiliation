@@ -8,23 +8,25 @@ to GMAIL_USER.
 Run: python telegram_report.py
 """
 
-import os
-import smtplib
+import json
 import sqlite3
 import sys
 from datetime import datetime
-from email.mime.text import MIMEText
 from pathlib import Path
-
-from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent))
 from src.db import DB_PATH, init_db
 
-load_dotenv()
-
 ASINS_FILE = "/tmp/telegram_new_asins.txt"
 CHANNEL = "haregakaniti"
+PENDING_DIR = Path(__file__).parent / "data" / "pending_reports"
+
+
+def _write_pending_report(prefix: str, subject: str, body: str) -> None:
+    PENDING_DIR.mkdir(parents=True, exist_ok=True)
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    path = PENDING_DIR / f"{prefix}_{ts}.json"
+    path.write_text(json.dumps({"subject": subject, "body": body, "created_at": datetime.now().isoformat()}, ensure_ascii=False), encoding="utf-8")
 
 
 def main():
@@ -94,26 +96,9 @@ def main():
     body = "\n".join(lines)
     print(body)
 
-    gmail_user = os.getenv("GMAIL_USER", "")
-    gmail_pass = os.getenv("GMAIL_APP_PASSWORD", "")
-    if not gmail_user or not gmail_pass or "xxxx" in gmail_pass:
-        print("\n[telegram_report] No Gmail credentials — skipping email.")
-        return
-
-    msg = MIMEText(body, "plain", "utf-8")
-    msg["Subject"] = f"Telegram pipeline: {len(approved)} מוצרים חדשים ({now})"
-    msg["From"] = gmail_user
-    msg["To"] = gmail_user
-
-    try:
-        with smtplib.SMTP("smtp.gmail.com", 587) as server:
-            server.ehlo()
-            server.starttls()
-            server.login(gmail_user, gmail_pass)
-            server.sendmail(gmail_user, gmail_user, msg.as_string())
-        print(f"\n[telegram_report] Report sent to {gmail_user} ✓")
-    except Exception as e:
-        print(f"\n[telegram_report] Failed to send email: {e}")
+    subject = f"Telegram pipeline: {len(approved)} מוצרים חדשים ({now})"
+    _write_pending_report("telegram", subject, body)
+    print("\n[telegram_report] Report queued for mail sender ✓")
 
 
 if __name__ == "__main__":
