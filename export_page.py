@@ -21,7 +21,7 @@ PRODUCTS_DIR = DOCS / "products"
 GOOGLE_FONTS = (
     '<link rel="preconnect" href="https://fonts.googleapis.com">'
     '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-    '<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">'
+    '<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">'
 )
 
 BOOTSTRAP_RTL = (
@@ -44,21 +44,23 @@ BASE_STYLES = """
   <style>
     * { box-sizing: border-box; }
     body {
-      background: #F7F7F7;
-      font-family: 'Heebo', 'Segoe UI', Arial, sans-serif;
-      color: #1C1C1E;
+      /* Linktree reference: warm sage off-white background */
+      background: #0f172a;
+      font-family: 'Heebo', 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif;
+      color: #f1f5f9;
       margin: 0;
     }
 
     /* ── Navbar ── */
     .site-nav {
-      background: #fff;
+      /* Linktree: warm white nav, very subtle border only */
+      background: #1e293b;
       padding: 0 1.25rem;
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,.08);
-      border-bottom: 1px solid #F0F0F0;
+      box-shadow: 0 1px 0 #334155;
+      border-bottom: 1px solid #334155;
       min-height: 48px;
     }
     .site-nav .navbar {
@@ -66,9 +68,10 @@ BASE_STYLES = """
       padding-bottom: 6px;
     }
     .site-nav .navbar-brand {
+      font-family: 'Plus Jakarta Sans', 'Heebo', sans-serif;
       font-size: 1.2rem;
-      font-weight: 900;
-      background: linear-gradient(90deg, #FF6B35, #FF9A5C);
+      font-weight: 800;
+      background: linear-gradient(90deg, #f59e0b, #fbbf24);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -76,7 +79,7 @@ BASE_STYLES = """
       margin: 0;
     }
     .site-nav .nav-link {
-      color: #4A4A4A !important;
+      color: #94a3b8 !important;
       font-weight: 600;
       font-size: .9rem;
       padding: .55rem .8rem;
@@ -84,7 +87,7 @@ BASE_STYLES = """
     }
     .site-nav .nav-link:hover,
     .site-nav .nav-link.active {
-      color: #FF6B35 !important;
+      color: #f59e0b !important;
     }
     .site-nav .navbar-nav {
       flex-direction: row;
@@ -107,19 +110,23 @@ BASE_STYLES = """
 
     /* ── Hero ── */
     .hero {
-      background: linear-gradient(135deg, #FF6B35 0%, #FF9A5C 50%, #FFB347 100%);
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
       color: #fff;
       text-align: center;
       padding: 18px 24px 16px;
     }
     .hero h1 {
+      font-family: 'Plus Jakarta Sans', 'Heebo', sans-serif;
       font-size: 1.4rem;
-      font-weight: 900;
+      font-weight: 800;
       margin-bottom: 2px;
       letter-spacing: -0.5px;
-      text-shadow: 0 2px 8px rgba(0,0,0,.15);
+      background: linear-gradient(90deg, #f59e0b, #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .hero p { color: rgba(255,255,255,.88); font-size: .82rem; margin: 0; }
+    .hero p { color: #94a3b8; font-size: .82rem; margin: 0; }
 
     /* ── Page layout: sidebar + grid ── */
     .page-layout {
@@ -139,30 +146,32 @@ BASE_STYLES = """
       overflow-y: auto;
       padding-left: 4px;
       scrollbar-width: thin;
-      scrollbar-color: #D1D1D6 transparent;
+      scrollbar-color: #334155 transparent;
     }
     .filter-sidebar::-webkit-scrollbar { width: 6px; }
     .filter-sidebar::-webkit-scrollbar-track { background: transparent; }
-    .filter-sidebar::-webkit-scrollbar-thumb { background: #D1D1D6; border-radius: 3px; }
+    .filter-sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
     .filter-sidebar h2 {
       font-size: .7rem;
       font-weight: 800;
-      color: #AEAEB2;
+      color: #64748b;
       text-transform: uppercase;
       letter-spacing: 1px;
       margin: 0 0 16px;
     }
     .filter-section {
-      background: #fff;
-      border-radius: 12px;
+      /* Linktree: warm white card with subtle warm border, no heavy shadow */
+      background: #1e293b;
+      border-radius: 14px;
       padding: 12px 12px 10px;
       margin-bottom: 10px;
-      box-shadow: 0 1px 6px rgba(0,0,0,.06);
+      border: 1px solid #334155;
+      box-shadow: 0 1px 3px rgba(0,0,0,.2);
     }
     .filter-section-title {
       font-size: .7rem;
       font-weight: 800;
-      color: #AEAEB2;
+      color: #64748b;
       text-transform: uppercase;
       letter-spacing: .8px;
       margin-bottom: 8px;
@@ -171,7 +180,7 @@ BASE_STYLES = """
     .search-inner { position: relative; display: flex; align-items: center; }
     .search-box {
       width: 100%;
-      border: 1.5px solid #E5E5EA;
+      border: 1.5px solid #334155;
       border-radius: 10px;
       padding: 9px 36px 9px 12px;
       font-family: 'Heebo', sans-serif;
@@ -179,31 +188,31 @@ BASE_STYLES = """
       outline: none;
       direction: rtl;
       transition: border-color .15s;
-      background: #fff;
+      background: #0f172a;
     }
-    .search-box:focus { border-color: #FF6B35; }
+    .search-box:focus { border-color: #f59e0b; background: #1e293b; }
     .search-clear {
       position: absolute;
       left: 10px;
       background: none;
       border: none;
       cursor: pointer;
-      color: #AEAEB2;
+      color: #64748b;
       font-size: 1rem;
       line-height: 1;
       padding: 2px;
       display: none;
     }
-    .search-clear:hover { color: #FF6B35; }
+    .search-clear:hover { color: #f59e0b; }
     .search-suggestions {
       display: none;
       position: absolute;
       top: calc(100% + 4px);
       right: 0; left: 0;
-      background: #fff;
-      border: 1.5px solid #E5E5EA;
+      background: #1e293b;
+      border: 1.5px solid #334155;
       border-radius: 10px;
-      box-shadow: 0 4px 16px rgba(0,0,0,.12);
+      box-shadow: 0 4px 16px rgba(0,0,0,.35);
       z-index: 200;
       overflow: hidden;
     }
@@ -214,21 +223,22 @@ BASE_STYLES = """
       font-size: .85rem;
       cursor: pointer;
       text-align: right;
-      border-bottom: 1px solid #F2F2F7;
+      border-bottom: 1px solid #334155;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      color: #1C1C1E;
+      color: #f1f5f9;
     }
     .suggestion-item:last-child { border-bottom: none; }
-    .suggestion-item:hover, .suggestion-item.active { background: #FFF3EE; color: #FF6B35; }
-    .suggestion-item mark { background: none; color: #FF6B35; font-weight: 700; }
+    .suggestion-item:hover, .suggestion-item.active { background: rgba(245,158,11,0.12); color: #f59e0b; }
+    .suggestion-item mark { background: none; color: #f59e0b; font-weight: 700; }
     .filter-chips { display: flex; flex-wrap: wrap; gap: 5px; }
     .chip {
-      background: #F2F2F7;
-      color: #3A3A3C;
+      /* Linktree: warm stone chip */
+      background: #334155;
+      color: #94a3b8;
       border: none;
-      border-radius: 7px;
+      border-radius: 8px;
       padding: 5px 10px;
       font-family: 'Heebo', sans-serif;
       font-size: .8rem;
@@ -238,11 +248,11 @@ BASE_STYLES = """
       transition: background .15s, color .15s;
       white-space: nowrap;
     }
-    .chip:hover { background: #FFE8DF; color: #FF6B35; }
-    .chip.active { background: #FF6B35; color: #fff; }
+    .chip:hover { background: #ffe8df; color: #f59e0b; }
+    .chip.active { background: #f59e0b; color: #0f172a; }
     #results-count {
       font-size: .78rem;
-      color: #AEAEB2;
+      color: #64748b;
       font-weight: 500;
       text-align: center;
       padding: 8px 0 0;
@@ -263,15 +273,17 @@ BASE_STYLES = """
       .filter-sidebar { width: 100%; position: static; }
       .filter-chips { flex-direction: row; flex-wrap: wrap; }
       .chip { padding: 5px 12px; }
-      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      /* Linktree mobile: 2-column grid with tighter gap */
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     }
+    /* Keep 2 columns even on very small screens — same as Linktree */
     @media (max-width: 479px) {
-      .product-grid { grid-template-columns: 1fr; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
     }
     .no-results {
       text-align: center;
       padding: 60px 20px;
-      color: #AEAEB2;
+      color: #64748b;
       font-size: 1rem;
       display: none;
       grid-column: 1/-1;
@@ -279,21 +291,23 @@ BASE_STYLES = """
 
     /* ── Product card ── */
     .product-card {
-      background: #fff;
+      /* Linktree: warm white card, rounded-xl, very light shadow, subtle border */
+      background: #1e293b;
       border-radius: 16px;
+      border: 1px solid #334155;
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,.07);
+      box-shadow: 0 1px 4px rgba(0,0,0,.25);
       cursor: pointer;
       text-decoration: none;
       color: inherit;
       display: flex;
       flex-direction: column;
-      transition: transform .2s, box-shadow .2s;
+      transition: transform .22s ease, box-shadow .22s ease;
       position: relative;
     }
     .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 28px rgba(0,0,0,.13);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
       color: inherit;
       text-decoration: none;
     }
@@ -301,7 +315,8 @@ BASE_STYLES = """
       width: 100%;
       height: 260px;
       object-fit: contain;
-      background: #F2F2F7;
+      /* Linktree: soft sage image background */
+      background: #263147;
       padding: 16px;
     }
     .product-card .card-body {
@@ -315,6 +330,7 @@ BASE_STYLES = """
       font-size: .95rem;
       font-weight: 700;
       line-height: 1.35;
+      color: #f1f5f9;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -331,39 +347,193 @@ BASE_STYLES = """
       font-size: .72rem;
       font-weight: 700;
       padding: 3px 8px;
-      border-radius: 6px;
+      border-radius: 20px;
       margin-top: 6px;
       white-space: nowrap;
     }
-    .ship-free  { background: #E8F5E9; color: #2E7D32; }
-    .ship-49    { background: #FFF3E0; color: #E65100; }
-    .ship-prime { background: #E3F2FD; color: #1565C0; }
+    /* Linktree-harmonious badge colors: softer, warmer */
+    .ship-free  { background: rgba(34,197,94,0.15); color: #4ade80; }
+    .ship-49    { background: rgba(245,158,11,0.15); color: #fbbf24; }
+    .ship-prime { background: rgba(96,165,250,0.15); color: #60a5fa; }
     .badge-rating {
-      background: #FFF3CD;
-      color: #856404;
+      background: rgba(245,158,11,0.15);
+      color: #fbbf24;
       font-size: .78rem;
       font-weight: 700;
       padding: 3px 8px;
-      border-radius: 6px;
+      border-radius: 20px;
     }
     .card-price {
       font-size: .9rem;
       font-weight: 700;
-      color: #1C1C1E;
+      color: #4ade80;
     }
     .category-badge {
       position: absolute;
       top: 10px;
       left: 10px;
-      background: #FF6B35;
+      background: rgba(245,158,11,0.85);
       color: #fff;
       font-size: .68rem;
       font-weight: 700;
-      padding: 3px 8px;
+      padding: 3px 9px;
       border-radius: 20px;
       letter-spacing: .3px;
       text-transform: uppercase;
+      backdrop-filter: blur(4px);
     }
+
+    /* ── Three-dots share button ── */
+    .share-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(15,23,42,0.72);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: none;
+      color: #f1f5f9;
+      font-size: 1.1rem;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: background .15s, transform .1s;
+      letter-spacing: 1px;
+    }
+    .share-btn:hover { background: rgba(245,158,11,0.85); color: #0f172a; }
+
+    /* ── Share sheet (bottom modal) ── */
+    .share-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 2000;
+    }
+    .share-overlay.open { display: block; }
+    .share-sheet {
+      position: fixed;
+      bottom: -100%;
+      left: 0; right: 0;
+      background: #1e293b;
+      border-radius: 24px 24px 0 0;
+      border-top: 1px solid #334155;
+      padding: 16px 20px 36px;
+      z-index: 2001;
+      transition: bottom .32s cubic-bezier(.25,.8,.25,1);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .share-sheet.open { bottom: 0; }
+    .sheet-handle {
+      width: 40px; height: 4px;
+      border-radius: 2px;
+      background: #475569;
+      margin: 0 auto 20px;
+    }
+    .sheet-product {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: #263147;
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 20px;
+      border: 1px solid #334155;
+    }
+    .sheet-product-img {
+      width: 72px; height: 72px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: #334155;
+      flex-shrink: 0;
+    }
+    .sheet-product-info { flex: 1; min-width: 0; }
+    .sheet-product-name {
+      font-size: .9rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.35;
+      margin-bottom: 4px;
+      direction: rtl;
+    }
+    .sheet-product-url {
+      font-size: .72rem;
+      color: #64748b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      direction: ltr;
+    }
+    .share-actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .share-action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      background: #263147;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 14px 8px 12px;
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+      color: #f1f5f9;
+      font-family: 'Heebo', sans-serif;
+      font-size: .72rem;
+      font-weight: 600;
+    }
+    .share-action-btn:hover { background: rgba(245,158,11,0.1); border-color: #f59e0b; color: #f59e0b; }
+    .share-action-btn svg { width: 26px; height: 26px; }
+    .share-buy-btn {
+      display: block;
+      width: 100%;
+      background: #22c55e;
+      color: #fff;
+      font-family: 'Heebo', 'Plus Jakarta Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 14px 32px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(34,197,94,0.28);
+      transition: background .15s, transform .1s;
+    }
+    .share-buy-btn:hover { background: #16a34a; color: #fff; text-decoration: none; }
+    .share-copy-toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #22c55e;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: .88rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity .2s, transform .2s;
+      z-index: 3000;
+      pointer-events: none;
+    }
+    .share-copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     /* ── Product detail page ── */
     .product-detail {
@@ -375,20 +545,22 @@ BASE_STYLES = """
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      color: #6E6E73;
+      color: #94a3b8;
       text-decoration: none;
       font-size: .9rem;
       margin-bottom: 24px;
       transition: color .15s;
     }
-    .back-link:hover { color: #FF6B35; }
+    .back-link:hover { color: #f59e0b; }
     .detail-img-wrap {
-      background: #F2F2F7;
+      /* Linktree: sage background, rounded-xl, minimal shadow */
+      background: #263147;
       border-radius: 20px;
+      border: 1px solid #334155;
       padding: 24px;
       text-align: center;
       margin-bottom: 28px;
-      box-shadow: 0 4px 16px rgba(0,0,0,.07);
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
     }
     .detail-img-wrap img {
       max-width: 100%;
@@ -400,6 +572,7 @@ BASE_STYLES = """
       font-size: 1.45rem;
       font-weight: 800;
       line-height: 1.3;
+      color: #f1f5f9;
       margin-bottom: 14px;
     }
     .detail-meta {
@@ -412,7 +585,7 @@ BASE_STYLES = """
     .detail-meta .price-tag {
       font-size: 1.25rem;
       font-weight: 800;
-      color: #1C1C1E;
+      color: #4ade80;
     }
     .price-note-row {
       text-align: right;
@@ -420,18 +593,18 @@ BASE_STYLES = """
     }
     .price-note {
       font-size: .72rem;
-      color: #999;
+      color: #64748b;
       font-weight: 400;
     }
     .detail-meta .reviews-count {
-      color: #6E6E73;
+      color: #94a3b8;
       font-size: .88rem;
     }
-    .divider { border: none; border-top: 1px solid #E5E5EA; margin: 20px 0; }
+    .divider { border: none; border-top: 1px solid #334155; margin: 20px 0; }
     .detail-desc {
       font-size: 1rem;
       line-height: 1.85;
-      color: #3A3A3C;
+      color: #cbd5e1;
       margin-bottom: 8px;
     }
     #desc-text.collapsed {
@@ -443,7 +616,7 @@ BASE_STYLES = """
     .desc-toggle {
       background: none;
       border: none;
-      color: #FF6B35;
+      color: #f59e0b;
       font-size: .88rem;
       font-weight: 600;
       cursor: pointer;
@@ -453,26 +626,30 @@ BASE_STYLES = """
     .buy-btn {
       display: block;
       width: 100%;
-      background: #FFD814;
-      color: #0F1111;
-      font-family: 'Heebo', sans-serif;
+      background: #22c55e;
+      color: #fff;
+      font-family: 'Heebo', 'Plus Jakarta Sans', sans-serif;
       font-size: 1.1rem;
       font-weight: 700;
-      padding: 15px 32px;
-      border-radius: 10px;
+      padding: 16px 32px;
+      border-radius: 50px;
       border: none;
       cursor: pointer;
       text-align: center;
       text-decoration: none;
-      transition: background .15s, transform .1s;
+      box-shadow: 0 4px 20px rgba(34,197,94,0.30);
+      transition: background .15s, transform .1s, box-shadow .15s;
       margin-bottom: 28px;
+      letter-spacing: .2px;
     }
     .buy-btn:hover {
-      background: #F7CA00;
-      color: #0F1111;
-      transform: translateY(-1px);
+      background: #d97706;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(245,158,11,0.40);
+      text-decoration: none;
     }
-    .buy-btn:active { transform: translateY(0); }
+    .buy-btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(245,158,11,0.25); }
     .tiktok-wrap {
       margin: 28px 0;
       border-radius: 16px;
@@ -496,19 +673,20 @@ BASE_STYLES = """
       padding: 40px 16px 80px;
     }
     .static-card {
-      background: #fff;
+      background: #1e293b;
       border-radius: 20px;
+      border: 1px solid #334155;
       padding: 40px 36px;
-      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
       line-height: 1.85;
     }
-    .static-card h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 20px; }
-    .static-card p { color: #3A3A3C; }
+    .static-card h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 20px; color: #f1f5f9; }
+    .static-card p { color: #cbd5e1; }
     .wip-badge {
       display: inline-block;
-      background: #FFF3CD;
-      color: #856404;
-      border-radius: 8px;
+      background: rgba(245,158,11,0.15);
+      color: #fbbf24;
+      border-radius: 20px;
       padding: 8px 16px;
       font-size: .9rem;
       font-weight: 600;
@@ -517,14 +695,15 @@ BASE_STYLES = """
 
     /* ── Footer ── */
     .site-footer {
-      background: #FFF8F5;
-      color: #8A8A8E;
+      /* Linktree: blends with page background, very subtle top border */
+      background: #0f172a;
+      color: #64748b;
       text-align: center;
       padding: 28px 16px;
       font-size: .82rem;
-      border-top: 1px solid #F0E8E4;
+      border-top: 1px solid #334155;
     }
-    .site-footer a { color: #FF6B35; text-decoration: none; }
+    .site-footer a { color: #f59e0b; text-decoration: none; }
     .site-footer a:hover { text-decoration: underline; }
     .footer-social {
       display: flex;
@@ -539,14 +718,16 @@ BASE_STYLES = """
       width: 38px;
       height: 38px;
       border-radius: 50%;
-      background: #fff;
-      color: #FF6B35;
-      box-shadow: 0 2px 4px rgba(0,0,0,.06);
+      background: #1e293b;
+      color: #94a3b8;
+      border: 1px solid #334155;
+      box-shadow: 0 1px 3px rgba(0,0,0,.25);
       transition: transform .15s, background .15s, color .15s;
     }
     .footer-social a:hover {
-      background: #FF6B35;
+      background: #f59e0b;
       color: #fff;
+      border-color: #f59e0b;
       transform: translateY(-2px);
       text-decoration: none;
     }
@@ -561,17 +742,18 @@ BASE_STYLES = """
         gap: 10px;
         align-items: stretch;
         padding: 10px;
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 2px 6px rgba(0,0,0,.06);
+        background: #1e293b;
+        border-radius: 14px;
+        border: 1px solid #334155;
+        box-shadow: 0 1px 3px rgba(0,0,0,.2);
         margin-bottom: 14px;
       }
       .filter-toggle-btn {
-        background: #FF6B35;
-        color: #fff;
+        background: #f59e0b;
+        color: #0f172a;
         border: none;
         padding: 0 18px;
-        border-radius: 8px;
+        border-radius: 50px;
         font-weight: 700;
         font-size: .9rem;
         cursor: pointer;
@@ -579,6 +761,7 @@ BASE_STYLES = """
         align-items: center;
         gap: 6px;
         flex-shrink: 0;
+        box-shadow: 0 2px 8px rgba(245,158,11,0.25);
       }
       .mobile-search {
         display: block;
@@ -589,16 +772,16 @@ BASE_STYLES = """
         width: 100%;
         height: 100%;
         padding: 8px 36px 8px 12px;
-        border-radius: 8px;
-        border: 1.5px solid #E5E5EA;
+        border-radius: 50px;
+        border: 1.5px solid #334155;
         font-family: 'Heebo', sans-serif;
         font-size: .9rem;
         outline: none;
-        background: #F7F7F7;
+        background: #0f172a;
       }
       .mobile-search input:focus {
-        border-color: #FF6B35;
-        background: #fff;
+        border-color: #f59e0b;
+        background: #1e293b;
       }
       .filter-toggle-count {
         display: none;
@@ -610,12 +793,12 @@ BASE_STYLES = """
         width: 88%;
         max-width: 360px;
         height: 100vh;
-        background: #F7F7F7;
+        background: #0f172a;
         z-index: 1050;
         overflow-y: auto;
         padding: 16px 16px 24px;
         transition: right .25s ease;
-        box-shadow: -4px 0 14px rgba(0,0,0,.15);
+        box-shadow: -4px 0 14px rgba(0,0,0,.12);
       }
       .filter-sidebar.open { right: 0; }
       .filter-backdrop {
@@ -630,7 +813,7 @@ BASE_STYLES = """
         background: none;
         border: none;
         font-size: 1.4rem;
-        color: #1C1C1E;
+        color: #f1f5f9;
         cursor: pointer;
         float: right;
         line-height: 1;
@@ -642,18 +825,164 @@ BASE_STYLES = """
       }
       .filter-apply-btn {
         width: 100%;
-        background: #FF6B35;
-        color: #fff;
+        background: #f59e0b;
+        color: #0f172a;
         border: none;
         padding: 13px 16px;
-        border-radius: 10px;
+        border-radius: 50px;
         font-family: 'Heebo', sans-serif;
         font-weight: 700;
         font-size: 1rem;
         cursor: pointer;
-        transition: background .15s;
+        transition: background .15s, box-shadow .15s;
+        box-shadow: 0 4px 14px rgba(245,158,11,0.28);
       }
-      .filter-apply-btn:hover { background: #FF5722; }
+      .filter-apply-btn:hover { background: #d97706; }
+    }
+
+    /* ════════════════════════════════════════════════════════
+       MOBILE — Linktree-exact visual design
+       Reference: linktr.ee/SimplyLeonfinds (mobile view)
+       ════════════════════════════════════════════════════════ */
+    @media (max-width: 767px) {
+
+      /* ── Nav: glass floating effect (Linktree top bar) ── */
+      .site-nav {
+        background: rgba(15,23,42,0.95);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: none;
+        border-bottom: 1px solid rgba(51,65,85,0.6);
+      }
+
+      /* ── Hero → Linktree-style profile header ──
+         Remove orange gradient; show circular avatar + name + tagline */
+      .hero {
+        background: #0f172a !important;
+        padding: 24px 20px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      /* Circular avatar placeholder (like Linktree profile pic) */
+      .hero::before {
+        content: "🇮🇱";
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 84px;
+        height: 84px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+        font-size: 2.2rem;
+        line-height: 1;
+        margin-bottom: 14px;
+        box-shadow: 0 4px 18px rgba(245,158,11,0.35);
+        flex-shrink: 0;
+      }
+      .hero h1 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: none;
+        margin-bottom: 4px;
+      }
+      .hero p {
+        color: #94a3b8;
+        font-size: .82rem;
+        margin: 0;
+      }
+
+      /* ── Filter toggle bar: pill search bar (Linktree search) ── */
+      .filter-toggle-bar {
+        border-radius: 50px !important;
+        padding: 7px 10px !important;
+        margin: 4px 0 10px !important;
+        background: #1e293b !important;
+        border: 1px solid #334155 !important;
+        box-shadow: 0 1px 4px rgba(0,0,0,.06) !important;
+      }
+      .mobile-search input {
+        border-radius: 50px;
+        border: none !important;
+        background: transparent !important;
+        font-size: .88rem;
+      }
+      .mobile-search input:focus {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none;
+      }
+
+      /* ── Product cards: Linktree-exact square card ── */
+      .product-card {
+        border-radius: 14px;
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+      }
+      .product-card:hover {
+        transform: none !important;
+        box-shadow: none !important;
+      }
+
+      /* Image: square, object-cover, bg-black/10 tint — exactly like Linktree */
+      .product-card .card-img {
+        height: auto !important;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        padding: 0 !important;
+        background: rgba(0,0,0,0.08) !important;
+        border-radius: 14px 14px 0 0;
+      }
+
+      /* Text chin: min-height 64px, compact — exactly like Linktree */
+      .product-card .card-body {
+        background: #1e293b;
+        border-radius: 0 0 14px 14px;
+        padding: 10px 10px 12px;
+        gap: 2px;
+        min-height: 60px;
+      }
+
+      /* Product name: 14px, font-medium, 1 line — exactly like Linktree */
+      .product-card .card-name {
+        font-size: .82rem;
+        font-weight: 500;
+        line-height: 1.2;
+        -webkit-line-clamp: 1;
+        letter-spacing: -0.1px;
+        color: #f1f5f9;
+      }
+
+      /* Price: very small and muted below name */
+      .card-price {
+        font-size: .72rem;
+        font-weight: 600;
+        color: #94a3b8;
+      }
+
+      /* Hide badges on mobile — Linktree shows name only */
+      .ship-badge { display: none !important; }
+      .badge-rating { display: none !important; }
+
+      /* Category badge: smaller */
+      .category-badge {
+        font-size: .58rem;
+        padding: 2px 6px;
+        top: 7px;
+        left: 7px;
+      }
+
+      /* ── Page layout: no top margin ── */
+      .page-layout {
+        padding-top: 16px;
+        gap: 0;
+      }
+
     }
   </style>
 """
@@ -734,6 +1063,8 @@ def build_index(products: list[dict]) -> str:
         price    = p.get("price") or 0
         cat      = p.get("category") or ""
         asin     = p["asin"]
+        link     = p.get("link") or f"https://www.amazon.com/dp/{asin}/?tag=eskl20-20"
+        name_he_attr = name_he.replace("'", "&#39;")
 
         rating_str = f"⭐ {rating:.1f}" if rating else "—"
         price_str  = f"${price:.2f}" if price else "—"
@@ -754,6 +1085,9 @@ def build_index(products: list[dict]) -> str:
     <a class="product-card" href="products/{asin}.html"
        data-price="{price}" data-rating="{rating}" data-category="{cat}" data-ship="{ship_type}" data-name="{name_he[:80].lower()}">
       {cat_badge}
+      <button class="share-btn" onclick="openShareSheet(event,this)"
+        data-asin="{asin}" data-name="{name_he_attr[:70]}"
+        data-img="{img}" data-link="{link}" aria-label="שתף">&#8943;</button>
       <img class="card-img" src="{img}" alt="{name_he[:60]}" loading="lazy"
            onerror="this.src='{PLACEHOLDER_SVG}'">
       <div class="card-body">
@@ -1079,8 +1413,84 @@ def build_index(products: list[dict]) -> str:
 </div>
 
 {footer_html()}
+
+<!-- Share Sheet -->
+<div class="share-overlay" id="share-overlay" onclick="closeShareSheet()"></div>
+<div class="share-sheet" id="share-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-product" id="sheet-product">
+    <img class="sheet-product-img" id="sheet-img" src="" alt="">
+    <div class="sheet-product-info">
+      <div class="sheet-product-name" id="sheet-name"></div>
+      <div class="sheet-product-url" id="sheet-url"></div>
+    </div>
+  </div>
+  <div class="share-actions">
+    <button class="share-action-btn" onclick="shareAction('copy')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      העתק קישור
+    </button>
+    <button class="share-action-btn" onclick="shareAction('whatsapp')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.99.576 3.868 1.578 5.44L2 22l4.664-1.546A9.96 9.96 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+      WhatsApp
+    </button>
+    <button class="share-action-btn" onclick="shareAction('facebook')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      Facebook
+    </button>
+    <button class="share-action-btn" onclick="shareAction('twitter')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.816l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      X / Twitter
+    </button>
+  </div>
+  <a class="share-buy-btn" id="sheet-buy-btn" href="#" target="_blank" rel="noopener noreferrer">
+    🛒&nbsp; רכישה באמזון
+  </a>
+</div>
+<div class="share-copy-toast" id="share-copy-toast">✓ הקישור הועתק!</div>
+
 {BOOTSTRAP_JS}
 {filter_js}
+<script>
+  let sheetLink = "";
+  function openShareSheet(e, btn) {{
+    e.preventDefault();
+    e.stopPropagation();
+    sheetLink = btn.dataset.link || "";
+    document.getElementById("sheet-img").src = btn.dataset.img || "";
+    document.getElementById("sheet-name").textContent = btn.dataset.name || "";
+    document.getElementById("sheet-url").textContent = "amazon.com/dp/" + (btn.dataset.asin || "");
+    document.getElementById("sheet-buy-btn").href = sheetLink;
+    document.getElementById("share-overlay").classList.add("open");
+    document.getElementById("share-sheet").classList.add("open");
+    document.body.style.overflow = "hidden";
+  }}
+  function closeShareSheet() {{
+    document.getElementById("share-overlay").classList.remove("open");
+    document.getElementById("share-sheet").classList.remove("open");
+    document.body.style.overflow = "";
+  }}
+  function shareAction(type) {{
+    const name = document.getElementById("sheet-name").textContent;
+    const url = sheetLink;
+    if (type === "copy") {{
+      navigator.clipboard.writeText(url).then(() => {{
+        const t = document.getElementById("share-copy-toast");
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2200);
+      }});
+    }} else if (type === "whatsapp") {{
+      window.open("https://wa.me/?text=" + encodeURIComponent(name + " " + url), "_blank");
+    }} else if (type === "facebook") {{
+      window.open("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url), "_blank");
+    }} else if (type === "twitter") {{
+      window.open("https://twitter.com/intent/tweet?url=" + encodeURIComponent(url) + "&text=" + encodeURIComponent(name), "_blank");
+    }}
+  }}
+  document.addEventListener("keydown", e => {{
+    if (e.key === "Escape") closeShareSheet();
+  }});
+</script>
 </body>
 </html>"""
 
@@ -1233,15 +1643,15 @@ def build_contact() -> str:
 <div class="static-page">
   <div class="static-card">
     <h1>צור קשר</h1>
-    <p style="color:#6E6E73; margin-bottom:28px;">נשמח לשמוע ממכם — שאלות, הצעות, או מוצרים שתרצו שנוסיף לאתר.</p>
+    <p style="color:#94a3b8; margin-bottom:28px;">נשמח לשמוע ממכם — שאלות, הצעות, או מוצרים שתרצו שנוסיף לאתר.</p>
 
-    <div style="background:#FFF3EE; border-radius:14px; padding:24px 20px; margin-bottom:24px; text-align:center;">
+    <div style="background:#263147; border-radius:14px; border:1px solid #334155; padding:24px 20px; margin-bottom:24px; text-align:center;">
       <div style="font-size:2rem; margin-bottom:10px;">✉️</div>
       <div style="font-weight:700; font-size:1rem; margin-bottom:6px;">דוא"ל</div>
-      <a href="mailto:toppickp@gmail.com" style="color:#FF6B35; font-size:1.05rem; font-weight:600; text-decoration:none;">toppickp@gmail.com</a>
+      <a href="mailto:toppickp@gmail.com" style="color:#f59e0b; font-size:1.05rem; font-weight:600; text-decoration:none;">toppickp@gmail.com</a>
     </div>
 
-    <p style="font-size:.88rem; color:#AEAEB2; text-align:center;">אנו מגיבים תוך 1–2 ימי עסקים.</p>
+    <p style="font-size:.88rem; color:#64748b; text-align:center;">אנו מגיבים תוך 1–2 ימי עסקים.</p>
   </div>
 </div>
 {footer_html()}
@@ -1259,7 +1669,7 @@ def build_terms() -> str:
 <div class="static-page">
   <div class="static-card">
     <h1>תנאי שימוש</h1>
-    <p style="color:#6E6E73; font-size:.9rem; margin-bottom:28px;">עדכון אחרון: מאי 2026</p>
+    <p style="color:#94a3b8; font-size:.9rem; margin-bottom:28px;">עדכון אחרון: מאי 2026</p>
 
     <h2 style="font-size:1.05rem; font-weight:800; margin:24px 0 8px;">1. גילוי נאות — קישורי שותפים</h2>
     <p>האתר משתתף בתכנית השותפים של אמזון (Amazon Associates). חלק מהקישורים באתר הם קישורי שותפים — אם תבצעו רכישה דרכם, אנו עשויים לקבל עמלה ללא כל עלות נוספת עבורכם.</p>
@@ -1277,7 +1687,7 @@ def build_terms() -> str:
     <p>אנו שומרים לעצמנו את הזכות לשנות תנאים אלה בכל עת. המשך השימוש באתר לאחר פרסום שינויים מהווה הסכמה לתנאים המעודכנים.</p>
 
     <h2 style="font-size:1.05rem; font-weight:800; margin:24px 0 8px;">6. יצירת קשר</h2>
-    <p>לשאלות בנושא תנאי השימוש: <a href="mailto:toppickp@gmail.com" style="color:#FF6B35;">toppickp@gmail.com</a></p>
+    <p>לשאלות בנושא תנאי השימוש: <a href="mailto:toppickp@gmail.com" style="color:#f59e0b;">toppickp@gmail.com</a></p>
   </div>
 </div>
 {footer_html()}
