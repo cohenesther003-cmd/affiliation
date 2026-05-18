@@ -535,6 +535,40 @@ BASE_STYLES = """
     }
     .share-copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+    /* ── Floating clear-filters pill (visible while scrolling) ── */
+    .floating-clear-btn {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(90px);
+      background: #f59e0b;
+      color: #0f172a;
+      border: none;
+      border-radius: 50px;
+      padding: 13px 26px;
+      font-family: 'Heebo', 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: .92rem;
+      cursor: pointer;
+      z-index: 900;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.45);
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1), opacity .25s;
+      opacity: 0;
+      pointer-events: none;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: .1px;
+    }
+    .floating-clear-btn.visible {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .floating-clear-btn:hover { background: #d97706; }
+    .floating-clear-btn:active { transform: translateX(-50%) scale(.96); }
+
     /* ── Clear filters button (sidebar) ── */
     .sidebar-clear-btn {
       display: none;
@@ -1249,8 +1283,10 @@ def build_index(products: list[dict]) -> str:
     const anyFilter = activePrice < 99999 || activeRating > 0 || activeCat !== "" || activeShip !== "" || query !== "";
     const dot = document.getElementById("filter-active-dot");
     const clrBtn = document.getElementById("sidebar-clear-btn");
-    if (dot)    dot.classList.toggle("visible", anyFilter);
-    if (clrBtn) clrBtn.classList.toggle("visible", anyFilter);
+    const floatBtn = document.getElementById("floating-clear-btn");
+    if (dot)      dot.classList.toggle("visible", anyFilter);
+    if (clrBtn)   clrBtn.classList.toggle("visible", anyFilter);
+    if (floatBtn) floatBtn.classList.toggle("visible", anyFilter);
     saveFilterState();
   }
 
@@ -1510,6 +1546,12 @@ def build_index(products: list[dict]) -> str:
     </div>
   </div>
 </div>
+
+<!-- Floating clear-filters pill -->
+<button class="floating-clear-btn" id="floating-clear-btn" onclick="clearAllFilters()">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  נקה סינון
+</button>
 
 {footer_html()}
 
