@@ -958,11 +958,11 @@ BASE_STYLES = """
         color: #f1f5f9;
       }
 
-      /* Price: very small and muted below name */
+      /* Price: small green on mobile — signals deal */
       .card-price {
         font-size: .72rem;
         font-weight: 600;
-        color: #94a3b8;
+        color: #4ade80;
       }
 
       /* Hide badges on mobile — Linktree shows name only */
