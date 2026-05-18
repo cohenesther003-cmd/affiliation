@@ -183,7 +183,7 @@ BASE_STYLES = """
       border-radius: 10px;
       padding: 9px 36px 9px 12px;
       font-family: 'Heebo', sans-serif;
-      font-size: .9rem;
+      font-size: 16px; /* ≥16px prevents iOS Safari auto-zoom on focus */
       outline: none;
       direction: rtl;
       transition: border-color .15s;
