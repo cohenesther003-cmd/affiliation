@@ -2,7 +2,6 @@
 Generates the full public site in docs/:
   docs/index.html              — Hebrew RTL product grid
   docs/products/{asin}.html   — individual product detail pages
-  docs/about.html             — About page (Hebrew stub)
   docs/contact.html           — Contact page (Hebrew stub)
   docs/terms.html             — Terms of Use page (Hebrew stub)
 
@@ -10,7 +9,7 @@ Run: python export_page.py
 Then: git add docs/ && git commit -m "Update products" && git push
 """
 
-import json
+import html as _html
 import re
 from pathlib import Path
 from src.db import init_db, get_all
@@ -44,7 +43,7 @@ BASE_STYLES = """
   <style>
     * { box-sizing: border-box; }
     body {
-      /* Linktree reference: warm sage off-white background */
+
       background: #0f172a;
       font-family: 'Heebo', 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif;
       color: #f1f5f9;
@@ -53,7 +52,7 @@ BASE_STYLES = """
 
     /* ── Navbar ── */
     .site-nav {
-      /* Linktree: warm white nav, very subtle border only */
+
       background: #1e293b;
       padding: 0 1.25rem;
       position: sticky;
@@ -160,7 +159,7 @@ BASE_STYLES = """
       margin: 0 0 16px;
     }
     .filter-section {
-      /* Linktree: warm white card with subtle warm border, no heavy shadow */
+
       background: #1e293b;
       border-radius: 14px;
       padding: 12px 12px 10px;
@@ -234,7 +233,7 @@ BASE_STYLES = """
     .suggestion-item mark { background: none; color: #f59e0b; font-weight: 700; }
     .filter-chips { display: flex; flex-wrap: wrap; gap: 5px; }
     .chip {
-      /* Linktree: warm stone chip */
+
       background: #334155;
       color: #94a3b8;
       border: none;
@@ -273,10 +272,10 @@ BASE_STYLES = """
       .filter-sidebar { width: 100%; position: static; }
       .filter-chips { flex-direction: row; flex-wrap: wrap; }
       .chip { padding: 5px 12px; }
-      /* Linktree mobile: 2-column grid with tighter gap */
+
       .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     }
-    /* Keep 2 columns even on very small screens — same as Linktree */
+
     @media (max-width: 479px) {
       .product-grid { grid-template-columns: repeat(2, 1fr); }
     }
@@ -291,7 +290,7 @@ BASE_STYLES = """
 
     /* ── Product card ── */
     .product-card {
-      /* Linktree: warm white card, rounded-xl, very light shadow, subtle border */
+
       background: #1e293b;
       border-radius: 16px;
       border: 1px solid #334155;
@@ -315,7 +314,7 @@ BASE_STYLES = """
       width: 100%;
       height: 260px;
       object-fit: contain;
-      /* Linktree: soft sage image background */
+
       background: #263147;
       padding: 16px;
     }
@@ -351,7 +350,7 @@ BASE_STYLES = """
       margin-top: 6px;
       white-space: nowrap;
     }
-    /* Linktree-harmonious badge colors: softer, warmer */
+
     .ship-free  { background: rgba(34,197,94,0.15); color: #4ade80; }
     .ship-49    { background: rgba(245,158,11,0.15); color: #fbbf24; }
     .ship-prime { background: rgba(96,165,250,0.15); color: #60a5fa; }
@@ -607,7 +606,7 @@ BASE_STYLES = """
     }
     .back-link:hover { color: #f59e0b; }
     .detail-img-wrap {
-      /* Linktree: sage background, rounded-xl, minimal shadow */
+
       background: #263147;
       border-radius: 20px;
       border: 1px solid #334155;
@@ -697,13 +696,13 @@ BASE_STYLES = """
       letter-spacing: .2px;
     }
     .buy-btn:hover {
-      background: #d97706;
+      background: #16a34a;
       color: #fff;
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(245,158,11,0.40);
+      box-shadow: 0 8px 28px rgba(34,197,94,0.35);
       text-decoration: none;
     }
-    .buy-btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(245,158,11,0.25); }
+    .buy-btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(34,197,94,0.25); }
     .tiktok-wrap {
       margin: 28px 0;
       border-radius: 16px;
@@ -749,7 +748,7 @@ BASE_STYLES = """
 
     /* ── Footer ── */
     .site-footer {
-      /* Linktree: blends with page background, very subtle top border */
+
       background: #0f172a;
       color: #64748b;
       text-align: center;
@@ -788,7 +787,6 @@ BASE_STYLES = """
 
     /* ── Mobile filter drawer ── */
     .filter-toggle-bar { display: none; }
-    .filter-apply-bar  { display: none; }  /* unused — kept for safety */
     .mobile-search     { display: none; }
     @media (max-width: 767px) {
       .filter-toggle-bar {
@@ -859,9 +857,6 @@ BASE_STYLES = """
         transition: color .15s;
       }
       .mobile-search-clear:hover { color: #f59e0b; }
-      .filter-toggle-count {
-        display: none;
-      }
       /* ── Active filters indicator on the filter button ── */
       .filter-active-dot {
         display: none;
@@ -909,8 +904,6 @@ BASE_STYLES = """
       }
       .filter-apply-btn {
         margin-top: 16px;
-      }
-      .filter-apply-btn {
         width: 100%;
         background: #f59e0b;
         color: #0f172a;
@@ -927,13 +920,10 @@ BASE_STYLES = """
       .filter-apply-btn:hover { background: #d97706; }
     }
 
-    /* ════════════════════════════════════════════════════════
-       MOBILE — Linktree-exact visual design
-       Reference: linktr.ee/SimplyLeonfinds (mobile view)
-       ════════════════════════════════════════════════════════ */
+    /* ── MOBILE overrides ── */
     @media (max-width: 767px) {
 
-      /* ── Nav: glass floating effect (Linktree top bar) ── */
+      /* ── Mobile nav: glass effect ── */
       .site-nav {
         background: rgba(15,23,42,0.95);
         backdrop-filter: blur(12px);
@@ -942,8 +932,7 @@ BASE_STYLES = """
         border-bottom: 1px solid rgba(51,65,85,0.6);
       }
 
-      /* ── Hero → Linktree-style profile header ──
-         Remove orange gradient; show circular avatar + name + tagline */
+      /* ── Mobile hero: profile-style header ── */
       .hero {
         background: #0f172a !important;
         padding: 24px 20px 20px;
@@ -951,7 +940,7 @@ BASE_STYLES = """
         flex-direction: column;
         align-items: center;
       }
-      /* Circular avatar placeholder (like Linktree profile pic) */
+
       .hero::before {
         content: "🇮🇱";
         display: flex;
@@ -983,7 +972,7 @@ BASE_STYLES = """
         margin: 0;
       }
 
-      /* ── Filter toggle bar: pill search bar (Linktree search) ── */
+      /* ── Mobile filter bar ── */
       .filter-toggle-bar {
         border-radius: 50px !important;
         padding: 7px 10px !important;
@@ -1005,7 +994,7 @@ BASE_STYLES = """
         box-shadow: none;
       }
 
-      /* ── Product cards: Linktree-exact square card ── */
+      /* ── Mobile product cards: square layout ── */
       .product-card {
         border-radius: 14px;
         border: none !important;
@@ -1017,7 +1006,6 @@ BASE_STYLES = """
         box-shadow: none !important;
       }
 
-      /* Image: square, object-cover, bg-black/10 tint — exactly like Linktree */
       .product-card .card-img {
         height: auto !important;
         aspect-ratio: 1 / 1;
@@ -1027,7 +1015,6 @@ BASE_STYLES = """
         border-radius: 14px 14px 0 0;
       }
 
-      /* Text chin: min-height 64px, compact — exactly like Linktree */
       .product-card .card-body {
         background: #1e293b;
         border-radius: 0 0 14px 14px;
@@ -1036,7 +1023,6 @@ BASE_STYLES = """
         min-height: 60px;
       }
 
-      /* Product name: 14px, font-medium, 1 line — exactly like Linktree */
       .product-card .card-name {
         font-size: .82rem;
         font-weight: 500;
@@ -1053,7 +1039,7 @@ BASE_STYLES = """
         color: #4ade80;
       }
 
-      /* Hide badges on mobile — Linktree shows name only */
+      /* Hide badges on mobile — name + price only */
       .ship-badge { display: none !important; }
       .badge-rating { display: none !important; }
 
@@ -1074,7 +1060,6 @@ BASE_STYLES = """
     }
   </style>
 """
-
 
 def nav_html(active: str = "products", depth: str = "") -> str:
     links = [
@@ -1097,7 +1082,6 @@ def nav_html(active: str = "products", depth: str = "") -> str:
   </div>
 </nav>"""
 
-
 def footer_html(depth: str = "") -> str:
     return f"""
 <footer class="site-footer">
@@ -1116,7 +1100,6 @@ def footer_html(depth: str = "") -> str:
   <p class="mb-0"><a href="{depth}terms.html">תנאי שימוש</a> · <a href="{depth}contact.html">צור קשר</a></p>
 </footer>"""
 
-
 def head_html(title: str, extra_css: str = "") -> str:
     return f"""<head>
   <meta charset="UTF-8">
@@ -1128,7 +1111,6 @@ def head_html(title: str, extra_css: str = "") -> str:
   {extra_css}
 </head>"""
 
-
 # ── Index page ─────────────────────────────────────────────────────────────
 
 CATEGORY_LABELS = {
@@ -1139,20 +1121,19 @@ CATEGORY_LABELS = {
     "Best Sellers Tools Home Improvement": "כלים ושיפוצים",
 }
 
-
 def build_index(products: list[dict]) -> str:
     categories = sorted({p.get("category") or "" for p in products if p.get("category")})
 
     cards = ""
     for p in products:
-        img      = p.get("image_url") or PLACEHOLDER_SVG
-        name_he  = (p.get("name_he") or p.get("name") or p["asin"]).replace('"', "&quot;")
+        img      = (p.get("image_url") or "").strip() or PLACEHOLDER_SVG  # guard empty string
+        name_he  = _html.escape(p.get("name_he") or p.get("name") or p["asin"])
         rating   = p.get("rating") or 0
         price    = p.get("price") or 0
         cat      = p.get("category") or ""
         asin     = p["asin"]
         link     = p.get("link") or f"https://www.amazon.com/dp/{asin}/?tag=eskl20-20"
-        name_he_attr = name_he.replace("'", "&#39;")
+        name_he_attr = name_he  # html.escape already handles all special chars
 
         rating_str = f"⭐ {rating:.1f}" if rating else "—"
         price_str  = f"${price:.2f}" if price else "—"
@@ -1615,11 +1596,27 @@ def build_index(products: list[dict]) -> str:
     const name = document.getElementById("sheet-name").textContent;
     const url = sheetLink;
     if (type === "copy") {{
-      navigator.clipboard.writeText(url).then(() => {{
+      const showToast = () => {{
         const t = document.getElementById("share-copy-toast");
         t.classList.add("show");
         setTimeout(() => t.classList.remove("show"), 2200);
-      }});
+      }};
+      if (navigator.clipboard && navigator.clipboard.writeText) {{
+        navigator.clipboard.writeText(url).then(showToast).catch(() => {{
+          // fallback for older iOS Safari
+          const el = document.createElement("textarea");
+          el.value = url; el.style.position = "fixed"; el.style.opacity = "0";
+          document.body.appendChild(el); el.focus(); el.select();
+          try {{ document.execCommand("copy"); showToast(); }} catch(e) {{}}
+          document.body.removeChild(el);
+        }});
+      }} else {{
+        const el = document.createElement("textarea");
+        el.value = url; el.style.position = "fixed"; el.style.opacity = "0";
+        document.body.appendChild(el); el.focus(); el.select();
+        try {{ document.execCommand("copy"); showToast(); }} catch(e) {{}}
+        document.body.removeChild(el);
+      }}
     }} else if (type === "whatsapp") {{
       window.open("https://wa.me/?text=" + encodeURIComponent(name + " " + url), "_blank");
     }} else if (type === "facebook") {{
@@ -1635,13 +1632,12 @@ def build_index(products: list[dict]) -> str:
 </body>
 </html>"""
 
-
 # ── Product detail page ────────────────────────────────────────────────────
 
 def build_product_page(p: dict) -> str:
     asin         = p["asin"]
-    name         = (p.get("name_he") or p.get("name") or asin).replace('"', "&quot;")
-    img          = p.get("image_url") or PLACEHOLDER_SVG
+    name         = _html.escape(p.get("name_he") or p.get("name") or asin)
+    img          = (p.get("image_url") or "").strip() or PLACEHOLDER_SVG
     rating_str   = f"⭐ {p['rating']:.1f}" if p.get("rating") else ""
     reviews_str  = f"({p['reviews']:,} ביקורות)" if p.get("reviews") else ""
     price_str    = f"${p['price']:.2f}" if p.get("price") else ""
@@ -1746,34 +1742,7 @@ def build_product_page(p: dict) -> str:
 </body>
 </html>"""
 
-
 # ── Static pages ───────────────────────────────────────────────────────────
-
-def build_about() -> str:
-    return f"""<!DOCTYPE html>
-<html lang="he" dir="rtl">
-{head_html("עלינו — Top Picks")}
-<body>
-{nav_html("about")}
-<div class="static-page">
-  <div class="static-card">
-    <h1>עלינו</h1>
-    <div class="wip-badge">⏳ עמוד בבנייה — תוכן יתווסף בקרוב</div>
-    <p>
-      ברוכים הבאים ל<strong>Top Picks</strong> — המקום שבו תמצאו את מיטב
-      המוצרים מאמזון שמגיעים ישירות לישראל.
-    </p>
-    <p>
-      אנחנו בוחרים בקפידה מוצרים בעלי דירוג גבוה, מחיר הוגן ומשלוח מאומת לישראל.
-      כל קניה דרך הקישורים שלנו עוזרת לנו להמשיך לפעול — תודה על התמיכה!
-    </p>
-  </div>
-</div>
-{footer_html()}
-{BOOTSTRAP_JS}
-</body>
-</html>"""
-
 
 def build_contact() -> str:
     return f"""<!DOCTYPE html>
@@ -1799,7 +1768,6 @@ def build_contact() -> str:
 {BOOTSTRAP_JS}
 </body>
 </html>"""
-
 
 def build_terms() -> str:
     return f"""<!DOCTYPE html>
@@ -1835,7 +1803,6 @@ def build_terms() -> str:
 {BOOTSTRAP_JS}
 </body>
 </html>"""
-
 
 # ── Main ───────────────────────────────────────────────────────────────────
 
@@ -1886,7 +1853,6 @@ def build():
 
     print("\nDone! Push with:")
     print("  git add docs/ && git commit -m 'Update products' && git push")
-
 
 if __name__ == "__main__":
     build()

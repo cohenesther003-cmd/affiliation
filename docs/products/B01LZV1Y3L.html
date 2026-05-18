@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>כיסויי שקעי חשמל לבנים – 10 יח' — Top Picks</title>
+  <title>כיסויי שקעי חשמל לבנים – 10 יח&#x27; — Top Picks</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
   
   <style>
     * { box-sizing: border-box; }
     body {
-      /* Linktree reference: warm sage off-white background */
+
       background: #0f172a;
       font-family: 'Heebo', 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif;
       color: #f1f5f9;
@@ -19,7 +19,7 @@
 
     /* ── Navbar ── */
     .site-nav {
-      /* Linktree: warm white nav, very subtle border only */
+
       background: #1e293b;
       padding: 0 1.25rem;
       position: sticky;
@@ -126,7 +126,7 @@
       margin: 0 0 16px;
     }
     .filter-section {
-      /* Linktree: warm white card with subtle warm border, no heavy shadow */
+
       background: #1e293b;
       border-radius: 14px;
       padding: 12px 12px 10px;
@@ -200,7 +200,7 @@
     .suggestion-item mark { background: none; color: #f59e0b; font-weight: 700; }
     .filter-chips { display: flex; flex-wrap: wrap; gap: 5px; }
     .chip {
-      /* Linktree: warm stone chip */
+
       background: #334155;
       color: #94a3b8;
       border: none;
@@ -239,10 +239,10 @@
       .filter-sidebar { width: 100%; position: static; }
       .filter-chips { flex-direction: row; flex-wrap: wrap; }
       .chip { padding: 5px 12px; }
-      /* Linktree mobile: 2-column grid with tighter gap */
+
       .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     }
-    /* Keep 2 columns even on very small screens — same as Linktree */
+
     @media (max-width: 479px) {
       .product-grid { grid-template-columns: repeat(2, 1fr); }
     }
@@ -257,7 +257,7 @@
 
     /* ── Product card ── */
     .product-card {
-      /* Linktree: warm white card, rounded-xl, very light shadow, subtle border */
+
       background: #1e293b;
       border-radius: 16px;
       border: 1px solid #334155;
@@ -281,7 +281,7 @@
       width: 100%;
       height: 260px;
       object-fit: contain;
-      /* Linktree: soft sage image background */
+
       background: #263147;
       padding: 16px;
     }
@@ -317,7 +317,7 @@
       margin-top: 6px;
       white-space: nowrap;
     }
-    /* Linktree-harmonious badge colors: softer, warmer */
+
     .ship-free  { background: rgba(34,197,94,0.15); color: #4ade80; }
     .ship-49    { background: rgba(245,158,11,0.15); color: #fbbf24; }
     .ship-prime { background: rgba(96,165,250,0.15); color: #60a5fa; }
@@ -573,7 +573,7 @@
     }
     .back-link:hover { color: #f59e0b; }
     .detail-img-wrap {
-      /* Linktree: sage background, rounded-xl, minimal shadow */
+
       background: #263147;
       border-radius: 20px;
       border: 1px solid #334155;
@@ -663,13 +663,13 @@
       letter-spacing: .2px;
     }
     .buy-btn:hover {
-      background: #d97706;
+      background: #16a34a;
       color: #fff;
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(245,158,11,0.40);
+      box-shadow: 0 8px 28px rgba(34,197,94,0.35);
       text-decoration: none;
     }
-    .buy-btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(245,158,11,0.25); }
+    .buy-btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(34,197,94,0.25); }
     .tiktok-wrap {
       margin: 28px 0;
       border-radius: 16px;
@@ -715,7 +715,7 @@
 
     /* ── Footer ── */
     .site-footer {
-      /* Linktree: blends with page background, very subtle top border */
+
       background: #0f172a;
       color: #64748b;
       text-align: center;
@@ -754,7 +754,6 @@
 
     /* ── Mobile filter drawer ── */
     .filter-toggle-bar { display: none; }
-    .filter-apply-bar  { display: none; }  /* unused — kept for safety */
     .mobile-search     { display: none; }
     @media (max-width: 767px) {
       .filter-toggle-bar {
@@ -825,9 +824,6 @@
         transition: color .15s;
       }
       .mobile-search-clear:hover { color: #f59e0b; }
-      .filter-toggle-count {
-        display: none;
-      }
       /* ── Active filters indicator on the filter button ── */
       .filter-active-dot {
         display: none;
@@ -875,8 +871,6 @@
       }
       .filter-apply-btn {
         margin-top: 16px;
-      }
-      .filter-apply-btn {
         width: 100%;
         background: #f59e0b;
         color: #0f172a;
@@ -893,13 +887,10 @@
       .filter-apply-btn:hover { background: #d97706; }
     }
 
-    /* ════════════════════════════════════════════════════════
-       MOBILE — Linktree-exact visual design
-       Reference: linktr.ee/SimplyLeonfinds (mobile view)
-       ════════════════════════════════════════════════════════ */
+    /* ── MOBILE overrides ── */
     @media (max-width: 767px) {
 
-      /* ── Nav: glass floating effect (Linktree top bar) ── */
+      /* ── Mobile nav: glass effect ── */
       .site-nav {
         background: rgba(15,23,42,0.95);
         backdrop-filter: blur(12px);
@@ -908,8 +899,7 @@
         border-bottom: 1px solid rgba(51,65,85,0.6);
       }
 
-      /* ── Hero → Linktree-style profile header ──
-         Remove orange gradient; show circular avatar + name + tagline */
+      /* ── Mobile hero: profile-style header ── */
       .hero {
         background: #0f172a !important;
         padding: 24px 20px 20px;
@@ -917,7 +907,7 @@
         flex-direction: column;
         align-items: center;
       }
-      /* Circular avatar placeholder (like Linktree profile pic) */
+
       .hero::before {
         content: "🇮🇱";
         display: flex;
@@ -949,7 +939,7 @@
         margin: 0;
       }
 
-      /* ── Filter toggle bar: pill search bar (Linktree search) ── */
+      /* ── Mobile filter bar ── */
       .filter-toggle-bar {
         border-radius: 50px !important;
         padding: 7px 10px !important;
@@ -971,7 +961,7 @@
         box-shadow: none;
       }
 
-      /* ── Product cards: Linktree-exact square card ── */
+      /* ── Mobile product cards: square layout ── */
       .product-card {
         border-radius: 14px;
         border: none !important;
@@ -983,7 +973,6 @@
         box-shadow: none !important;
       }
 
-      /* Image: square, object-cover, bg-black/10 tint — exactly like Linktree */
       .product-card .card-img {
         height: auto !important;
         aspect-ratio: 1 / 1;
@@ -993,7 +982,6 @@
         border-radius: 14px 14px 0 0;
       }
 
-      /* Text chin: min-height 64px, compact — exactly like Linktree */
       .product-card .card-body {
         background: #1e293b;
         border-radius: 0 0 14px 14px;
@@ -1002,7 +990,6 @@
         min-height: 60px;
       }
 
-      /* Product name: 14px, font-medium, 1 line — exactly like Linktree */
       .product-card .card-name {
         font-size: .82rem;
         font-weight: 500;
@@ -1019,7 +1006,7 @@
         color: #4ade80;
       }
 
-      /* Hide badges on mobile — Linktree shows name only */
+      /* Hide badges on mobile — name + price only */
       .ship-badge { display: none !important; }
       .badge-rating { display: none !important; }
 
@@ -1057,11 +1044,11 @@
   <a class="back-link" href="../index.html">&#8592; חזרה למוצרים</a>
 
   <div class="detail-img-wrap">
-    <img src="https://m.media-amazon.com/images/I/61t1rnVcYFL._AC_SL1500_.jpg" alt="כיסויי שקעי חשמל לבנים – 10 יח'"
+    <img src="https://m.media-amazon.com/images/I/61t1rnVcYFL._AC_SL1500_.jpg" alt="כיסויי שקעי חשמל לבנים – 10 יח&#x27;"
          onerror="this.src='data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23e5e5ea'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48' fill='%23aeaeb2'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E'">
   </div>
 
-  <h1 class="detail-title">כיסויי שקעי חשמל לבנים – 10 יח'</h1>
+  <h1 class="detail-title">כיסויי שקעי חשמל לבנים – 10 יח&#x27;</h1>
   
     <div class="detail-meta">
       <span class="badge-rating">⭐ 4.7</span>
