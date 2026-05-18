@@ -535,6 +535,26 @@ BASE_STYLES = """
     }
     .share-copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+    /* ── Clear filters button (sidebar) ── */
+    .sidebar-clear-btn {
+      display: none;
+      width: 100%;
+      margin-top: 8px;
+      padding: 9px 14px;
+      background: rgba(245,158,11,0.1);
+      color: #f59e0b;
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: 50px;
+      font-family: 'Heebo', sans-serif;
+      font-weight: 700;
+      font-size: .82rem;
+      cursor: pointer;
+      text-align: center;
+      transition: background .15s;
+    }
+    .sidebar-clear-btn.visible { display: block; }
+    .sidebar-clear-btn:hover { background: rgba(245,158,11,0.2); }
+
     /* ── Product detail page ── */
     .product-detail {
       max-width: 700px;
@@ -771,21 +791,54 @@ BASE_STYLES = """
       .mobile-search input {
         width: 100%;
         height: 100%;
-        padding: 8px 36px 8px 12px;
+        padding: 8px 32px 8px 12px;
         border-radius: 50px;
         border: 1.5px solid #334155;
         font-family: 'Heebo', sans-serif;
-        font-size: .9rem;
+        font-size: 16px; /* ≥16px prevents iOS Safari auto-zoom on focus */
         outline: none;
         background: #0f172a;
+        color: #f1f5f9;
+        -webkit-text-size-adjust: none;
       }
+      .mobile-search input::placeholder { color: #64748b; }
       .mobile-search input:focus {
         border-color: #f59e0b;
         background: #1e293b;
       }
+      .mobile-search-clear {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #64748b;
+        font-size: .9rem;
+        cursor: pointer;
+        padding: 4px 6px;
+        line-height: 1;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: color .15s;
+      }
+      .mobile-search-clear:hover { color: #f59e0b; }
       .filter-toggle-count {
         display: none;
       }
+      /* ── Active filters indicator on the filter button ── */
+      .filter-active-dot {
+        display: none;
+        width: 7px; height: 7px;
+        border-radius: 50%;
+        background: #22c55e;
+        margin-right: -3px;
+        margin-left: 2px;
+        flex-shrink: 0;
+      }
+      .filter-active-dot.visible { display: inline-block; }
       .filter-sidebar {
         position: fixed !important;
         top: 0;
@@ -909,7 +962,8 @@ BASE_STYLES = """
         border-radius: 50px;
         border: none !important;
         background: transparent !important;
-        font-size: .88rem;
+        font-size: 16px; /* ≥16px prevents iOS Safari auto-zoom */
+        color: #f1f5f9;
       }
       .mobile-search input:focus {
         background: transparent !important;
@@ -1153,6 +1207,7 @@ def build_index(products: list[dict]) -> str:
       </div>
 
       <div id="results-count"></div>
+      <button class="sidebar-clear-btn" id="sidebar-clear-btn" onclick="clearAllFilters()">✕ נקה סינון</button>
       <button class="filter-apply-btn d-md-none" onclick="closeFilterDrawer()" id="filter-apply-btn">הצג {count} מוצרים</button>
     </aside>"""
 
@@ -1167,7 +1222,7 @@ def build_index(products: list[dict]) -> str:
 
   function applyFilters() {
     const query = (document.getElementById("search-input").value || "").toLowerCase().trim();
-    // show/hide clear button
+    // show/hide sidebar search clear button
     document.getElementById("search-clear").style.display = query ? "block" : "none";
     const cards = document.querySelectorAll(".product-card");
     let visible = 0;
@@ -1190,12 +1245,52 @@ def build_index(products: list[dict]) -> str:
     document.getElementById("results-count").textContent = txt;
     const applyBtn = document.getElementById("filter-apply-btn");
     if (applyBtn) applyBtn.textContent = `הצג ${visible} מוצרים`;
+    // show/hide "clear filters" controls
+    const anyFilter = activePrice < 99999 || activeRating > 0 || activeCat !== "" || activeShip !== "" || query !== "";
+    const dot = document.getElementById("filter-active-dot");
+    const clrBtn = document.getElementById("sidebar-clear-btn");
+    if (dot)    dot.classList.toggle("visible", anyFilter);
+    if (clrBtn) clrBtn.classList.toggle("visible", anyFilter);
     saveFilterState();
   }
 
   function onMobileSearchInput() {
     const v = document.getElementById("mobile-search-input").value || "";
     document.getElementById("search-input").value = v;
+    const clr = document.getElementById("mobile-search-clear");
+    if (clr) clr.style.display = v ? "flex" : "none";
+    applyFilters();
+  }
+
+  function clearMobileSearch() {
+    document.getElementById("mobile-search-input").value = "";
+    document.getElementById("search-input").value = "";
+    const clr = document.getElementById("mobile-search-clear");
+    if (clr) clr.style.display = "none";
+    closeSuggestions();
+    applyFilters();
+    document.getElementById("mobile-search-input").focus();
+  }
+
+  function clearAllFilters() {
+    activePrice  = 99999;
+    activeRating = 0;
+    activeCat    = "";
+    activeShip   = "";
+    document.getElementById("search-input").value = "";
+    const mInput = document.getElementById("mobile-search-input");
+    if (mInput) mInput.value = "";
+    const mClr = document.getElementById("mobile-search-clear");
+    if (mClr) mClr.style.display = "none";
+    document.querySelectorAll("#price-chips .chip").forEach(b =>
+      b.classList.toggle("active", parseFloat(b.dataset.max) === 99999));
+    document.querySelectorAll("#rating-chips .chip").forEach(b =>
+      b.classList.toggle("active", parseFloat(b.dataset.min) === 0));
+    document.querySelectorAll("#cat-chips .chip").forEach(b =>
+      b.classList.toggle("active", (b.dataset.cat || "") === ""));
+    document.querySelectorAll("#ship-chips .chip").forEach(b =>
+      b.classList.toggle("active", (b.dataset.ship || "") === ""));
+    closeSuggestions();
     applyFilters();
   }
 
@@ -1392,12 +1487,16 @@ def build_index(products: list[dict]) -> str:
 
 <div class="container">
   <div class="filter-toggle-bar">
-    <button class="filter-toggle-btn" onclick="openFilterDrawer()">
+    <button class="filter-toggle-btn" id="filter-toggle-btn" onclick="openFilterDrawer()">
+      <span class="filter-active-dot" id="filter-active-dot"></span>
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
       סינון
     </button>
     <div class="mobile-search">
-      <input type="text" id="mobile-search-input" placeholder="🔍 חיפוש מוצר..." oninput="onMobileSearchInput()" autocomplete="off">
+      <input type="text" id="mobile-search-input" placeholder="🔍 חיפוש מוצר..."
+             oninput="onMobileSearchInput()" autocomplete="off" inputmode="search">
+      <button class="mobile-search-clear" id="mobile-search-clear"
+              onclick="clearMobileSearch()" tabindex="-1" aria-label="נקה חיפוש">✕</button>
     </div>
   </div>
   <div class="filter-backdrop" id="filter-backdrop" onclick="closeFilterDrawer()"></div>
