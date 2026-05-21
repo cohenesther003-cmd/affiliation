@@ -6,3 +6,4 @@ flask
 yt-dlp
 openai
 anthropic
+faster-whisper
